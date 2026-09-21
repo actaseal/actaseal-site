@@ -22,7 +22,114 @@
   </div>
 </header>
 <main class="wrap">
+
+<section>
 <h1>Changelog</h1>
+<p class="lede">Hand-curated from git history, grouped by capability. This is not every
+commit -- internal task names and refactors are left out; what changed for a customer is not.</p>
+</section>
+
+<section id="verifier">
+<h2>Public verifier</h2>
+<ul>
+<li>Published <a href="https://github.com/actaseal/actaseal-verify/releases/tag/v0.1.0">actaseal-verify v0.1.0</a>,
+a standalone, dependency-free offline receipt verifier.</li>
+<li>Added a keyless/checkpoint verification mode -- confirms chain and hash-linkage integrity
+without requiring the verifier to already hold the signer's public key.</li>
+<li>Added RFC 9162 continuity-checkpoint verification (Merkle inclusion and consistency proofs
+against a signed tree head).</li>
+<li>Hardened packet loading against malformed input (a bare JSON array where an object was
+expected now fails closed with a named error, instead of crashing).</li>
+</ul>
+</section>
+
+<section id="licensing">
+<h2>Licensing</h2>
+<ul>
+<li>Added an offline, Ed25519-signed licence file format, with an entitlement gate in front of
+every regulator-facing export.</li>
+<li>Unlicensed exports remain cryptographically valid and fully functional -- they are
+watermarked as an unlicensed evaluation copy, never refused or degraded.</li>
+<li>Added a vendor console (customers, licences, issuance history) run as a fully separate
+application with no access to any customer's ledger or evidence data.</li>
+<li>Automated licence issuance on subscription checkout, renewal, and cancellation.</li>
+<li>Added a revocation list a hosted deployment can poll, or an air-gapped deployment can load
+from a file, with fail-open-to-last-known-state semantics and visible staleness.</li>
+<li>Added an "unlicensed export" upgrade prompt directly in the console, linking to licensing.</li>
+</ul>
+</section>
+
+<section id="deployment">
+<h2>Deployment</h2>
+<ul>
+<li>Documented and fixed the fastest self-hosted path (<code>docker compose up --build</code>),
+including a real buildx-version prerequisite discovered on a clean-machine install.</li>
+<li>Added hosted-deployment provisioning: a per-customer Render blueprint generated from the
+product's own <code>render.yaml</code>.</li>
+<li>Added a signed usage-export/import path for hosted customers with zero access to ledger
+payloads or PII -- counts only.</li>
+</ul>
+</section>
+
+<section id="sdks">
+<h2>SDKs and framework integrations</h2>
+<ul>
+<li>Shipped a TypeScript SDK (<code>@actaseal/sdk</code>), mirroring the Python HTTP client
+field for field, zero runtime dependencies.</li>
+<li>Added LangChain, LangGraph, and OpenAI Agents SDK tool adapters -- a blocked action raises a
+structured tool error, an approval-required action raises (or, on LangGraph, interrupts) with
+the reason code and receipt reference attached.</li>
+<li>Bound a merchant's terms document into the signed decision receipt itself
+(<code>terms_hash</code>), closing the gap where "what terms were in force" depended on
+testimony instead of signed evidence.</li>
+<li>Published an interoperability binding profile with the Legal Context Protocol, and
+contributed a real ActaSeal receipt as a conformance evidence item to the
+agentic-resolution-interop project.</li>
+</ul>
+</section>
+
+<section id="evidence-exports">
+<h2>Evidence exports</h2>
+<ul>
+<li>Added an FRE 902(13)/(14) self-authenticating certification package.</li>
+<li>Added a preservation-vs-erasure precedence report and an FRCP 37(e) preservation scope
+report, with notice issued/delivered/acknowledged receipts.</li>
+<li>Added a QC 1000 / ISQM 1 monitoring-and-remediation spine: deficiency aggregation, cadence
+detection, recurring-deficiency detection, and an internal-vs-regulator delta.</li>
+<li>Added per-control export, route-coverage attestation, and conformance receipt exports, and
+made every one of them reachable over an authenticated HTTP route -- previously CLI-only,
+unreachable for a hosted customer with no CLI access.</li>
+<li>Added a signed trust-center bundle: version/build info, an optional SBOM, resilience drill
+receipts, and a CUEC declaration derived directly from code rather than written prose.</li>
+<li>Added CAIQ-Lite and SIG-Lite security questionnaire exports.</li>
+</ul>
+</section>
+
+<section id="resilience">
+<h2>Resilience</h2>
+<ul>
+<li>Added three resilience drills with signed receipts: ledger tamper detection, key-compromise
+classification (every prior receipt marked SUSPECT / CLEAN / ANCHORED_BEFORE_COMPROMISE), and
+restore-under-corruption (a deliberately corrupted backup must fail closed, not restore quietly
+wrong).</li>
+<li>Added trust-center staleness tracking: bundle age and per-drill freshness, with an explicit
+FRESH/STALE/UNKNOWN verdict rather than an implied one.</li>
+</ul>
+</section>
+
+<section id="console">
+<h2>Console</h2>
+<ul>
+<li>Added WebAuthn security-key step-up for approvals.</li>
+<li>Added a persistent composite integrity indicator and one consistent grouped navigation
+bar across every console page.</li>
+<li>Brought the console to WCAG 2.2 AA (automated axe-core plus a scripted keyboard pass, fixed
+to zero violations).</li>
+<li>Refreshed the brand mark, wordmark, and favicon set across the console, verifier, and
+landing surfaces.</li>
+</ul>
+</section>
+
 </main>
 <footer class="site-foot"><div class="wrap">ActaSeal</div></footer>
 </body>
