@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>ActaSeal -- independently verifiable evidence for AI-agent and audit workflows</title>
+<meta name="description" content="ActaSeal is a policy gateway that mints signed, tamper-evident receipts for AI-agent and audit actions, verifiable offline without trusting ActaSeal.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.ico">
+<meta property="og:title" content="ActaSeal">
+<meta property="og:description" content="Independently verifiable evidence for AI-agent and audit workflows.">
+<meta property="og:image" content="og-image.png">
+<link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <div class="wordmark">ActaSeal<span class="dot">.</span></div>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="/docs/">Docs</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/changelog/">Changelog</a></li>
+        <li><a href="https://verify.actaseal.com">Verifier</a></li>
+        <li><a href="#licensing">Licensing</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section id="what">
+  <span class="section-number">01 -- What it is</span>
+  <h1>Court- and regulator-grade evidence for AI-agent and audit workflows.</h1>
+  <p class="lede">ActaSeal sits in front of money-touching agent actions as a policy gateway.
+  Every decision it makes -- allow, block, or route to a human approver -- is written to a
+  tamper-evident ledger and returned to the caller as an Ed25519-signed receipt. The receipt,
+  not ActaSeal's word, is the evidence: it can be checked offline, years later, by a party who
+  has never run ActaSeal and does not trust the vendor.</p>
+  <p>Below is an excerpt of a real receipt minted by the gateway's own default refund policy,
+  binding the merchant's terms document into the signed payload (<code>terms_hash</code>) so the
+  terms in force at decision time cannot be swapped after the fact.</p>
+  <pre class="evidence" id="receipt-excerpt">{
+  "decision": "ALLOW",
+  "reason_code": "POLICY_ALLOW",
+  "policy_hash": "9c54da05406442e71a1afe92a5c548f3b30758f9825bfb71ed201a512cff3dce",
+  "action_hash": "14c55c4f8792690b37b63600042944122cccf92b931d68b009fe7c07ac627140",
+  "ledger_entry_hash": "96f7b13d7ae398134635498a7ffc670750e0c791f243e81b7bfcb8ab31753f81",
+  "terms_hash": "5bc04174974fc7cd5d97dd6fe17e79549004f713f1d1e7956aa7fd8bf096259b",
+  "signature": "af9de4214f73e89b6a6d9b252bed62f355a05ccbf12097921aa890cab3d8eb4...",
+  "algorithm": "ed25519"
+}</pre>
+  <p><a href="https://verify.actaseal.com">Verify a receipt like this yourself</a>, offline, using
+  only the public key and the standalone verifier -- no ActaSeal account or network call required.</p>
+</section>
+
+<section id="who">
+  <span class="section-number">02 -- Who it stops what for</span>
+  <h2>Three groups, three specific consequences avoided</h2>
+  <dl>
+    <div class="who-row">
+      <dt>Audit firms</dt>
+      <dd>PCAOB AS 1215 archive integrity (workpapers cannot be altered after the documentation
+      completion date without it being provable) and QC 1000 / ISQM 1 monitoring and remediation
+      evidence for the firm's own quality-management system.</dd>
+    </div>
+    <div class="who-row">
+      <dt>Legal hold and med-mal</dt>
+      <dd>FRCP 37(e) preservation of electronically stored information when litigation is
+      reasonably anticipated, and an FRE 902(13)/(14) self-authenticating certification package
+      for records generated or copied by an electronic process.</dd>
+    </div>
+    <div class="who-row">
+      <dt>Agent-commerce disputes</dt>
+      <dd>An LCP (Legal Context Protocol) binding profile that ties the terms a merchant agent
+      relied on into the signed decision receipt itself, so "what terms were actually in force"
+      is not a matter of testimony after the dispute starts.</dd>
+    </div>
+  </dl>
+  <p><em>These are the standards ActaSeal's exports are built to address. ActaSeal is not
+  certified under any of them; certification, where applicable, is the customer's own process.</em></p>
+</section>
+
+<section id="proof">
+  <span class="section-number">03 -- Proof, not claims</span>
+  <h2>Every claim on this page links to something that exists</h2>
+  <ul class="proof-list">
+    <li><a href="https://verify.actaseal.com">Public offline verifier</a> -- verify.actaseal.com</li>
+    <li><a href="https://github.com/actaseal/actaseal-verify/releases/tag/v0.1.0">actaseal-verify v0.1.0 release</a></li>
+    <li><a href="https://github.com/actaseal/actaseal-verify/tree/main/conformance/vectors">Conformance vectors</a> (public repo, signed/tampered/checkpoint cases)</li>
+    <li><a href="/docs/#draft">IETF draft-xg-payment-dispute-profile-00</a> -- card-scheme dispute evidence profile</li>
+    <li><a href="https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/461">SCITT architecture issue #461</a> -- evidence-binding trust-boundary finding filed by ActaSeal</li>
+    <li><a href="https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/462">SCITT architecture issue #462</a> -- third-verdict receipt-profile finding filed by ActaSeal</li>
+    <li><a href="https://github.com/legal-context-protocol/legal-context-protocol/pull/4">Legal Context Protocol PR #4</a> -- the terms-binding profile itself, open for review</li>
+    <li><a href="https://github.com/shunhe-wang/agentic-resolution-interop/pull/22">agentic-resolution-interop PR #22</a> -- a real ActaSeal receipt submitted as a conformance evidence item</li>
+  </ul>
+</section>
+
+<section id="open-core">
+  <span class="section-number">04 -- Open core</span>
+  <h2>What is free forever, what is licensed</h2>
+  <div class="open-core-grid">
+    <div class="open-core-col">
+      <h3>Free forever</h3>
+      <ul>
+        <li>Action capture and policy decisioning through the gateway</li>
+        <li>The tamper-evident ledger</li>
+        <li>Signed receipt issuance</li>
+        <li>The standalone offline verifier (public repo)</li>
+      </ul>
+    </div>
+    <div class="open-core-col licensed">
+      <h3>Licensed (regulator-facing exports)</h3>
+      <ul>
+        <li>QC / SoQM monitoring report</li>
+        <li>Per-control export</li>
+        <li>Conformance receipt</li>
+        <li>Preservation scope report</li>
+        <li>Inspection pack</li>
+        <li>Route coverage report</li>
+        <li>Trust/security questionnaires (CAIQ-Lite / SIG-Lite)</li>
+        <li>Preservation precedence report</li>
+        <li>FRE 902 certification package</li>
+      </ul>
+    </div>
+  </div>
+  <p id="licensing">An unlicensed deployment still runs and still produces cryptographically
+  valid exports -- they are simply watermarked as an unlicensed evaluation copy rather than
+  refused. <a class="cta-line" href="mailto:sales@actaseal.com?subject=ActaSeal%20licence%20request">Request a licence</a></p>
+</section>
+
+<section id="deploy">
+  <span class="section-number">05 -- Deploy</span>
+  <h2>Self-hosted, air-gapped, or hosted</h2>
+  <dl class="deploy-rows">
+    <dt>Self-hosted</dt>
+    <dd><code>docker compose up --build</code> against your own infrastructure; see the docs quickstart.</dd>
+    <dt>Air-gapped</dt>
+    <dd><code>ACTASEAL_AIRGAPPED=1</code> fails closed on every external-witness integration
+    (object-lock anchoring, transparency-log anchoring, TSA, SSO) instead of silently degrading.</dd>
+    <dt>Hosted</dt>
+    <dd>A per-customer deployment provisioned from the same <code>render.yaml</code> blueprint
+    this repo ships -- <a href="mailto:sales@actaseal.com?subject=ActaSeal%20hosted%20deployment">ask about hosted</a>.</dd>
+  </dl>
+</section>
+
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    ActaSeal -- <a href="https://verify.actaseal.com">verify.actaseal.com</a> --
+    <a href="mailto:sales@actaseal.com">sales@actaseal.com</a>
+  </div>
+</footer>
+
+</body>
+</html>
