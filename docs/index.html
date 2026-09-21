@@ -22,9 +22,93 @@
   </div>
 </header>
 <main class="wrap">
+
+<section>
 <h1>Docs</h1>
-<p class="lede">Quickstart, API reference, and SDK examples.</p>
+<p class="lede">Quickstart, the live API reference, and SDK usage. Every command below was
+run locally against this repo before being written down here.</p>
+</section>
+
+<section id="quickstart">
+<h2>Quickstart</h2>
+
+<h3>1. Boot the stack</h3>
+<p>Zero-config route, for looking around (seeded demo users, file-backed ledger, no Postgres):</p>
+<pre class="evidence">docker compose --profile local-demo up local-demo</pre>
+<p>Real production boot (Postgres-backed, `PRODUCTION` mode):</p>
+<pre class="evidence">export ACTASEAL_SIGNING_KEY=$(openssl rand -hex 32)
+export ACTASEAL_ADMIN_USERNAME=admin
+export ACTASEAL_ADMIN_PASSWORD='choose-a-real-password'
+docker compose up --build</pre>
+<p>The production route boots with no policy pack bound -- <code>/gateway/preflight</code>
+returns <code>MISSING_POLICY_REFERENCE</code> until you load one via the config-file route
+(see <code>README-DEPLOY.md</code> in the repo for the full path, including the Postgres
+buildx-version prerequisite).</p>
+
+<h3>2. First-run setup</h3>
+<p>Open <code>http://localhost:8000</code> and log in with the admin credentials above (env-var
+route) or through OIDC (config-file route). <code>GET /readyz</code> returning
+<code>{"status":"ready"}</code> means the process, ledger, and signing key are healthy -- it
+does not by itself mean a policy is bound.</p>
+
+<h3>3. First receipt</h3>
+<p>With a policy bound, <code>POST /gateway/preflight</code> mints a signed receipt on every
+decision. A runnable end-to-end example, including a real signed receipt with a bound
+<code>terms_hash</code>, lives in the repo at
+<code>examples/disputed_agent_purchase/run.sh</code>.</p>
+
+<h3>4. Verify offline</h3>
+<pre class="evidence">actaseal verify-receipt --receipt receipt.json --ledger ledger.json</pre>
+<p>Or, with no ActaSeal installation at all -- only the public key and the standalone
+verifier -- use <a href="https://verify.actaseal.com">verify.actaseal.com</a>.</p>
+</section>
+
+<section id="api">
+<h2>API reference</h2>
+<p>Generated directly from the live FastAPI app's own OpenAPI schema (never
+hand-written, so it cannot drift from the real routes) --
+<a href="api/">full API reference</a>.</p>
+</section>
+
+<section id="sdks">
+<h2>SDKs</h2>
+
+<h3>Python</h3>
+<pre class="evidence">from actaseal.sdk.thin_client import ActaSeal
+
+guard = ActaSeal("https://gateway.example.com", api_key="...", policy_id="refunds_policy")
+decision = guard.guard({"action_type": "refund_request", "money": {"amount": "50.00", "currency": "USD"}})</pre>
+
+<h3>TypeScript</h3>
+<pre class="evidence">import { ActaSeal, ActaSealBlocked, ActaSealApprovalRequired } from "@actaseal/sdk";
+
+const guard = new ActaSeal("https://gateway.example.com", { apiKey: process.env.ACTASEAL_API_KEY! });
+const sendRefund = guard.wrap(
+  (amount) => fetch("/internal/refund", { method: "POST", body: amount }),
+  (amount) => ({ action_type: "refund_request", money: { amount, currency: "USD" } }),
+);</pre>
+
+<h3>LangChain / LangGraph</h3>
+<pre class="evidence">from actaseal.sdk.integrations.langchain_tools import guard_langchain_tool
+
+guarded_tool = guard_langchain_tool(actaseal, my_refund_tool, action_type="refund_request")
+# BLOCK -> langchain_core.tools.ToolException (surfaced to the model as a tool error)
+# APPROVAL_REQUIRED -> ActaSealApprovalRequired re-raised for your own retry/escalation logic</pre>
+
+<h3>OpenAI Agents SDK</h3>
+<pre class="evidence">from actaseal.sdk.integrations.openai_agents_tools import guard_openai_agents_tool
+
+guarded_tool = guard_openai_agents_tool(actaseal, my_refund_tool, action_type="refund_request")</pre>
+
+<p>Both adapters are optional imports -- <code>actaseal</code> imports cleanly with neither
+framework installed. Source and tests: <code>actaseal/sdk/integrations/</code>,
+<code>tests/test_sdk_framework_adapters_v1.py</code> in the private repo.</p>
+</section>
+
 <h2 id="draft">Standards work</h2>
+<p>draft-xg-payment-dispute-profile-00 -- see the <a href="/#proof">proof section</a> on the
+landing page for the full list of public standards work and links.</p>
+
 </main>
 <footer class="site-foot"><div class="wrap">ActaSeal</div></footer>
 </body>

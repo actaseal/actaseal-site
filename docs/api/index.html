@@ -1,0 +1,1954 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>API reference -- ActaSeal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../../favicon.ico">
+<link rel="stylesheet" href="../../css/base.css">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <div class="wordmark"><a href="/" style="text-decoration:none;color:inherit;">ActaSeal<span class="dot">.</span></a></div>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="/docs/">Docs</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/changelog/">Changelog</a></li>
+        <li><a href="https://verify.actaseal.com">Verifier</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<h1>API reference</h1>
+<p class="lede">Generated from the live FastAPI app's own OpenAPI schema
+(<code>scripts/export_openapi.py</code> in the private repo) -- every route
+below is a route that actually exists, not hand-maintained documentation
+that can drift.</p>
+
+<section id="get--.well-known-actaseal-keys.json">
+<h3><span class="hash">GET</span> <code>/.well-known/actaseal-keys.json</code></h3>
+<p>Well Known Keys</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--.well-known-security.txt">
+<h3><span class="hash">GET</span> <code>/.well-known/security.txt</code></h3>
+<p>Well Known Security Txt</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--accounts">
+<h3><span class="hash">GET</span> <code>/accounts</code></h3>
+<p>List Breach Budget Accounts</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--accounts-{account_id}-balance">
+<h3><span class="hash">GET</span> <code>/accounts/{account_id}/balance</code></h3>
+<p>Get Breach Budget Account Balance</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>account_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--admin-agents">
+<h3><span class="hash">GET</span> <code>/admin/agents</code></h3>
+<p>List Agents Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--admin-agents-declare">
+<h3><span class="hash">POST</span> <code>/admin/agents/declare</code></h3>
+<p>Declare Agent Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--admin-agents-export.csv">
+<h3><span class="hash">GET</span> <code>/admin/agents/export.csv</code></h3>
+<p>Export Agents Csv</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--admin-agents-export.json">
+<h3><span class="hash">GET</span> <code>/admin/agents/export.json</code></h3>
+<p>Export Agents Json</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--admin-agents-reconciliation">
+<h3><span class="hash">GET</span> <code>/admin/agents/reconciliation</code></h3>
+<p>Agents Reconciliation Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--admin-agents-{agent_id}">
+<h3><span class="hash">GET</span> <code>/admin/agents/{agent_id}</code></h3>
+<p>Get Agent Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>agent_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--admin-apikeys">
+<h3><span class="hash">GET</span> <code>/admin/apikeys</code></h3>
+<p>List Api Keys</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--admin-apikeys">
+<h3><span class="hash">POST</span> <code>/admin/apikeys</code></h3>
+<p>Mint Api Key Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>201</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="delete--admin-apikeys-{key_id}">
+<h3><span class="hash">DELETE</span> <code>/admin/apikeys/{key_id}</code></h3>
+<p>Revoke Api Key Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>key_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--admin-apikeys-{key_id}-rotate">
+<h3><span class="hash">POST</span> <code>/admin/apikeys/{key_id}/rotate</code></h3>
+<p>Rotate Api Key Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>key_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--admin-workos-group-role-map">
+<h3><span class="hash">GET</span> <code>/admin/workos/group-role-map</code></h3>
+<p>Get Workos Group Role Map</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="put--admin-workos-group-role-map">
+<h3><span class="hash">PUT</span> <code>/admin/workos/group-role-map</code></h3>
+<p>Edit Workos Group Role Map Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--approvals">
+<h3><span class="hash">GET</span> <code>/approvals</code></h3>
+<p>Pending Approvals</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--approvals-bulk-decision">
+<h3><span class="hash">POST</span> <code>/approvals/bulk-decision</code></h3>
+<p>Approvals Bulk Decision</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--approvals-export.csv">
+<h3><span class="hash">GET</span> <code>/approvals/export.csv</code></h3>
+<p>Approvals Export Csv</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--approvals-export.json">
+<h3><span class="hash">GET</span> <code>/approvals/export.json</code></h3>
+<p>Approvals Export Json</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--approvals-pending">
+<h3><span class="hash">GET</span> <code>/approvals/pending</code></h3>
+<p>Approvals Pending</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--approvals-{request_id}">
+<h3><span class="hash">GET</span> <code>/approvals/{request_id}</code></h3>
+<p>Approval Detail</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>request_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--approvals-{request_id}-challenge">
+<h3><span class="hash">POST</span> <code>/approvals/{request_id}/challenge</code></h3>
+<p>Approvals Challenge</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>request_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--approvals-{request_id}-claim">
+<h3><span class="hash">POST</span> <code>/approvals/{request_id}/claim</code></h3>
+<p>Claim Approval Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>request_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--approvals-{request_id}-decision">
+<h3><span class="hash">POST</span> <code>/approvals/{request_id}/decision</code></h3>
+<p>Approvals Decision</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>request_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--approvals-{request_id}-release">
+<h3><span class="hash">POST</span> <code>/approvals/{request_id}/release</code></h3>
+<p>Release Approval Claim Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>request_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--approvals-{request_id}-resolve">
+<h3><span class="hash">POST</span> <code>/approvals/{request_id}/resolve</code></h3>
+<p>Resolve Approval</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>request_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--archive-engagements">
+<h3><span class="hash">GET</span> <code>/archive/engagements</code></h3>
+<p>Archive List Engagements</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>offset</td><td>query</td><td>no</td></tr>
+<tr><td>limit</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--archive-engagements">
+<h3><span class="hash">POST</span> <code>/archive/engagements</code></h3>
+<p>Archive Create Engagement</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--archive-engagements-{engagement_id}">
+<h3><span class="hash">GET</span> <code>/archive/engagements/{engagement_id}</code></h3>
+<p>Archive Get Engagement</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--archive-engagements-{engagement_id}-attestation">
+<h3><span class="hash">POST</span> <code>/archive/engagements/{engagement_id}/attestation</code></h3>
+<p>Archive Issue Attestation</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--archive-engagements-{engagement_id}-control-export.zip">
+<h3><span class="hash">GET</span> <code>/archive/engagements/{engagement_id}/control-export.zip</code></h3>
+<p>Archive Control Export</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--archive-engagements-{engagement_id}-inspection-pack">
+<h3><span class="hash">GET</span> <code>/archive/engagements/{engagement_id}/inspection-pack</code></h3>
+<p>Archive Inspection Pack Export</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--archive-engagements-{engagement_id}-legal-hold">
+<h3><span class="hash">POST</span> <code>/archive/engagements/{engagement_id}/legal-hold</code></h3>
+<p>Archive Place Legal Hold</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="delete--archive-engagements-{engagement_id}-legal-hold">
+<h3><span class="hash">DELETE</span> <code>/archive/engagements/{engagement_id}/legal-hold</code></h3>
+<p>Archive Release Legal Hold</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--archive-engagements-{engagement_id}-lock">
+<h3><span class="hash">GET</span> <code>/archive/engagements/{engagement_id}/lock</code></h3>
+<p>Archive Lock Status</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--archive-engagements-{engagement_id}-preservation-precedence-report">
+<h3><span class="hash">GET</span> <code>/archive/engagements/{engagement_id}/preservation-precedence-report</code></h3>
+<p>Archive Preservation Precedence Report</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+<tr><td>matter_id</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--archive-engagements-{engagement_id}-report-release-date">
+<h3><span class="hash">POST</span> <code>/archive/engagements/{engagement_id}/report-release-date</code></h3>
+<p>Archive Set Report Release Date</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--archive-engagements-{engagement_id}-requests">
+<h3><span class="hash">GET</span> <code>/archive/engagements/{engagement_id}/requests</code></h3>
+<p>Archive List Request Items</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--archive-engagements-{engagement_id}-requests">
+<h3><span class="hash">POST</span> <code>/archive/engagements/{engagement_id}/requests</code></h3>
+<p>Archive Open Request Item</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--archive-engagements-{engagement_id}-requests-{item_id}-fulfill">
+<h3><span class="hash">POST</span> <code>/archive/engagements/{engagement_id}/requests/{item_id}/fulfill</code></h3>
+<p>Archive Fulfill Request Item</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+<tr><td>item_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--archive-engagements-{engagement_id}-retention">
+<h3><span class="hash">GET</span> <code>/archive/engagements/{engagement_id}/retention</code></h3>
+<p>Archive Retention Status</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--archive-engagements-{engagement_id}-workpapers">
+<h3><span class="hash">GET</span> <code>/archive/engagements/{engagement_id}/workpapers</code></h3>
+<p>Archive List Workpapers</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+<tr><td>offset</td><td>query</td><td>no</td></tr>
+<tr><td>limit</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--archive-engagements-{engagement_id}-workpapers">
+<h3><span class="hash">POST</span> <code>/archive/engagements/{engagement_id}/workpapers</code></h3>
+<p>Archive Attach Workpaper</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--archive-engagements-{engagement_id}-workpapers-bulk-ingest">
+<h3><span class="hash">POST</span> <code>/archive/engagements/{engagement_id}/workpapers/bulk-ingest</code></h3>
+<p>Archive Bulk Ingest Workpapers</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--archive-engagements-{engagement_id}-workpapers-{workpaper_id}-post-archive-addition">
+<h3><span class="hash">POST</span> <code>/archive/engagements/{engagement_id}/workpapers/{workpaper_id}/post-archive-addition</code></h3>
+<p>Archive Post Addition</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+<tr><td>workpaper_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--archive-requests">
+<h3><span class="hash">GET</span> <code>/archive/requests</code></h3>
+<p>Archive List All Request Items</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--assessment-active-profile">
+<h3><span class="hash">POST</span> <code>/assessment/active-profile</code></h3>
+<p>Assessment Set Active Profile Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--assessment-manifest-candidates">
+<h3><span class="hash">GET</span> <code>/assessment/manifest-candidates</code></h3>
+<p>Assessment Manifest Candidates Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>root</td><td>query</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--assessment-manifest-uploads">
+<h3><span class="hash">GET</span> <code>/assessment/manifest-uploads</code></h3>
+<p>Assessment Manifest Upload List Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--assessment-manifest-uploads">
+<h3><span class="hash">POST</span> <code>/assessment/manifest-uploads</code></h3>
+<p>Assessment Manifest Upload Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--assessment-manifest-uploads-{upload_id}">
+<h3><span class="hash">GET</span> <code>/assessment/manifest-uploads/{upload_id}</code></h3>
+<p>Assessment Manifest Upload Get Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>upload_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="delete--assessment-manifest-uploads-{upload_id}">
+<h3><span class="hash">DELETE</span> <code>/assessment/manifest-uploads/{upload_id}</code></h3>
+<p>Assessment Manifest Upload Delete Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>upload_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--assessment-manifest-uploads-{upload_id}-raw">
+<h3><span class="hash">GET</span> <code>/assessment/manifest-uploads/{upload_id}/raw</code></h3>
+<p>Assessment Manifest Upload Raw Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>upload_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--assessment-profiles">
+<h3><span class="hash">GET</span> <code>/assessment/profiles</code></h3>
+<p>Assessment List Profiles Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--assessment-scan">
+<h3><span class="hash">POST</span> <code>/assessment/scan</code></h3>
+<p>Assessment Scan Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--auditor-controls">
+<h3><span class="hash">GET</span> <code>/auditor/controls</code></h3>
+<p>Auditor Controls</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--auditor-engagement">
+<h3><span class="hash">GET</span> <code>/auditor/engagement</code></h3>
+<p>Auditor Engagement</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--auditor-engagements">
+<h3><span class="hash">POST</span> <code>/auditor/engagements</code></h3>
+<p>Auditor Create Engagement</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--auditor-engagements-{engagement_id}-revoke">
+<h3><span class="hash">POST</span> <code>/auditor/engagements/{engagement_id}/revoke</code></h3>
+<p>Auditor Revoke Engagement</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--auditor-evidence-package-{receipt_id}.zip">
+<h3><span class="hash">GET</span> <code>/auditor/evidence-package/{receipt_id}.zip</code></h3>
+<p>Auditor Evidence Package</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--auditor-evidence-{receipt_id}-review">
+<h3><span class="hash">POST</span> <code>/auditor/evidence/{receipt_id}/review</code></h3>
+<p>Auditor Review Evidence</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--auditor-preview">
+<h3><span class="hash">GET</span> <code>/auditor/preview</code></h3>
+<p>Auditor Preview</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--auth-oidc-callback">
+<h3><span class="hash">GET</span> <code>/auth/oidc/callback</code></h3>
+<p>Oidc Login Callback</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>code</td><td>query</td><td>yes</td></tr>
+<tr><td>state</td><td>query</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--auth-oidc-login">
+<h3><span class="hash">GET</span> <code>/auth/oidc/login</code></h3>
+<p>Oidc Login Start</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--auth-workos-callback">
+<h3><span class="hash">GET</span> <code>/auth/workos/callback</code></h3>
+<p>Workos Login Callback</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>code</td><td>query</td><td>yes</td></tr>
+<tr><td>state</td><td>query</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--auth-workos-login">
+<h3><span class="hash">GET</span> <code>/auth/workos/login</code></h3>
+<p>Workos Login Start</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--badge-{engagement_id}-status.json">
+<h3><span class="hash">GET</span> <code>/badge/{engagement_id}/status.json</code></h3>
+<p>Badge Status</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--breaches">
+<h3><span class="hash">GET</span> <code>/breaches</code></h3>
+<p>List Breaches</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>status</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--breaches-export.csv">
+<h3><span class="hash">GET</span> <code>/breaches/export.csv</code></h3>
+<p>Breaches Export Csv</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>status</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--breaches-export.json">
+<h3><span class="hash">GET</span> <code>/breaches/export.json</code></h3>
+<p>Breaches Export Json</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>status</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--breaches-{case_id}">
+<h3><span class="hash">GET</span> <code>/breaches/{case_id}</code></h3>
+<p>Breach Case Detail</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>case_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--breaches-{case_id}-acknowledge">
+<h3><span class="hash">POST</span> <code>/breaches/{case_id}/acknowledge</code></h3>
+<p>Acknowledge Breach</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>case_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--breaches-{case_id}-binder.html">
+<h3><span class="hash">GET</span> <code>/breaches/{case_id}/binder.html</code></h3>
+<p>Breaches Binder</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>case_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--breaches-{case_id}-binder.pdf">
+<h3><span class="hash">GET</span> <code>/breaches/{case_id}/binder.pdf</code></h3>
+<p>Breaches Binder Pdf</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>case_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--breaches-{case_id}-resolve">
+<h3><span class="hash">POST</span> <code>/breaches/{case_id}/resolve</code></h3>
+<p>Resolve Breach</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>case_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--console-integrity">
+<h3><span class="hash">GET</span> <code>/console/integrity</code></h3>
+<p>Console Integrity</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--console-onboarding-checklist">
+<h3><span class="hash">GET</span> <code>/console/onboarding-checklist</code></h3>
+<p>Onboarding Checklist</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--console-summary">
+<h3><span class="hash">GET</span> <code>/console/summary</code></h3>
+<p>Console Summary</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--decisions">
+<h3><span class="hash">GET</span> <code>/decisions</code></h3>
+<p>List Decisions</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--gateway-preflight">
+<h3><span class="hash">POST</span> <code>/gateway/preflight</code></h3>
+<p>Gateway Preflight Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--healthz">
+<h3><span class="hash">GET</span> <code>/healthz</code></h3>
+<p>Healthz</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--invite-{token}-accept">
+<h3><span class="hash">POST</span> <code>/invite/{token}/accept</code></h3>
+<p>Accept Invite</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>token</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--ledger">
+<h3><span class="hash">GET</span> <code>/ledger</code></h3>
+<p>Browse Ledger</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>offset</td><td>query</td><td>no</td></tr>
+<tr><td>limit</td><td>query</td><td>no</td></tr>
+<tr><td>date_from</td><td>query</td><td>no</td></tr>
+<tr><td>date_to</td><td>query</td><td>no</td></tr>
+<tr><td>event_type</td><td>query</td><td>no</td></tr>
+<tr><td>action_type</td><td>query</td><td>no</td></tr>
+<tr><td>actor_id</td><td>query</td><td>no</td></tr>
+<tr><td>q</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--ledger-chain-badge">
+<h3><span class="hash">GET</span> <code>/ledger/chain-badge</code></h3>
+<p>Ledger Chain Badge</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ledger-export.csv">
+<h3><span class="hash">GET</span> <code>/ledger/export.csv</code></h3>
+<p>Ledger Export Csv</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>date_from</td><td>query</td><td>no</td></tr>
+<tr><td>date_to</td><td>query</td><td>no</td></tr>
+<tr><td>event_type</td><td>query</td><td>no</td></tr>
+<tr><td>action_type</td><td>query</td><td>no</td></tr>
+<tr><td>actor_id</td><td>query</td><td>no</td></tr>
+<tr><td>q</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--ledger-export.json">
+<h3><span class="hash">GET</span> <code>/ledger/export.json</code></h3>
+<p>Ledger Export Json</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>date_from</td><td>query</td><td>no</td></tr>
+<tr><td>date_to</td><td>query</td><td>no</td></tr>
+<tr><td>event_type</td><td>query</td><td>no</td></tr>
+<tr><td>action_type</td><td>query</td><td>no</td></tr>
+<tr><td>actor_id</td><td>query</td><td>no</td></tr>
+<tr><td>q</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--ledger-integrity">
+<h3><span class="hash">GET</span> <code>/ledger/integrity</code></h3>
+<p>Ledger Integrity</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>deep</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--licence-status">
+<h3><span class="hash">GET</span> <code>/licence/status</code></h3>
+<p>Licence Status Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--metrics">
+<h3><span class="hash">GET</span> <code>/metrics</code></h3>
+<p>Metrics Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--notifications">
+<h3><span class="hash">GET</span> <code>/notifications</code></h3>
+<p>List Notifications</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>since</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--policy">
+<h3><span class="hash">GET</span> <code>/policy</code></h3>
+<p>Get Policy</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--policy-history">
+<h3><span class="hash">GET</span> <code>/policy/history</code></h3>
+<p>Policy History</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--policy-rollback">
+<h3><span class="hash">POST</span> <code>/policy/rollback</code></h3>
+<p>Rollback</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--policy-rules">
+<h3><span class="hash">POST</span> <code>/policy/rules</code></h3>
+<p>Add Rule</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="put--policy-rules-{rule_id}">
+<h3><span class="hash">PUT</span> <code>/policy/rules/{rule_id}</code></h3>
+<p>Edit Rule</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>rule_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="delete--policy-rules-{rule_id}">
+<h3><span class="hash">DELETE</span> <code>/policy/rules/{rule_id}</code></h3>
+<p>Delete Rule</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>rule_id</td><td>path</td><td>yes</td></tr>
+<tr><td>actor_id</td><td>query</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--policy-rules-{rule_id}-enabled">
+<h3><span class="hash">POST</span> <code>/policy/rules/{rule_id}/enabled</code></h3>
+<p>Set Rule Enabled</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>rule_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--policy-templates">
+<h3><span class="hash">GET</span> <code>/policy/templates</code></h3>
+<p>List Policy Templates</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--policy-templates-{name}-install">
+<h3><span class="hash">POST</span> <code>/policy/templates/{name}/install</code></h3>
+<p>Install Policy Template</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>name</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--policy-versions">
+<h3><span class="hash">GET</span> <code>/policy/versions</code></h3>
+<p>Policy Versions List</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--policy-versions">
+<h3><span class="hash">POST</span> <code>/policy/versions</code></h3>
+<p>Policy Versions Propose</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--policy-versions-{version}">
+<h3><span class="hash">GET</span> <code>/policy/versions/{version}</code></h3>
+<p>Policy Versions Detail</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>version</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--policy-versions-{version}-activate">
+<h3><span class="hash">POST</span> <code>/policy/versions/{version}/activate</code></h3>
+<p>Policy Versions Activate</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>version</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--policy-versions-{version}-discard">
+<h3><span class="hash">POST</span> <code>/policy/versions/{version}/discard</code></h3>
+<p>Policy Versions Discard</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>version</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--policy-versions-{version}-dry-run">
+<h3><span class="hash">POST</span> <code>/policy/versions/{version}/dry-run</code></h3>
+<p>Policy Versions Dry Run</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>version</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--quality-conformance-receipt">
+<h3><span class="hash">GET</span> <code>/quality/conformance-receipt</code></h3>
+<p>Quality Conformance Receipt Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>period</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--quality-deficiencies">
+<h3><span class="hash">GET</span> <code>/quality/deficiencies</code></h3>
+<p>Quality Deficiencies Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--quality-internal-regulator-delta">
+<h3><span class="hash">GET</span> <code>/quality/internal-regulator-delta</code></h3>
+<p>Quality Internal Regulator Delta Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>engagement_id</td><td>query</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--quality-monitoring-report">
+<h3><span class="hash">GET</span> <code>/quality/monitoring-report</code></h3>
+<p>Quality Monitoring Report Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>window_start</td><td>query</td><td>no</td></tr>
+<tr><td>window_end</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--quality-overdue">
+<h3><span class="hash">GET</span> <code>/quality/overdue</code></h3>
+<p>Quality Overdue Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--quality-recurring-deficiencies">
+<h3><span class="hash">GET</span> <code>/quality/recurring-deficiencies</code></h3>
+<p>Quality Recurring Deficiencies Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--quality-route-coverage">
+<h3><span class="hash">GET</span> <code>/quality/route-coverage</code></h3>
+<p>Quality Route Coverage Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--readyz">
+<h3><span class="hash">GET</span> <code>/readyz</code></h3>
+<p>Readyz</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--receipts">
+<h3><span class="hash">GET</span> <code>/receipts</code></h3>
+<p>Receipts List</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>offset</td><td>query</td><td>no</td></tr>
+<tr><td>limit</td><td>query</td><td>no</td></tr>
+<tr><td>date_from</td><td>query</td><td>no</td></tr>
+<tr><td>date_to</td><td>query</td><td>no</td></tr>
+<tr><td>decision</td><td>query</td><td>no</td></tr>
+<tr><td>q</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--receipts-export.csv">
+<h3><span class="hash">GET</span> <code>/receipts/export.csv</code></h3>
+<p>Receipts Export Csv</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>date_from</td><td>query</td><td>no</td></tr>
+<tr><td>date_to</td><td>query</td><td>no</td></tr>
+<tr><td>decision</td><td>query</td><td>no</td></tr>
+<tr><td>q</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--receipts-export.json">
+<h3><span class="hash">GET</span> <code>/receipts/export.json</code></h3>
+<p>Receipts Export Json</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>date_from</td><td>query</td><td>no</td></tr>
+<tr><td>date_to</td><td>query</td><td>no</td></tr>
+<tr><td>decision</td><td>query</td><td>no</td></tr>
+<tr><td>q</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--receipts-verify">
+<h3><span class="hash">POST</span> <code>/receipts/verify</code></h3>
+<p>Receipts Verify</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--receipts-{receipt_id}">
+<h3><span class="hash">GET</span> <code>/receipts/{receipt_id}</code></h3>
+<p>Receipts Detail</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--receipts-{receipt_id}-binder.html">
+<h3><span class="hash">GET</span> <code>/receipts/{receipt_id}/binder.html</code></h3>
+<p>Receipts Binder</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--receipts-{receipt_id}-certificate.pdf">
+<h3><span class="hash">GET</span> <code>/receipts/{receipt_id}/certificate.pdf</code></h3>
+<p>Receipts Certificate Pdf</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--receipts-{receipt_id}-email-packet">
+<h3><span class="hash">POST</span> <code>/receipts/{receipt_id}/email-packet</code></h3>
+<p>Receipts Email Packet</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--receipts-{receipt_id}-evidence-pack.zip">
+<h3><span class="hash">GET</span> <code>/receipts/{receipt_id}/evidence-pack.zip</code></h3>
+<p>Receipts Evidence Pack</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--receipts-{receipt_id}-explanation.html">
+<h3><span class="hash">GET</span> <code>/receipts/{receipt_id}/explanation.html</code></h3>
+<p>Receipts Explanation Html</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--receipts-{receipt_id}-explanation.json">
+<h3><span class="hash">GET</span> <code>/receipts/{receipt_id}/explanation.json</code></h3>
+<p>Receipts Explanation Json</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--receipts-{receipt_id}-export-acta-v01">
+<h3><span class="hash">GET</span> <code>/receipts/{receipt_id}/export/acta-v01</code></h3>
+<p>Receipts Export Acta V01</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--receipts-{receipt_id}-fre902-certification-package">
+<h3><span class="hash">GET</span> <code>/receipts/{receipt_id}/fre902-certification-package</code></h3>
+<p>Receipts Fre902 Certification Package</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--receipts-{receipt_id}-verify">
+<h3><span class="hash">POST</span> <code>/receipts/{receipt_id}/verify</code></h3>
+<p>Receipts Verify Full</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--roles">
+<h3><span class="hash">GET</span> <code>/roles</code></h3>
+<p>List Roles</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--roles">
+<h3><span class="hash">POST</span> <code>/roles</code></h3>
+<p>Create Role Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>201</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="put--roles-{role_id}">
+<h3><span class="hash">PUT</span> <code>/roles/{role_id}</code></h3>
+<p>Edit Role Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>role_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="delete--roles-{role_id}">
+<h3><span class="hash">DELETE</span> <code>/roles/{role_id}</code></h3>
+<p>Delete Role Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>role_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--search">
+<h3><span class="hash">GET</span> <code>/search</code></h3>
+<p>Global Search</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>q</td><td>query</td><td>no</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--settings-keys-rotate">
+<h3><span class="hash">POST</span> <code>/settings/keys/rotate</code></h3>
+<p>Rotate Signing Key</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--settings-status">
+<h3><span class="hash">GET</span> <code>/settings/status</code></h3>
+<p>Settings Status</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--setup-create-first-policy">
+<h3><span class="hash">POST</span> <code>/setup/create-first-policy</code></h3>
+<p>Setup Create First Policy Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--setup-register-approver">
+<h3><span class="hash">POST</span> <code>/setup/register-approver</code></h3>
+<p>Setup Register Approver Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--setup-status">
+<h3><span class="hash">GET</span> <code>/setup/status</code></h3>
+<p>Setup Status Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--setup-test-decision">
+<h3><span class="hash">POST</span> <code>/setup/test-decision</code></h3>
+<p>Setup Run Test Decision Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--setup-test-decision-{action_id}-evidence-pack.zip">
+<h3><span class="hash">GET</span> <code>/setup/test-decision/{action_id}/evidence-pack.zip</code></h3>
+<p>Setup Test Decision Packet Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>action_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--setup-verify-signing-key">
+<h3><span class="hash">POST</span> <code>/setup/verify-signing-key</code></h3>
+<p>Setup Verify Signing Key Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--static-badge.js">
+<h3><span class="hash">GET</span> <code>/static/badge.js</code></h3>
+<p>Badge Js</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--trust-archive-transparency-sth.json">
+<h3><span class="hash">GET</span> <code>/trust/archive-transparency-sth.json</code></h3>
+<p>Trust Archive Transparency Sth</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--trust-caiq-lite.csv">
+<h3><span class="hash">GET</span> <code>/trust/caiq-lite.csv</code></h3>
+<p>Trust Caiq Lite Csv</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--trust-caiq-lite.json">
+<h3><span class="hash">GET</span> <code>/trust/caiq-lite.json</code></h3>
+<p>Trust Caiq Lite Json</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--trust-sig-lite.csv">
+<h3><span class="hash">GET</span> <code>/trust/sig-lite.csv</code></h3>
+<p>Trust Sig Lite Csv</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--trust-sig-lite.json">
+<h3><span class="hash">GET</span> <code>/trust/sig-lite.json</code></h3>
+<p>Trust Sig Lite Json</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--trust-trust-center.json">
+<h3><span class="hash">GET</span> <code>/trust/trust-center.json</code></h3>
+<p>Trust Center Bundle</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-accept-invite">
+<h3><span class="hash">GET</span> <code>/ui/accept-invite</code></h3>
+<p>Accept Invite Page</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-admin">
+<h3><span class="hash">GET</span> <code>/ui/admin</code></h3>
+<p>Admin Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-agents">
+<h3><span class="hash">GET</span> <code>/ui/agents</code></h3>
+<p>Agents Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-approvals">
+<h3><span class="hash">GET</span> <code>/ui/approvals</code></h3>
+<p>Approvals Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-approvals-{request_id}">
+<h3><span class="hash">GET</span> <code>/ui/approvals/{request_id}</code></h3>
+<p>Approval Permalink Ui</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>request_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--ui-breaches">
+<h3><span class="hash">GET</span> <code>/ui/breaches</code></h3>
+<p>Breaches Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--ui-change-password">
+<h3><span class="hash">POST</span> <code>/ui/change-password</code></h3>
+<p>Change Password</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--ui-engagements">
+<h3><span class="hash">GET</span> <code>/ui/engagements</code></h3>
+<p>Engagements Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-ledger">
+<h3><span class="hash">GET</span> <code>/ui/ledger</code></h3>
+<p>Ledger Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-licence">
+<h3><span class="hash">GET</span> <code>/ui/licence</code></h3>
+<p>Licence Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-login">
+<h3><span class="hash">GET</span> <code>/ui/login</code></h3>
+<p>Login Page</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--ui-login">
+<h3><span class="hash">POST</span> <code>/ui/login</code></h3>
+<p>Login</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="post--ui-logout">
+<h3><span class="hash">POST</span> <code>/ui/logout</code></h3>
+<p>Logout</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-me">
+<h3><span class="hash">GET</span> <code>/ui/me</code></h3>
+<p>Me</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-playground">
+<h3><span class="hash">GET</span> <code>/ui/playground</code></h3>
+<p>Playground Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-policies">
+<h3><span class="hash">GET</span> <code>/ui/policies</code></h3>
+<p>Policies Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-quality">
+<h3><span class="hash">GET</span> <code>/ui/quality</code></h3>
+<p>Quality Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-readiness">
+<h3><span class="hash">GET</span> <code>/ui/readiness</code></h3>
+<p>Readiness Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-receipts">
+<h3><span class="hash">GET</span> <code>/ui/receipts</code></h3>
+<p>Receipts Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-receipts-{receipt_id}">
+<h3><span class="hash">GET</span> <code>/ui/receipts/{receipt_id}</code></h3>
+<p>Receipt Permalink Ui</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>receipt_id</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--ui-requests">
+<h3><span class="hash">GET</span> <code>/ui/requests</code></h3>
+<p>Requests Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-settings">
+<h3><span class="hash">GET</span> <code>/ui/settings</code></h3>
+<p>Settings Ui</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--ui-{path}">
+<h3><span class="hash">GET</span> <code>/ui/{path}</code></h3>
+<p>Ui Not Found</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>path</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--users">
+<h3><span class="hash">GET</span> <code>/users</code></h3>
+<p>List Users</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--users">
+<h3><span class="hash">POST</span> <code>/users</code></h3>
+<p>Create User Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>201</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="put--users-{username}">
+<h3><span class="hash">PUT</span> <code>/users/{username}</code></h3>
+<p>Edit User Route</p>
+<table class="dense"><caption>Parameters</caption>
+<tr><th>Name</th><th>In</th><th>Required</th></tr>
+<tr><td>username</td><td>path</td><td>yes</td></tr>
+</table>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+<section id="get--verify">
+<h3><span class="hash">GET</span> <code>/verify</code></h3>
+<p>Verify Sandbox Redirect</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--verify">
+<h3><span class="hash">GET</span> <code>/verify/</code></h3>
+<p>Verify Sandbox Page</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--verify-receipt_verify.js">
+<h3><span class="hash">GET</span> <code>/verify/receipt_verify.js</code></h3>
+<p>Verify Sandbox Js</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--version">
+<h3><span class="hash">GET</span> <code>/version</code></h3>
+<p>Version Route</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="get--webauthn-register-options">
+<h3><span class="hash">GET</span> <code>/webauthn/register/options</code></h3>
+<p>Webauthn Register Options</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+</table>
+</section>
+<section id="post--webauthn-register-verify">
+<h3><span class="hash">POST</span> <code>/webauthn/register/verify</code></h3>
+<p>Webauthn Register Verify</p>
+<table class="dense"><caption>Responses</caption>
+<tr><th>Status</th><th>Description</th></tr>
+<tr><td>200</td><td>Successful Response</td></tr>
+<tr><td>422</td><td>Validation Error</td></tr>
+</table>
+</section>
+
+</main>
+<footer class="site-foot"><div class="wrap">ActaSeal</div></footer>
+</body>
+</html>
