@@ -1,0 +1,119 @@
+{
+  "schema_version": "sig_lite.v1",
+  "questionnaire": "Shared Assessments SIG-Lite",
+  "traceability_source": "docs/actaseal/standards-traceability.md",
+  "questions": [
+    {
+      "id": "A.1",
+      "section": "Enterprise Risk Management",
+      "question": "Is there a named, logged policy-governance process covering risk decisions the system makes?",
+      "answer": "Yes",
+      "evidence_ref": "docs/actaseal/standards-traceability.md#nist-ai-rmf (GOVERN 1.x row)"
+    },
+    {
+      "id": "B.1",
+      "section": "Security Policy",
+      "question": "Is there a written, factual statement of what the automated decision path does and does not do?",
+      "answer": "Yes",
+      "evidence_ref": "actaseal/trust/ai_transparency.py (signed AI-transparency statement)"
+    },
+    {
+      "id": "C.1",
+      "section": "Access Control",
+      "question": "Is access to write operations gated by a permission distinct from read access, with an explicit default-deny for roles not granted it?",
+      "answer": "Yes",
+      "evidence_ref": "actaseal/api/rbac.py PERM_MANAGE_POLICIES (fail-closed default: only Admin role holds it)"
+    },
+    {
+      "id": "D.1",
+      "section": "Application Security",
+      "question": "Are unknown/unmatched input shapes (action type, evidence packet, amount band) failed closed rather than defaulted to allow?",
+      "answer": "Yes",
+      "evidence_ref": "CLAUDE.md Style section: 'Fail closed. Unknown action type, unmatched amount band, invalid evidence packet -- all block.'"
+    },
+    {
+      "id": "E.1",
+      "section": "Cloud Security",
+      "question": "Does the vendor operate the buyer's cloud infrastructure, or does the product deploy into infrastructure the buyer controls?",
+      "answer": "Not applicable",
+      "evidence_ref": "ActaSeal deploys into the buyer's own infrastructure/cloud account; there is no ActaSeal-operated multi-tenant cloud to assess"
+    },
+    {
+      "id": "F.1",
+      "section": "Cryptography",
+      "question": "Does record verification depend on a vendor-held private key at verification time?",
+      "answer": "Yes",
+      "evidence_ref": "actaseal/signing.py: verification only ever needs the PUBLIC key (ReceiptKeyRing); the private key lives behind an external ReceiptSigner boundary the vendor does not hold"
+    },
+    {
+      "id": "F.2",
+      "section": "Cryptography",
+      "question": "Is there a defined post-quantum cryptography migration path?",
+      "answer": "Yes",
+      "evidence_ref": "actaseal/crypto/pq_signer.py (ML-DSA-65/87 signing branches, gated on optional liboqs-python); docs/trust/cnsa2_pq_profile.md"
+    },
+    {
+      "id": "G.1",
+      "section": "Data Governance & Classification",
+      "question": "Is there a defined mechanism to satisfy erasure requests without deleting audit-log rows?",
+      "answer": "Yes",
+      "evidence_ref": "actaseal/privacy/shred.py (crypto-shred); docs/actaseal/standards-traceability.md#eu-ai-act (Art. 26(6) row)"
+    },
+    {
+      "id": "H.1",
+      "section": "Human Resources Security",
+      "question": "Describe background-check and security-awareness training programs for vendor personnel.",
+      "answer": "Not applicable",
+      "evidence_ref": "Organizational HR policy question outside this codebase's controls; a human must answer this from the vendor's actual HR practice, not invent one here"
+    },
+    {
+      "id": "I.1",
+      "section": "Incident Event Management",
+      "question": "Are security-relevant anomalies (e.g. scope breaches) recorded as durable, queryable incidents?",
+      "answer": "Yes",
+      "evidence_ref": "BREACH-case console view; docs/actaseal/standards-traceability.md#nist-ai-rmf (MANAGE 4.x row)"
+    },
+    {
+      "id": "J.1",
+      "section": "Operations Management",
+      "question": "Is log-append failure fail-closed (blocks the action) rather than silently dropped?",
+      "answer": "Yes",
+      "evidence_ref": "docs/actaseal/standards-traceability.md#pci-dss-40 (10.5/10.7 row, LedgerAppendError)"
+    },
+    {
+      "id": "K.1",
+      "section": "Physical & Environmental Security",
+      "question": "Describe physical security controls at the facility hosting this service.",
+      "answer": "Not applicable",
+      "evidence_ref": "No ActaSeal-operated physical facility exists; the product deploys into the buyer's own infrastructure"
+    },
+    {
+      "id": "L.1",
+      "section": "Business Resiliency",
+      "question": "Is there a tested disaster-recovery plan with a defined RTO/RPO?",
+      "answer": "Planned",
+      "evidence_ref": "actaseal/ops/backup.py provides backup/restore primitives; a formal tested BCP/DR plan with committed RTO/RPO does not yet exist -- honest gap"
+    },
+    {
+      "id": "M.1",
+      "section": "Third-Party & Supply Chain Management",
+      "question": "Are release artifacts accompanied by a software bill of materials and provenance attestation?",
+      "answer": "Yes",
+      "evidence_ref": "tools/public-release/ (SBOM/sha256sums/cosign-instructions tooling, ONESHOT-3 T7)"
+    },
+    {
+      "id": "N.1",
+      "section": "Privacy",
+      "question": "Is there a documented mapping from this product's evidence/logging features to specific privacy/AI-governance regulatory requirements?",
+      "answer": "Yes",
+      "evidence_ref": "docs/actaseal/standards-traceability.md"
+    }
+  ],
+  "licence": {
+    "capability": "questionnaires",
+    "licensed": false,
+    "reason_code": "UNLICENSED",
+    "watermark": "UNLICENSED EVALUATION COPY -- questionnaires (UNLICENSED). This export is cryptographically valid and unmodified; it is marked unlicensed, not refused or degraded."
+  },
+  "watermark": "UNLICENSED EVALUATION COPY -- questionnaires (UNLICENSED). This export is cryptographically valid and unmodified; it is marked unlicensed, not refused or degraded."
+}

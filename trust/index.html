@@ -22,7 +22,47 @@
   </div>
 </header>
 <main class="wrap">
+
+<section>
 <h1>Trust</h1>
+<p class="lede">This page is rendered directly from a signed trust-center bundle -- produced by <code>actaseal trust-center bundle</code>, the same command any customer can run against their own deployment.</p>
+<table class="dense">
+<tr><th>Bundle digest</th><td class="hash">0460f438222a49e03f4d6504b8d77a79a9f1544d03896449499861a136789c8a</td></tr>
+<tr><th>Generated at</th><td>2026-09-21T12:56:56.360053+00:00</td></tr>
+<tr><th>Freshness</th><td>FRESH -- generated 0 day(s) ago (2026-09-21T12:56:56.360053+00:00)</td></tr>
+<tr><th>Signer public key</th><td class="hash">cef09333b2ff669c79aeb08dc1e51c9fa90c0a9e73e86a812f0799a57e374a23</td></tr>
+</table>
+<p><a href="bundle/trust-center-bundle.json">Download the raw signed bundle</a> -- verify the signature yourself with the public key above.</p>
+</section>
+<section id="sbom">
+<h2>SBOM</h2>
+<p>Not embedded in this bundle -- generate one with <code>actaseal trust-center bundle --generate-sbom</code>.</p>
+</section>
+<section id="drills">
+<h2>Resilience drill receipts</h2>
+<table class="dense"><tr><th>Drill</th><th>Result</th></tr>
+<tr><td>tamper</td><td>PASS -- all injected faults detected</td></tr>
+<tr><td>key_compromise</td><td>not included in this bundle</td></tr>
+<tr><td>restore_corruption</td><td>not included in this bundle</td></tr>
+</table>
+</section>
+<section id="cuec">
+<h2>CUEC declaration</h2>
+<p>Complementary user-entity controls -- derived from code, not written prose.</p>
+<table class="dense"><tr><th>Control</th><th>Statement</th><th>Verified from</th></tr>
+<tr><td>key_custody</td><td>ActaSeal never holds a production signing key; the deployment operator is responsible for custody of whatever key is registered as active (KMS/HSM/offline).</td><td class="hash">actaseal.signing.LocalDevSigner.__init__ (SELF_CUSTODY_FORBIDDEN)</td></tr>
+<tr><td>access_review_cadence</td><td>ActaSeal provides the mechanism to record an audit-trail review (who reviewed, what window); deciding who reviews and how often is the operator&#x27;s own control.</td><td class="hash">actaseal.gateway.audit_trail_review.record_audit_trail_review</td></tr>
+<tr><td>retention_profile</td><td>Retention duration is DATA the operator selects via a FrameworkProfile (or leaves undetermined); ActaSeal does not hardcode a retention period.</td><td class="hash">actaseal.archive.framework_profiles.FrameworkProfile.retention_years</td></tr>
+<tr><td>tsa_pool</td><td>Which RFC 3161 timestamp authorities are trusted is a caller-supplied pool; ActaSeal does not ship or hardcode a fixed TSA set the operator is bound to.</td><td class="hash">actaseal.anchor.tsa.request_timestamp(pool=...)</td></tr>
+<tr><td>approver_role_assignment</td><td>Which role is required to approve a given policy decision is operator-set policy data (ApprovalRule.required_role); ActaSeal enforces a mismatch (APPROVER_ROLE_MISMATCH) but does not choose or hardcode who holds that role.</td><td class="hash">actaseal.policy.schema.ApprovalRule.required_role + actaseal.gateway.runtime (APPROVER_ROLE_MISMATCH)</td></tr>
+<tr><td>network_component_selection_under_airgap</td><td>Whether network-touching components (S3 Object Lock anchor, Rekor, RFC 3161 TSA pool, WorkOS/Logto SSO, SMTP/Resend email) are enabled is the operator&#x27;s own ACTASEAL_AIRGAPPED choice; ActaSeal refuses each by name rather than silently degrading when air-gapped mode is set.</td><td class="hash">actaseal.airgap.guard_network_component, called from actaseal.anchor.tsa / actaseal.config.email_backend / actaseal.config.workos_auth</td></tr>
+</table>
+</section>
+<section id="questionnaires">
+<h2>Security questionnaires</h2>
+<ul><li><a href="bundle/caiq-lite.json">CAIQ-Lite (JSON)</a> / <a href="bundle/caiq-lite.csv">CAIQ-Lite (CSV)</a></li><li><a href="bundle/sig-lite.json">SIG-Lite (JSON)</a> / <a href="bundle/sig-lite.csv">SIG-Lite (CSV)</a></li></ul>
+</section>
+
 </main>
 <footer class="site-foot"><div class="wrap">ActaSeal</div></footer>
 </body>
