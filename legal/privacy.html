@@ -86,7 +86,7 @@ counts per agent identifier and per capability, and their totals. It
 contains no ledger event, no action identifier, no actor identifier, no
 tenant identifier and no payload field. That is not a policy
 description, it is enforced by a test in our codebase
-(<code>tests/test_usage_export_no_payload_fields_v1.py</code>) which
+(<code>tests/test_usage_export_v1.py</code>) which
 asserts the payload's keys are a subset of an allowed list and that no
 value anywhere in it is a ledger event. The summary is signed by your
 own signing key before it leaves, and uploading it is a deliberate act,

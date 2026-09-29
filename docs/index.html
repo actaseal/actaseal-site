@@ -81,6 +81,11 @@ guard = ActaSeal("https://gateway.example.com", api_key="...", policy_id="refund
 decision = guard.guard({"action_type": "refund_request", "money": {"amount": "50.00", "currency": "USD"}})</pre>
 
 <h3>TypeScript</h3>
+<p>The TypeScript SDK is not published to npm yet. Its source and tests live
+at <code>packages/actaseal-sdk-ts/</code> and it is installed from the
+repository, not with <code>npm install</code>. The import line below is what
+the API looks like once it resolves, not something you can run today. Ask and
+we will send you a tarball.</p>
 <pre class="evidence">import { ActaSeal, ActaSealBlocked, ActaSealApprovalRequired } from "@actaseal/sdk";
 
 const guard = new ActaSeal("https://gateway.example.com", { apiKey: process.env.ACTASEAL_API_KEY! });
@@ -103,7 +108,7 @@ guarded_tool = guard_openai_agents_tool(actaseal, my_refund_tool, action_type="r
 
 <p>Both adapters are optional imports -- <code>actaseal</code> imports cleanly with neither
 framework installed. Source and tests: <code>actaseal/sdk/integrations/</code>,
-<code>tests/test_sdk_framework_adapters_v1.py</code> in the private repo.</p>
+<code>tests/test_sdk_framework_adapters_v1.py</code>.</p>
 </section>
 
 <h2 id="draft">Standards work</h2>
