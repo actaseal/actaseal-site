@@ -31,6 +31,9 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/462",
     "https://github.com/legal-context-protocol/legal-context-protocol/pull/4",
     "https://github.com/shunhe-wang/agentic-resolution-interop/pull/22",
+    "https://pcaobus.org/oversight/standards/auditing-standards/",
+    "https://pcaobus.org/oversight/enforcement/",
+    "https://pcaobus.org/news-events/news-releases/",
     "mailto:sales@actaseal.com",
 )
 
