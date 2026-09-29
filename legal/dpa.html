@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Data processing -- ActaSeal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Why ActaSeal is not a processor of your data in a self-hosted deployment, and the Article 28 terms that apply in the narrow cases where it is.">
+<link rel="icon" href="../favicon.ico">
+<link rel="stylesheet" href="../css/base.css">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <div class="wordmark"><a href="/" style="text-decoration:none;color:inherit;">ActaSeal<span class="dot">.</span></a></div>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="/docs/">Docs</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/changelog/">Changelog</a></li>
+        <li><a href="https://verify.actaseal.com">Verifier</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<section>
+<h1>Data processing addendum</h1>
+<p class="lede">Last updated 29 September 2026. This addendum forms part
+of the <a href="/legal/terms.html">licence terms</a> and applies where
+we process personal data on your behalf.</p>
+</section>
+
+<section>
+<h2>1. The starting position</h2>
+<p>In a standard ActaSeal deployment, we are not a processor of your
+data at all. The software runs on infrastructure you control, the
+evidence it produces stays there, and it makes no outbound call by
+default. There is no hosted service holding your records. Most of what
+a data processing addendum normally governs therefore does not arise.</p>
+<p>We state this rather than staying silent about it because it changes
+the risk assessment your privacy team is about to do, and because it is
+verifiable: the exact set of things the software can send is enumerated
+in our <a href="/legal/privacy.html">privacy policy</a> and each one is
+off unless you turn it on.</p>
+</section>
+
+<section>
+<h2>2. Where we do become a processor</h2>
+<p>We process personal data on your behalf only in these cases:</p>
+<ul>
+<li><strong>Support material you send us.</strong> If you send a log
+extract, a configuration file, a diagnostic bundle or an evidence
+packet so that we can investigate a problem, and it contains personal
+data, we process it for the sole purpose of resolving that issue.</li>
+<li><strong>Onboarding or review sessions.</strong> If we work inside
+your environment during onboarding or a compliance review and encounter
+personal data while doing so.</li>
+</ul>
+<p>We do not become a processor through the licence revocation check,
+the transparency-log anchoring, or the usage export, because none of
+those carries personal data.</p>
+</section>
+
+<section>
+<h2>3. Our obligations where we do process</h2>
+<p>Where clause 2 applies we will: process only on your documented
+instructions; ensure anyone we allow to process it is bound by
+confidentiality; apply appropriate technical and organisational
+measures; assist you with data subject requests and with security
+incident notification; not engage a sub-processor without listing it at
+<a href="/legal/subprocessors.html">/legal/subprocessors.html</a> and
+giving you notice of changes; and delete or return the material when
+the purpose is complete, at your choice.</p>
+<p>The subject matter is the support or review activity you asked for;
+the duration is the time needed to complete it; the nature and purpose
+are diagnosis and resolution; the categories of data subject and
+personal data are whatever your material contains, which is within your
+control and not ours.</p>
+</section>
+
+<section>
+<h2>4. Security measures</h2>
+<p>Material sent to us for support is held in our mailbox and on the
+device of the person handling it, encrypted at rest and in transit,
+accessible only to that person, and deleted when the issue is closed.
+We do not copy it into a ticketing system or an AI service.</p>
+<p>ActaSeal has not been audited under SOC 2 Type II. If your vendor
+qualification requires a SOC 2 report by name, we do not meet that
+requirement today and will confirm so in writing rather than pointing
+at a substitute.</p>
+</section>
+
+<section>
+<h2>5. International transfers</h2>
+<p>We are based in India. Where you are subject to the UK or EU GDPR and
+clause 2 applies, transfers are made under the European Commission's
+standard contractual clauses, which we will execute on request. The
+simplest way to avoid the question entirely is not to send us material
+containing personal data; the product does not require it.</p>
+</section>
+
+<section>
+<h2>6. Audit</h2>
+<p>You may ask us, once a year, for the information reasonably necessary
+to demonstrate compliance with this addendum. Given the narrow scope in
+clause 2, that will normally be a written response rather than an
+on-site audit. Where your regulator requires an on-site audit we will
+not refuse it.</p>
+</section>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <a href="/legal/terms.html">Terms</a> &middot;
+  <a href="/legal/privacy.html">Privacy</a> &middot;
+  <a href="/legal/dpa.html">DPA</a> &middot;
+  <a href="/legal/subprocessors.html">Sub-processors</a> &middot;
+  <a href="mailto:sales@actaseal.com">sales@actaseal.com</a>
+</div></footer>
+</body>
+</html>
