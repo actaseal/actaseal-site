@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Privacy -- ActaSeal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="What ActaSeal collects, what the self-hosted software sends, and what it does not. No analytics, no third-party assets on this site.">
+<link rel="icon" href="../favicon.ico">
+<link rel="stylesheet" href="../css/base.css">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <div class="wordmark"><a href="/" style="text-decoration:none;color:inherit;">ActaSeal<span class="dot">.</span></a></div>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="/docs/">Docs</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/changelog/">Changelog</a></li>
+        <li><a href="https://verify.actaseal.com">Verifier</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<section>
+<h1>Privacy</h1>
+<p class="lede">Last updated 29 September 2026. This policy covers this
+website, our sales correspondence and our billing. It also states
+exactly what the self-hosted software can send to us, which is close to
+nothing and is off by default.</p>
+</section>
+
+<section>
+<h2>This website</h2>
+<p>This site loads no third-party assets. No analytics, no tag manager,
+no font CDN, no embedded media. It sets no cookies. The only external
+addresses linked from it are github.com and verify.actaseal.com, and
+those are links you choose to follow, not resources the page loads.</p>
+<p>The site is served by GitHub Pages, which as a matter of ordinary
+web hosting receives the IP address and user agent of anyone who
+requests a page. We do not receive, store or analyse those logs.</p>
+</section>
+
+<section>
+<h2>If you write to us</h2>
+<p>If you email sales@actaseal.com we hold your message and your email
+address so we can reply and keep a record of the conversation. Our
+mailboxes are hosted by Zoho. We do not add you to a marketing list and
+we do not sell or share the address.</p>
+</section>
+
+<section>
+<h2>If you buy</h2>
+<p>Billing is handled by Paddle, which acts as merchant of record and
+collects the payment and tax details it needs to do that. We receive
+your company name, billing contact and subscription status. We do not
+receive or store your card number.</p>
+</section>
+
+<section>
+<h2>What the self-hosted software sends</h2>
+<p>The software runs inside your infrastructure. It makes no outbound
+network call by default. Three features can be turned on by you, and
+each is described here in full.</p>
+
+<p><strong>Licence revocation check.</strong> If you set
+<code>ACTASEAL_LICENCE_REVOCATION_URL</code>, your installation
+periodically fetches a revocation list. The request carries nothing
+about your evidence; it is a fetch of a public list. You can avoid the
+network entirely by pointing
+<code>ACTASEAL_LICENCE_REVOCATION_FILE</code> at a local file you
+update yourself. If the fetch fails, the installation keeps using the
+last list it successfully retrieved and records how stale it is, rather
+than failing open or shutting you down.</p>
+
+<p><strong>Transparency-log anchoring.</strong> If you set
+<code>ACTASEAL_REKOR_URL</code>, receipts can be anchored to an external
+transparency log you choose. If it is unset, no network call is
+attempted at all. What is anchored is a hash, not content.</p>
+
+<p><strong>Usage export.</strong> If your tier is metered and you choose
+to send us a usage summary, that summary contains counts only: usage
+counts per agent identifier and per capability, and their totals. It
+contains no ledger event, no action identifier, no actor identifier, no
+tenant identifier and no payload field. That is not a policy
+description, it is enforced by a test in our codebase
+(<code>tests/test_usage_export_no_payload_fields_v1.py</code>) which
+asserts the payload's keys are a subset of an allowed list and that no
+value anywhere in it is a ledger event. The summary is signed by your
+own signing key before it leaves, and uploading it is a deliberate act,
+never automatic.</p>
+</section>
+
+<section>
+<h2>What we therefore do not have</h2>
+<p>We do not hold your evidence, your ledger, your policies, your
+receipts, your workpapers, your approvals or the personal data of your
+customers or employees. Not because we promise not to look, but because
+in a self-hosted deployment it is never transmitted to us.</p>
+</section>
+
+<section>
+<h2>Retention and your rights</h2>
+<p>We keep sales correspondence for as long as the commercial
+relationship is live and for three years afterwards. Billing records are
+kept as long as tax law requires. You can ask us what we hold about you,
+ask for it to be corrected, or ask us to delete it, by writing to
+<a href="mailto:sales@actaseal.com">sales@actaseal.com</a>. We will
+respond within thirty days.</p>
+<p>Our sub-processors are listed at
+<a href="/legal/subprocessors.html">/legal/subprocessors.html</a>.</p>
+</section>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <a href="/legal/terms.html">Terms</a> &middot;
+  <a href="/legal/privacy.html">Privacy</a> &middot;
+  <a href="/legal/dpa.html">DPA</a> &middot;
+  <a href="/legal/subprocessors.html">Sub-processors</a> &middot;
+  <a href="mailto:sales@actaseal.com">sales@actaseal.com</a>
+</div></footer>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Terms -- ActaSeal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ActaSeal software licence terms for the self-hosted product, including the Apache-2.0 verifier carve-out and what happens to your evidence after the licence ends.">
+<link rel="icon" href="../favicon.ico">
+<link rel="stylesheet" href="../css/base.css">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <div class="wordmark"><a href="/" style="text-decoration:none;color:inherit;">ActaSeal<span class="dot">.</span></a></div>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="/docs/">Docs</a></li>
+        <li><a href="/trust/">Trust</a></li>
+        <li><a href="/changelog/">Changelog</a></li>
+        <li><a href="https://verify.actaseal.com">Verifier</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+<section>
+<h1>Software licence terms</h1>
+<p class="lede">Last updated 29 September 2026. These terms govern use of the
+ActaSeal software, which is licensed for installation on your own
+infrastructure. There is no hosted ActaSeal service.</p>
+<p>ActaSeal is operated by Xavier Goshi. A private limited company is
+being incorporated; on registration these terms will be reissued in the
+company's name and this sentence removed.</p>
+</section>
+
+<section>
+<h2>1. What you are licensed to do</h2>
+<p>On payment of the fees for your tier, you receive a non-exclusive,
+non-transferable licence to install and run the ActaSeal software on
+infrastructure you control, for your own internal business purposes,
+for the term you have paid for. The licence is enforced by a licence
+file issued to you, which your installation validates offline.</p>
+<p>Your tier sets the number of archived engagements per year and the
+feature set available to you. Exceeding it does not disable your
+installation or your existing evidence; it puts you on the next tier at
+renewal.</p>
+</section>
+
+<section>
+<h2>2. What you may not do</h2>
+<p>You may not sublicense, resell or provide the software as a service
+to third parties, remove or circumvent the licence check, or publish
+benchmark results that identify the software without giving us the
+chance to reproduce them first. You may run the software for entities
+in your own corporate group.</p>
+</section>
+
+<section>
+<h2>3. The verifier is separate, and this agreement does not restrict it</h2>
+<p>The standalone offline verifier is published as its own repository
+under the Apache License 2.0. Nothing in these terms restricts your
+rights, or anyone else's rights, under that licence. You may give the
+verifier to an auditor, a regulator, an opposing party or the public,
+and they may run it without any agreement with us.</p>
+</section>
+
+<section>
+<h2>4. What happens when the licence ends</h2>
+<p>This is the clause that matters most, so it is stated plainly. When
+your licence expires or is terminated, the software stops minting new
+receipts. <strong>Every packet, receipt and ledger export you produced
+while licensed remains verifiable, permanently, using the Apache-2.0
+verifier and the public key embedded in the packet itself.</strong> No
+lookup against us, no live service, no agreement with us is required.
+We cannot revoke your ability to verify evidence you already hold, and
+we have designed the system so that we could not do so even if we
+wanted to.</p>
+<p>The packet format is frozen per schema version. A packet that
+verifies today verifies against any future verifier build that still
+understands that schema version; new fields are added in new schema
+versions, never by changing what an existing version's fields mean.</p>
+</section>
+
+<section>
+<h2>5. Fees, term and renewal</h2>
+<p>Fees are annual and invoiced in advance at the rates published on our
+pricing page or as set out in your order. The term is twelve months and
+renews for successive twelve-month terms unless either party gives
+thirty days' notice before the renewal date. Fees are exclusive of taxes.
+Late payment does not disable your installation mid-term.</p>
+</section>
+
+<section>
+<h2>6. Your data</h2>
+<p>The software runs on your infrastructure. We do not receive your
+evidence, your ledger, your policies or the contents of your receipts.
+Where the software can send anything to us at all, it is off unless you
+configure it on, and what it sends is described in our
+<a href="/legal/privacy.html">privacy policy</a>.</p>
+</section>
+
+<section>
+<h2>7. Support</h2>
+<p>Support is provided by email at
+<a href="mailto:sales@actaseal.com">sales@actaseal.com</a>. We do not
+publish a response-time commitment we have not yet demonstrated, and we
+will not sign one into a contract before we can meet it. If your
+procurement requires a service level, say so and we will negotiate one
+we can actually hold.</p>
+</section>
+
+<section>
+<h2>8. Warranty and liability</h2>
+<p>We warrant that the software will perform materially as described in
+our documentation, and that the verification properties described in
+clause 4 hold. Beyond that the software is provided as is, without
+implied warranties of merchantability or fitness for a particular
+purpose.</p>
+<p>Neither party is liable for indirect or consequential loss. Our total
+liability under this agreement is limited to the fees you paid in the
+twelve months before the event giving rise to the claim. Nothing here
+limits liability that cannot be limited by law, including for fraud.</p>
+<p>ActaSeal produces evidence. It does not provide legal, audit or
+regulatory advice, and using it is not a substitute for your own
+professional judgment about what your obligations are.</p>
+</section>
+
+<section>
+<h2>9. Governing law</h2>
+<p>These terms are governed by the laws of India and subject to the
+exclusive jurisdiction of the courts at Mumbai, unless your order
+specifies otherwise. For customers outside India we will agree an
+alternative governing law where your procurement requires it.</p>
+</section>
+</main>
+<footer class="site-foot"><div class="wrap">
+  <a href="/legal/terms.html">Terms</a> &middot;
+  <a href="/legal/privacy.html">Privacy</a> &middot;
+  <a href="/legal/dpa.html">DPA</a> &middot;
+  <a href="/legal/subprocessors.html">Sub-processors</a> &middot;
+  <a href="mailto:sales@actaseal.com">sales@actaseal.com</a>
+</div></footer>
+</body>
+</html>
