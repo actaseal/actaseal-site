@@ -34,6 +34,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://pcaobus.org/oversight/standards/auditing-standards/",
     "https://pcaobus.org/oversight/enforcement/",
     "https://pcaobus.org/news-events/news-releases/",
+    "https://pcaobus.org/Standards/QandA/SAPA-14-improper-alteration-audit-documentation.pdf",
     "mailto:sales@actaseal.com",
 )
 
