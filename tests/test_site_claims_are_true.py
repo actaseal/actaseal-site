@@ -229,3 +229,103 @@ def test_subprocessor_list_claims_to_be_complete_and_no_others_appear():
         for page, pt in pages().items():
             assert vendor not in pt.lower(), \
                 f"{page}: references {vendor}, which is not on the sub-processor list"
+
+
+# --- path/attribution hygiene -------------------------------------------
+
+
+# Every repo path cited inside a <code>...</code> span on this site,
+# verified to exist in the product repo (~/a/active_code) as of this
+# commit. A path that stops existing (a rename, a delete) must be fixed
+# here in the SAME change that fixes the page -- this list is not a
+# rubber stamp, it is the actual set of paths this commit checked.
+CITED_REPO_PATHS = {
+    "tests/test_usage_export_v1.py",
+    "examples/disputed_agent_purchase/run.sh",
+    "sdk-ts/",
+    "actaseal/sdk/integrations/",
+    "tests/test_sdk_framework_adapters_v1.py",
+    "scripts/export_openapi.py",
+}
+
+# A cited string counts as a "repo path" if it contains a "/" AND either
+# ends in one of these file extensions or ends in "/" (a directory).
+# This deliberately excludes HTTP routes -- both the plain kind (e.g.
+# "/gateway/preflight", "GET /readyz", covered by test_named_routes_exist
+# instead) and served-but-not-a-file endpoints that happen to end in one
+# of these extensions (e.g. "/.well-known/actaseal-keys.json", which
+# GET /.well-known/actaseal-keys.json computes at request time, not a
+# path on disk). A leading "/" is the signal: every real repo-relative
+# path cited on this site is relative (no leading slash); a route always
+# has one.
+_PATH_EXTENSIONS = (".py", ".sh", ".json", ".ts", ".md")
+
+
+def _looks_like_repo_path(text: str) -> bool:
+    if "/" not in text or text.startswith("/"):
+        return False
+    return text.endswith("/") or text.endswith(_PATH_EXTENSIONS)
+
+
+def test_cited_repo_paths_are_not_stale():
+    """Every <code>...</code> span that looks like a repo path must be in
+    the explicit CITED_REPO_PATHS allowlist, and (where the product repo
+    is present) every allowlisted path must actually exist. A path that
+    isn't in the allowlist is either a typo or a citation nobody vetted
+    -- both are fail-closed here."""
+    code_pattern = re.compile(r"<code>([^<]*)</code>")
+    found = set()
+    for page, t in pages().items():
+        for m in code_pattern.finditer(t):
+            candidate = m.group(1).strip()
+            if _looks_like_repo_path(candidate):
+                found.add(candidate)
+                assert candidate in CITED_REPO_PATHS, (
+                    f"{page}: cites path {candidate!r} inside <code>, "
+                    f"not in the CITED_REPO_PATHS allowlist"
+                )
+    unused = CITED_REPO_PATHS - found
+    assert not unused, f"CITED_REPO_PATHS has entries no page cites: {unused}"
+
+    if not PRODUCT.exists():
+        return
+    for path in CITED_REPO_PATHS:
+        assert (PRODUCT / path).exists(), \
+            f"CITED_REPO_PATHS lists {path!r}, which does not exist in the product repo"
+
+
+# Item numbers (issue/PR numbers on ietf-wg-scitt/draft-ietf-scitt-
+# architecture) that ActaSeal itself actually authored/filed. Only
+# these may be described with a "filed by ActaSeal"/"filed by us"
+# style phrase. #462 was opened by maxchop; #463 is an ActaSeal PR
+# against someone else's issue, described as a contribution, not a
+# filing, so neither belongs here.
+ACTASEAL_AUTHORED = {"461"}
+
+_ATTRIBUTION_PHRASES = ("filed by actaseal", "filed by us")
+_ITEM_NUMBER_RE = re.compile(r"#(\d+)")
+
+
+def test_attribution_claims_are_explicit():
+    """'filed by ActaSeal'/'filed by us' must only appear attached to an
+    item number in ACTASEAL_AUTHORED. Scoped to the SCITT architecture
+    proof-list line (one <li> per item): finds every <li> containing an
+    attribution phrase and checks every #NNN item number mentioned in
+    that same <li> is one ActaSeal actually filed."""
+    li_pattern = re.compile(r"<li>.*?</li>", re.I | re.S)
+    for page, t in pages().items():
+        for li_match in li_pattern.finditer(t):
+            li = li_match.group(0)
+            low = li.lower()
+            if not any(phrase in low for phrase in _ATTRIBUTION_PHRASES):
+                continue
+            numbers = _ITEM_NUMBER_RE.findall(li)
+            assert numbers, (
+                f"{page}: has a 'filed by' attribution with no #NNN item "
+                f"number to check it against: {li!r}"
+            )
+            for number in numbers:
+                assert number in ACTASEAL_AUTHORED, (
+                    f"{page}: claims item #{number} was 'filed by' ActaSeal, "
+                    f"but #{number} is not in ACTASEAL_AUTHORED"
+                )
