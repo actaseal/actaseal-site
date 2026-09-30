@@ -25,6 +25,10 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 ALLOWED_EXTERNAL_PREFIXES = (
+    "https://orcid.org/0009-0006-0583-6968",
+    "https://github.com/actaseal",
+    "mailto:xavier@actaseal.com",
+    "mailto:security@actaseal.com",
     "https://verify.actaseal.com",
     "https://github.com/actaseal/actaseal-verify",
     "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/461",
