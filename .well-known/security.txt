@@ -1,0 +1,6 @@
+Contact: mailto:security@actaseal.com
+Contact: mailto:sales@actaseal.com
+Expires: 2027-09-30T07:22:08Z
+Preferred-Languages: en
+Canonical: https://actaseal.com/.well-known/security.txt
+Policy: https://actaseal.com/security/
