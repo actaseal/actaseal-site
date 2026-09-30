@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessibility conformance statement &middot; ActaSeal</title>
+<link rel="stylesheet" href="../css/base.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="Accessibility conformance statement">
+<meta property="og:description" content="What has been measured against WCAG 2.2 AA, what passed, and the findings that are still open, generated from the audit&#x27;s own output rather than written by hand.">
+<meta property="og:url" content="https://actaseal.com/accessibility/">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Accessibility conformance statement">
+<meta name="twitter:description" content="What has been measured against WCAG 2.2 AA, what passed, and the findings that are still open, generated from the audit&#x27;s own output rather than written by hand.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="What has been measured against WCAG 2.2 AA, what passed, and the findings that are still open, generated from the audit&#x27;s own output rather than written by hand.">
+</head>
+<body>
+<main class="wrap">
+<h1>Accessibility conformance statement</h1>
+
+<p class="lede">Target standard: WCAG 2.2 Level AA. This statement describes the
+<strong>ActaSeal console</strong> &mdash; the application an operator logs into. It does not
+describe this marketing site, which has not been through the same audit.</p>
+
+<h2>What was measured</h2>
+<p>11 console surfaces were audited: admin, agents, approvals, breaches, engagements, ledger, playground, policies, readiness, receipts, settings. Each was checked
+three ways. First, axe-core 4.10.2 was injected and run with the
+<code>wcag2a</code>, <code>wcag2aa</code>, <code>wcag21aa</code> and <code>wcag22aa</code>
+rule tags. Second, every focusable element was walked in DOM tab order and checked for a
+visible focus indicator when focused. Third, each focusable element's rendered box was
+measured against the 24&times;24 CSS pixel minimum target size, applying that criterion's
+own exception for inline text links. The login flow was then driven from the keyboard only.</p>
+
+<h2>Result</h2>
+<ul>
+  <li><strong>2</strong> automated violations across all 11 surfaces.</li>
+  <li><strong>0</strong> elements without a visible focus indicator.</li>
+  <li><strong>4</strong> elements below the minimum target size.</li>
+  <li>Login was completed using the keyboard alone, reaching the console without a pointer.</li>
+  <li>7 of 11 surfaces had no finding of any kind: approvals, breaches, engagements, playground, policies, receipts, settings.</li>
+</ul>
+
+<h2>Open findings</h2>
+<p>These are not fixed. They are listed because a conformance statement that only lists
+passes is not a conformance statement.</p>
+<table>
+<thead><tr><th>Surface</th><th>Check</th><th>Finding</th><th>Impact</th><th>Element</th><th>Criterion</th></tr></thead>
+<tbody>
+<tr><td>admin</td><td>target size</td><td>Rendered 13&times;13 CSS px, below the 24&times;24 minimum</td><td>&mdash;</td><td><code>#u-invite [on]</code></td><td>wcag22aa (2.5.8)</td></tr>
+<tr><td>agents</td><td>target size</td><td>Rendered 146.7&times;15 CSS px, below the 24&times;24 minimum</td><td>&mdash;</td><td><code>button [Not declared — declare it]</code></td><td>wcag22aa (2.5.8)</td></tr>
+<tr><td>agents</td><td>target size</td><td>Rendered 146.7&times;15 CSS px, below the 24&times;24 minimum</td><td>&mdash;</td><td><code>button [Not declared — declare it]</code></td><td>wcag22aa (2.5.8)</td></tr>
+<tr><td>ledger</td><td>axe: color-contrast</td><td>Elements must meet minimum color contrast ratio thresholds</td><td>serious</td><td><code>.chain-hero-sub</code></td><td>wcag2aa, wcag143</td></tr>
+<tr><td>readiness</td><td>axe: label</td><td>Form elements must have labels</td><td>critical</td><td><code>#readiness-manifest-file-input</code></td><td>wcag2a, wcag412</td></tr>
+<tr><td>readiness</td><td>target size</td><td>Rendered 237&times;20 CSS px, below the 24&times;24 minimum</td><td>&mdash;</td><td><code>#readiness-manifest-file-input []</code></td><td>wcag22aa (2.5.8)</td></tr>
+</tbody>
+</table>
+
+<h2>What was not measured</h2>
+<p>No assistive technology was used. No screen reader, no voice control, no switch device
+&mdash; the keyboard pass was scripted, not performed by a person who relies on it. Focus
+behaviour inside open drawers and modals was not checked, only each surface's base state.
+Live-region announcements were not verified. Reflow at narrow viewports was measured
+separately and is not part of this audit. This marketing site was not audited at all.</p>
+
+<p>Automated tooling finds a minority of accessibility barriers. Passing it is a floor,
+not a conformance claim in the legal sense, and this page does not make one.</p>
+
+<h2>Evidence</h2>
+<p>Every number above is computed from
+<a href="findings.json">the audit's own output</a>, published here unedited. The page is
+generated from that file, so it cannot drift from it &mdash; a test in this repository
+fails if it does.</p>
+
+<h2>Reporting a barrier</h2>
+<p>If something here blocks you, write to
+<a href="mailto:sales@actaseal.com">sales@actaseal.com</a> and say what you were trying to
+do and what stopped you. There is no dedicated accessibility team; the reply will come
+from the person who wrote the code.</p>
+
+<p><a href="/">Back to actaseal.com</a></p>
+</main>
+</body>
+</html>

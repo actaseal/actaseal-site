@@ -1,0 +1,115 @@
+{
+  "axe_violations_by_tab": {
+    "approvals": [],
+    "receipts": [],
+    "ledger": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "help": "Elements must meet minimum color contrast ratio thresholds",
+        "tags": [
+          "cat.color",
+          "wcag2aa",
+          "wcag143",
+          "TTv5",
+          "TT13.c",
+          "EN-301-549",
+          "EN-9.1.4.3",
+          "ACT"
+        ],
+        "node_count": 1,
+        "targets": [
+          [
+            ".chain-hero-sub"
+          ]
+        ]
+      }
+    ],
+    "policies": [],
+    "breaches": [],
+    "engagements": [],
+    "readiness": [
+      {
+        "id": "label",
+        "impact": "critical",
+        "help": "Form elements must have labels",
+        "tags": [
+          "cat.forms",
+          "wcag2a",
+          "wcag412",
+          "section508",
+          "section508.22.n",
+          "TTv5",
+          "TT5.c",
+          "EN-301-549",
+          "EN-9.4.1.2",
+          "ACT"
+        ],
+        "node_count": 1,
+        "targets": [
+          [
+            "#readiness-manifest-file-input"
+          ]
+        ]
+      }
+    ],
+    "agents": [],
+    "admin": [],
+    "settings": [],
+    "playground": []
+  },
+  "missing_focus_indicator_by_tab": {
+    "approvals": [],
+    "receipts": [],
+    "ledger": [],
+    "policies": [],
+    "breaches": [],
+    "engagements": [],
+    "readiness": [],
+    "agents": [],
+    "admin": [],
+    "settings": [],
+    "playground": []
+  },
+  "undersized_targets_by_tab": {
+    "approvals": [],
+    "receipts": [],
+    "ledger": [],
+    "policies": [],
+    "breaches": [],
+    "engagements": [],
+    "readiness": [
+      {
+        "element": "#readiness-manifest-file-input []",
+        "width": 237,
+        "height": 20
+      }
+    ],
+    "agents": [
+      {
+        "element": "button [Not declared \u2014 declare it]",
+        "width": 146.7,
+        "height": 15
+      },
+      {
+        "element": "button [Not declared \u2014 declare it]",
+        "width": 146.7,
+        "height": 15
+      }
+    ],
+    "admin": [
+      {
+        "element": "#u-invite [on]",
+        "width": 13,
+        "height": 13
+      }
+    ],
+    "settings": [],
+    "playground": []
+  },
+  "keyboard_only_login": {
+    "first_tab_stop": "username",
+    "second_tab_stop": "password",
+    "reached_console_via_keyboard_only": true
+  }
+}
