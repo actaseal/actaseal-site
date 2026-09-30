@@ -246,6 +246,7 @@ CITED_REPO_PATHS = {
     "actaseal/sdk/integrations/",
     "tests/test_sdk_framework_adapters_v1.py",
     "scripts/export_openapi.py",
+    "scripts/make_sample_inspection_pack.py",
 }
 
 # A cited string counts as a "repo path" if it contains a "/" AND either
@@ -329,3 +330,30 @@ def test_attribution_claims_are_explicit():
                     f"{page}: claims item #{number} was 'filed by' ActaSeal, "
                     f"but #{number} is not in ACTASEAL_AUTHORED"
                 )
+
+
+def test_sample_pack_sha256_matches_the_published_files():
+    """sample/index.html prints a SHA-256 for each of the two sample
+    inspection pack zips. Same drift guard as every other claim in this
+    file: the printed hash must match the real file's hash, both
+    directions (a stale page claim, or a swapped-in file, both fail)."""
+    import hashlib
+
+    page = (REPO_ROOT / "sample" / "index.html").read_text(encoding="utf-8")
+    for filename in ("sample-inspection-pack.zip", "sample-inspection-pack-tampered.zip"):
+        file_path = REPO_ROOT / "sample" / filename
+        assert file_path.is_file(), f"{filename} is referenced by sample/index.html but does not exist"
+        actual = hashlib.sha256(file_path.read_bytes()).hexdigest()
+        # Scoped to the file-hashes table row specifically (not just "any
+        # 64-hex string somewhere after this filename in the page") -- the
+        # page also prints an unrelated 64-hex public key in its verify
+        # commands, which a looser pattern could mistake for the hash.
+        row_pattern = re.compile(
+            r"<code>" + re.escape(filename) + r"</code></td><td class=\"hash\">([0-9a-f]{64})</td>"
+        )
+        match = row_pattern.search(page)
+        assert match, f"could not find {filename}'s row in sample/index.html's SHA-256 table"
+        assert match.group(1) == actual, (
+            f"sample/index.html's SHA-256 for {filename} is {match.group(1)}, "
+            f"but the real file hashes to {actual}"
+        )
