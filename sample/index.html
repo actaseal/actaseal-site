@@ -22,7 +22,6 @@
 <main class="wrap">
 <h1>A sample inspection pack you can verify yourself</h1>
 
-<p><strong>Known issue, 30 September 2026.</strong> The verifier embedded in this pack does not yet expose its archive-export verification path on the command line, so the commands below currently fail with <code>UNREADABLE_PACKET</code>. The check itself exists and is covered by conformance tests; wiring it into the command-line entry point is in progress. This note will be removed when the commands below work as written.</p>
 <p class="lede">Two zip files below: a clean sample inspection pack, and a
 copy of it with one byte changed. Download either one, or both, and check
 them yourself with the offline verifier &mdash; no ActaSeal install, no
@@ -63,8 +62,10 @@ workpaper's content hash plus its preparer/reviewer/EQR identity),
 SCITT transparency-log inclusion proof, together covering the Merkle root
 of the archived workpaper set), <code>ledger_slice.ndjson</code> (the
 engagement's own hash-chained ledger events, from registration through the
-post-archive addition below), and <code>verify.py</code>, the offline
-verifier itself, embedded in the zip.</p>
+post-archive addition below), <code>verify.py</code> (the offline
+verifier itself, embedded in the zip), and <code>README.txt</code> (the
+same verify command and expected output shown below, inside the pack
+itself).</p>
 
 <p>The sample engagement has 6 workpapers on record, but only 5 hashes in
 the attested set. The 6th, <code>wp-06</code> ("Subsequent events review
@@ -81,23 +82,30 @@ attestation.</p>
 <h2>Verify it</h2>
 <p>Requires Python 3 and <code>pip install cryptography</code>. Unzip
 either pack and run its own embedded verifier from inside the extracted
-folder:</p>
+folder &mdash; no flags needed, <code>verify.py</code> reads
+<code>manifest.json</code> and detects on its own that this is an
+archive-export pack, not a dispute-action packet:</p>
 <pre class="evidence">unzip sample-inspection-pack.zip -d clean
 cd clean
-python verify.py --archive-export . --sth-public-key cc3948f95abba4199ffae75b1e8a32680dddc4d344d46d72a4070d9fb4a6fd55</pre>
+python verify.py .</pre>
 
 <p>Expected output, exactly as the generator script printed it:</p>
-<pre class="evidence">VERIFIED (archive export): ledger chain intact, workpaper set matches attestation
-  SCITT transparency receipt verified against the supplied public key</pre>
+<pre class="evidence">VERIFIED (archive export): ledger chain intact, workpaper set matches attestation</pre>
 
 <p>Now the tampered copy:</p>
 <pre class="evidence">unzip sample-inspection-pack-tampered.zip -d tampered
 cd tampered
-python verify.py --archive-export . --sth-public-key cc3948f95abba4199ffae75b1e8a32680dddc4d344d46d72a4070d9fb4a6fd55</pre>
+python verify.py .</pre>
 
 <p>Expected output:</p>
 <pre class="evidence">VERIFICATION FAILED
   ARCHIVE_EXPORT_WORKPAPER_SET_TAMPERED</pre>
+
+<p>Optionally, also check the embedded SCITT transparency receipt against
+the sample's public key:</p>
+<pre class="evidence">python verify.py . --sth-public-key d546ab2afc8d492ea2618302acf806bb0b37532c8622586a4889c97cad48a343</pre>
+<pre class="evidence">VERIFIED (archive export): ledger chain intact, workpaper set matches attestation
+  SCITT transparency receipt verified against the supplied public key</pre>
 
 <p>The change between the two zips is exactly one byte: a single hex
 digit inside the first workpaper's <code>content_hash</code> in
@@ -110,8 +118,8 @@ to report.</p>
 <table class="dense">
 <caption>SHA-256 of the two zip files as published here</caption>
 <tr><th>File</th><th>SHA-256</th></tr>
-<tr><td><code>sample-inspection-pack.zip</code></td><td class="hash">f662291ead96285949708c22a9015b59b0c82f75deb0f5d89c9ae7dc3053c056</td></tr>
-<tr><td><code>sample-inspection-pack-tampered.zip</code></td><td class="hash">3f8cfceddc6ec09a0ef9cd36b9273a93ed046e0c8f9e6386b041203e0465b867</td></tr>
+<tr><td><code>sample-inspection-pack.zip</code></td><td class="hash">bc77beb431c73e743430453721d32d97241a685d36c04ae05e3922e794ce9055</td></tr>
+<tr><td><code>sample-inspection-pack-tampered.zip</code></td><td class="hash">adb1241002152e58759ee6d2097a204a87f8eefc7db78454d58d3c2ea4b6b917</td></tr>
 </table>
 
 <p><a href="/as1215/">Back to AS 1215</a> &middot; <a href="/">Back to actaseal.com</a></p>
