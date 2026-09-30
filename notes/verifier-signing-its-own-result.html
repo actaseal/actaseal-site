@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What a verifier signing its own result proves &middot; ActaSeal</title>
+<link rel="stylesheet" href="../css/base.css">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="What a verifier signing its own result proves">
+<meta property="og:description" content="An offline checker with no separately trusted identity gains nothing by signing its own verdict. What the emitted result has to preserve instead.">
+<meta property="og:url" content="https://actaseal.com/notes/verifier-signing-its-own-result.html">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What a verifier signing its own result proves">
+<meta name="twitter:description" content="An offline checker with no separately trusted identity gains nothing by signing its own verdict. What the emitted result has to preserve instead.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="An offline checker with no separately trusted identity gains nothing by signing its own verdict. What the emitted result has to preserve instead.">
+</head>
+<body>
+<main class="wrap">
+<article>
+<p class="note-meta"><time datetime="2026-09-30">30 September 2026</time> &middot; Xavier Goshi</p>
+<h1>What a verifier signing its own result proves</h1>
+
+<p class="lede">A checker that runs on your laptop, holds no key anyone has agreed to
+trust, and answers to nobody, can sign its own verdict all it likes. The signature
+proves that the checker said it. Nobody was disputing that.</p>
+
+<h2>Where this came up</h2>
+<p>Verifying a receipt produces two different things that are easy to confuse. One is a
+cryptographic finding: the signature verifies, or it does not, or it could not be
+evaluated. The other is what the party doing the checking decides to do about it: accept
+it, or refuse it under a policy of their own. The second is not a property of the
+evidence. It is a property of the reader.</p>
+
+<p>Collapse the two and a specific failure follows. A relying party refuses a packet
+because its own policy requires an anchor the packet does not carry, records that as
+"verification failed", and passes that on. Downstream, someone reads "verification
+failed" and concludes the signature was bad. It was not. Nothing in the evidence changed
+between those two sentences; only the reader did.</p>
+
+<h2>The wrong fix</h2>
+<p>The obvious-looking remedy is to make the emitted result tamper-evident: sign it, so
+the verdict and the disposition travel together under one signature and cannot be
+separated. That was my first proposal, and it does not work for the case it was written
+for.</p>
+
+<p>A standalone offline verifier has no identity that a third party has separately agreed
+to trust. It is a program the relying party downloaded and ran. Signing its output with a
+key it generated means: this program, which you are already running and already trusting
+to tell you the truth, asserts that it said what it said. The signature adds a step and
+no assurance. Where the relying party <em>does</em> have a separately trusted verifier
+identity, signing means something &mdash; but that is a property of the deployment, not of
+the checker, and a specification should not assume it.</p>
+
+<p>The second problem is that "the disposition must not be separable by a consumer" is
+not enforceable. A consumer can read one field of a structured object and ignore the
+rest. Writing a requirement that no test can check puts a sentence in a specification
+that does nothing.</p>
+
+<h2>What the requirement should actually say</h2>
+<p>The obligation belongs on emission and on consumption, stated separately, because
+those are the two points where the distinction can be destroyed:</p>
+
+<ul>
+  <li>Whoever emits the result must emit the verification result and any associated policy
+      disposition together, in one structured result.</li>
+  <li>Whoever forwards or aggregates it must preserve the distinction, and must not
+      reclassify a policy refusal as a failed cryptographic verification.</li>
+  <li>Any integrity protection that <em>is</em> applied must cover both. Not "there must be
+      integrity protection" &mdash; if there is, it covers both.</li>
+  <li>A missing disposition makes the result incomplete. It must never be read as evidence
+      that a cryptographic check failed.</li>
+</ul>
+
+<p>And the case that started it: when the checker cannot complete the check because it
+lacks the trust material to do so, that is not a fourth answer. It is the third
+verification result the profile already requires &mdash; not evaluated. Absence of
+material is not a failure of the material.</p>
+
+<h2>How ActaSeal implements it</h2>
+<p>The emitted result carries the verdict, the disposition, and a trust-material
+completeness field as one object. The verdict takes exactly three values:
+<code>CRYPTOGRAPHICALLY_VALID</code>, <code>CRYPTOGRAPHICALLY_INVALID</code>,
+<code>NOT_EVALUATED</code>. A policy refusal never appears in the verdict field at all, so
+a consumer reading only that field cannot mistake a refusal for a failed check.
+Completeness defaults to incomplete; absence is never resolved to complete, because
+silence about trust material is not evidence that it was sufficient.</p>
+
+<p>What ActaSeal does not implement: the consumption-side obligation, which does not apply
+to something that only emits, and the integrity-protection clause, because no integrity
+protection is applied to the emitted result at all. Stating that is the point &mdash; an
+implementation status section that only lists what a project does is advertising.</p>
+
+<h2>Where the discussion is</h2>
+<p>This is being worked out in public, in the IETF SCITT working group, and the wording
+above is not mine alone &mdash; the emission-and-consumption shape came from another
+implementer correcting my version, and the third-result clarification came from the
+person who opened the issue.</p>
+<ul>
+  <li><a href="https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/461">Issue #461</a></li>
+  <li><a href="https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/463">Pull request #463</a></li>
+</ul>
+
+<p><a href="/notes/">All notes</a> &middot; <a href="/">actaseal.com</a></p>
+</article>
+</main>
+</body>
+</html>
