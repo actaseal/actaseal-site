@@ -1,25 +1,53 @@
-/* actaseal.com -- base stylesheet. Forensic/legal-document register:
-   serif display, monospace evidence, one accent, asymmetric layout. */
-
-@font-face {
-  font-family: "Site Serif";
-  src: local("Georgia"), local("Iowan Old Style"), local("Times New Roman");
-}
+/* actaseal.com -- base stylesheet.
+   Tokens are copied verbatim from active_code/actaseal/api/static/approvals.html
+   (the ActaSeal console) -- that file is the single source of truth for
+   colors, radius and font stacks. No new colors are introduced here.
+   Variable names below (--ink, --paper, etc.) are kept from this site's
+   existing structure; only their values now come from the console. */
 
 :root {
-  --ink: #17140f;
-  --paper: #f4f1e9;
+  color-scheme: light;
+  --ink: #14161c;
+  --paper: #f5f6f8;
   --paper-raised: #ffffff;
-  --rule: #cdc4ac;
-  --accent: #7a2e1f; /* single deliberate accent: a sealed-wax red-brown */
+  --rule: #d7dbe3;
+  --accent: #2f5fdb;
   --accent-ink: #ffffff;
-  --mono-bg: #100e0a;
-  --mono-fg: #d9d2bd;
-  --muted: #5b5546;
+  --mono-bg: #0b0d12;
+  --mono-fg: #e6e9ef;
+  --muted: #4c5566;
   --max: 1180px;
-  --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
-  --body: "IBM Plex Sans", Arial, Helvetica, sans-serif;
-  --mono: "IBM Plex Mono", "Courier New", monospace;
+  --serif: var(--body);
+  --body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ink: #e6e9ef;
+    --paper: #0b0d12;
+    --paper-raised: #12151c;
+    --rule: #232834;
+    --accent: #5b8cff;
+    --accent-ink: #ffffff;
+    --mono-bg: #12151c;
+    --mono-fg: #e6e9ef;
+    --muted: #8992a3;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e6e9ef;
+  --paper: #0b0d12;
+  --paper-raised: #12151c;
+  --rule: #232834;
+  --accent: #5b8cff;
+  --accent-ink: #ffffff;
+  --mono-bg: #12151c;
+  --mono-fg: #e6e9ef;
+  --muted: #8992a3;
 }
 
 * { box-sizing: border-box; }
