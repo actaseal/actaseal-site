@@ -224,3 +224,11 @@ pre { overflow-x: auto; }
 @media (max-width: 720px) {
   table { display: block; overflow-x: auto; max-width: 100%; }
 }
+
+/* notes */
+.note-meta { font-family: var(--mono, monospace); font-size: 13px; opacity: .75; margin-bottom: 4px; }
+.note-list { list-style: none; padding: 0; }
+.note-list li { padding: 14px 0; border-bottom: 1px solid var(--rule, #ccc); }
+.note-list time { font-family: var(--mono, monospace); font-size: 13px; opacity: .75; display: block; }
+.note-list a { font-size: 17px; }
+.note-list p { margin: 4px 0 0; opacity: .85; }
