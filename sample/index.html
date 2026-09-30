@@ -22,6 +22,7 @@
 <main class="wrap">
 <h1>A sample inspection pack you can verify yourself</h1>
 
+<p><strong>Known issue, 30 September 2026.</strong> The verifier embedded in this pack does not yet expose its archive-export verification path on the command line, so the commands below currently fail with <code>UNREADABLE_PACKET</code>. The check itself exists and is covered by conformance tests; wiring it into the command-line entry point is in progress. This note will be removed when the commands below work as written.</p>
 <p class="lede">Two zip files below: a clean sample inspection pack, and a
 copy of it with one byte changed. Download either one, or both, and check
 them yourself with the offline verifier &mdash; no ActaSeal install, no
