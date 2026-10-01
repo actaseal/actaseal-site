@@ -63,8 +63,9 @@ of the archived workpaper set), <code>ledger_slice.ndjson</code> (the
 engagement's own hash-chained ledger events, from registration through the
 post-archive addition below), <code>verify.py</code> (the offline
 verifier itself, embedded in the zip), and <code>README.txt</code> (the
-same verify command and expected output shown below, inside the pack
-itself).</p>
+same verify instructions as this page, phrased for running from inside
+the extracted folder rather than against the zip directly, plus what
+VERIFIED does and does not prove).</p>
 
 <p>The sample engagement has 6 workpapers on record, but only 5 hashes in
 the attested set. The 6th, <code>wp-06</code> ("Subsequent events review
@@ -79,32 +80,43 @@ reasoned &mdash; and never retroactively folded into an already-issued
 attestation.</p>
 
 <h2>Verify it</h2>
-<p>Requires Python 3 and <code>pip install cryptography</code>. Unzip
-either pack and run its own embedded verifier from inside the extracted
-folder &mdash; no flags needed, <code>verify.py</code> reads
-<code>manifest.json</code> and detects on its own that this is an
-archive-export pack, not a dispute-action packet:</p>
-<pre class="evidence">unzip sample-inspection-pack.zip -d clean
-cd clean
-python verify.py .</pre>
+<p>Requires Python 3 and <code>pip install cryptography</code>. No unzip
+step &mdash; <code>verify.py</code> accepts the zip directly, extracting
+it itself, and reads <code>manifest.json</code> to detect on its own
+that this is an archive-export pack, not a dispute-action packet:</p>
+<pre class="evidence">python verify.py sample-inspection-pack.zip</pre>
 
-<p>Expected output, exactly as the generator script printed it:</p>
-<pre class="evidence">VERIFIED (archive export): ledger chain intact, workpaper set matches attestation</pre>
+<p>Expected output, exactly as the real verifier prints it, exit code
+<code>0</code>:</p>
+<pre class="evidence">VERIFIED (archive export): ledger chain intact, workpaper set matches attestation
+  RFC 3161 timestamp NOT verified -- no --tsa-ca-cert given (get the TSA's CA cert out of band)
+  SCITT transparency receipt NOT verified -- no --sth-public-key given (get the deployment's public key out of band, e.g. its /.well-known/actaseal-keys.json while it is live -- never trust a copy embedded in this pack itself)</pre>
 
-<p>Now the tampered copy:</p>
-<pre class="evidence">unzip sample-inspection-pack-tampered.zip -d tampered
-cd tampered
-python verify.py .</pre>
+<p><strong>Those last two lines are not a failure.</strong> VERIFIED
+already means what it says: the ledger chain is intact and the
+workpaper set matches what the attestation commits to. RFC 3161 and
+SCITT are two SEPARATE, optional checks that need a trust root this
+pack cannot supply itself &mdash; a key or CA cert embedded in the pack
+would prove nothing, since whoever fabricated a pack from scratch could
+just embed a key matching their own fabricated receipt. The verifier
+never drops a check silently: if you didn't pass the flag, it tells you
+by name that the check didn't run, instead of letting you assume
+everything possible was checked.</p>
 
-<p>Expected output:</p>
+<p>Run the SCITT check for real, against this sample's own public key
+(given here because this is a synthetic sample with no live deployment
+behind it &mdash; for a real pack, get the key out of band from whoever
+issued it):</p>
+<pre class="evidence">python verify.py sample-inspection-pack.zip --sth-public-key 8a9db82ae18fcbf2bdd04ba3d20e84a42294628617c56f9c59a87bd5d13ad3e6</pre>
+<pre class="evidence">VERIFIED (archive export): ledger chain intact, workpaper set matches attestation
+  RFC 3161 timestamp NOT verified -- no --tsa-ca-cert given (get the TSA's CA cert out of band)
+  SCITT transparency receipt verified against the supplied public key</pre>
+
+<p>Now the tampered copy &mdash; expected output and exit code
+<code>1</code>, so you know what to expect before you run it:</p>
+<pre class="evidence">python verify.py sample-inspection-pack-tampered.zip</pre>
 <pre class="evidence">VERIFICATION FAILED
   ARCHIVE_EXPORT_WORKPAPER_SET_TAMPERED</pre>
-
-<p>Optionally, also check the embedded SCITT transparency receipt against
-the sample's public key:</p>
-<pre class="evidence">python verify.py . --sth-public-key d546ab2afc8d492ea2618302acf806bb0b37532c8622586a4889c97cad48a343</pre>
-<pre class="evidence">VERIFIED (archive export): ledger chain intact, workpaper set matches attestation
-  SCITT transparency receipt verified against the supplied public key</pre>
 
 <p>The change between the two zips is exactly one byte: a single hex
 digit inside the first workpaper's <code>content_hash</code> in
@@ -117,8 +129,8 @@ to report.</p>
 <table class="dense">
 <caption>SHA-256 of the two zip files as published here</caption>
 <tr><th>File</th><th>SHA-256</th></tr>
-<tr><td><code>sample-inspection-pack.zip</code></td><td class="hash">bc77beb431c73e743430453721d32d97241a685d36c04ae05e3922e794ce9055</td></tr>
-<tr><td><code>sample-inspection-pack-tampered.zip</code></td><td class="hash">adb1241002152e58759ee6d2097a204a87f8eefc7db78454d58d3c2ea4b6b917</td></tr>
+<tr><td><code>sample-inspection-pack.zip</code></td><td class="hash">b2cb472b0c6b9138a4e29c3d68c51865ecf0b5c83aea3ed0e3364d964979b161</td></tr>
+<tr><td><code>sample-inspection-pack-tampered.zip</code></td><td class="hash">256bcd1456d57faf5238d05605ad4e85489738c4261a323fb13fea597f28b53d</td></tr>
 </table>
 
 <p><a href="/as1215/">Back to AS 1215</a> &middot; <a href="/">Back to actaseal.com</a></p>

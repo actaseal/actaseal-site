@@ -350,3 +350,59 @@ def test_sample_pack_sha256_matches_the_published_files():
             f"sample/index.html's SHA-256 for {filename} is {match.group(1)}, "
             f"but the real file hashes to {actual}"
         )
+
+
+def test_sample_page_verify_commands_and_output_match_the_real_verifier():
+    """sample/index.html prints literal `python verify.py ...` commands
+    and their literal expected output/exit codes. This runs the REAL
+    public verifier (~/a/actaseal-verify/verify.py) against the real
+    committed sample zips and asserts the page's claimed output and exit
+    code for each command are exactly what the verifier actually prints
+    -- the same drift guard as every other claim in this file, extended
+    to cover a command+output pair instead of just a hash. Skips (not
+    fails) if the public verifier isn't present on this machine, same
+    posture as the rest of this file."""
+    import subprocess
+    import sys
+
+    verifier = VERIFY / "verify.py"
+    if not verifier.is_file():
+        return
+
+    page = (REPO_ROOT / "sample" / "index.html").read_text(encoding="utf-8")
+    sample_dir = REPO_ROOT / "sample"
+
+    def _pre_blocks():
+        return re.findall(r'<pre class="evidence">(.*?)</pre>', page, re.S)
+
+    blocks = [b.strip() for b in _pre_blocks()]
+    # The three commands this page documents, each immediately followed
+    # by its own expected-output <pre> block in document order.
+    expected_pairs = [
+        ("python verify.py sample-inspection-pack.zip", 0),
+        (
+            "python verify.py sample-inspection-pack.zip --sth-public-key "
+            + re.search(r"--sth-public-key ([0-9a-f]{64})", page).group(1),
+            0,
+        ),
+        ("python verify.py sample-inspection-pack-tampered.zip", 1),
+    ]
+
+    for command, expected_exit in expected_pairs:
+        assert command in blocks, f"command {command!r} not found verbatim in a <pre class=\"evidence\"> block on the page"
+        command_index = blocks.index(command)
+        claimed_output = blocks[command_index + 1]
+
+        argv = command.split()
+        assert argv[:3] == ["python", "verify.py", argv[2]]
+        real_argv = [sys.executable, str(verifier), *argv[2:]]
+        result = subprocess.run(real_argv, capture_output=True, text=True, cwd=str(sample_dir), timeout=30)
+
+        assert result.returncode == expected_exit, (
+            f"{command!r}: page claims exit code {expected_exit}, real verifier returned {result.returncode}\n"
+            f"stdout: {result.stdout}\nstderr: {result.stderr}"
+        )
+        assert result.stdout.strip() == claimed_output.strip(), (
+            f"{command!r}: page's claimed output does not match the real verifier's output.\n"
+            f"page claims:\n{claimed_output}\n\nreal output:\n{result.stdout}"
+        )
