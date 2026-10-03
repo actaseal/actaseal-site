@@ -239,15 +239,8 @@ def test_subprocessor_list_claims_to_be_complete_and_no_others_appear():
 # commit. A path that stops existing (a rename, a delete) must be fixed
 # here in the SAME change that fixes the page -- this list is not a
 # rubber stamp, it is the actual set of paths this commit checked.
-CITED_REPO_PATHS = {
-    "tests/test_usage_export_v1.py",
-    "examples/disputed_agent_purchase/run.sh",
-    "sdk-ts/",
-    "actaseal/sdk/integrations/",
-    "tests/test_sdk_framework_adapters_v1.py",
-    "scripts/export_openapi.py",
-    "scripts/make_sample_inspection_pack.py",
-}
+# The product repository is private, so the public site cites none.
+CITED_REPO_PATHS: set[str] = set()
 
 # A cited string counts as a "repo path" if it contains a "/" AND either
 # ends in one of these file extensions or ends in "/" (a directory).

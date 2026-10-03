@@ -1,5 +1,4 @@
-"""Renders an openapi.json (produced by active_code's
-scripts/export_openapi.py) into a single dependency-free static HTML page
+"""Renders an openapi.json exported from the ActaSeal API into a single dependency-free static HTML page
 under docs/api/index.html. No CDN, no JS framework -- plain tables."""
 from __future__ import annotations
 
@@ -27,18 +26,19 @@ PAGE_HEAD = """<!doctype html>
     <div class="wordmark"><a href="/" style="text-decoration:none;color:inherit;">ActaSeal<span class="dot">.</span></a></div>
     <nav class="site-nav">
       <ul>
-        <li><a href="/docs/">Docs</a></li>
+        <li><a href="/as1215/">AS 1215</a></li>
+        <li><a href="https://verify.actaseal.com/browser/">Verify</a></li>
+        <li><a href="https://cbom.actaseal.com">CBOM Check</a></li>
         <li><a href="/trust/">Trust</a></li>
-        <li><a href="/changelog/">Changelog</a></li>
-        <li><a href="https://verify.actaseal.com">Verifier</a></li>
+        <li><a href="/docs/">Docs</a></li>
+        <li><a href="mailto:sales@actaseal.com">Contact</a></li>
       </ul>
     </nav>
   </div>
 </header>
 <main class="wrap">
 <h1>API reference</h1>
-<p class="lede">Generated from the live FastAPI app's own OpenAPI schema
-(<code>scripts/export_openapi.py</code> in the private repo) -- every route
+<p class="lede">Generated from the live API's own OpenAPI schema -- every route
 below is a route that actually exists, not hand-maintained documentation
 that can drift.</p>
 """
@@ -96,7 +96,7 @@ def render(schema: dict) -> str:
 
 
 def main() -> int:
-    schema_path = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO_ROOT.parent / "active_code" / "openapi.json"
+    schema_path = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO_ROOT.parent / "openapi.json"
     if not schema_path.exists():
         print(f"schema not found: {schema_path}", file=sys.stderr)
         return 1

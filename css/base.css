@@ -1,7 +1,6 @@
 /* actaseal.com -- base stylesheet.
-   Tokens are copied verbatim from active_code/actaseal/api/static/approvals.html
-   (the ActaSeal console) -- that file is the single source of truth for
-   colors, radius and font stacks. No new colors are introduced here.
+   Tokens match the ActaSeal console, which is the single source of truth
+   for colors, radius and font stacks. No new colors are introduced here.
    Variable names below (--ink, --paper, etc.) are kept from this site's
    existing structure; only their values now come from the console. */
 
