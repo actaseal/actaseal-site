@@ -1,5 +1,5 @@
-"""Captures index.html at 375/768/1280px via Playwright, for the mobile
-verification ONESHOT-FRONT's design rules require. Serves the repo over a
+"""Captures index.html at 375/768/1280px via Playwright, to check the
+mobile layout. Serves the repo over a
 throwaway local HTTP server so relative asset paths resolve exactly as they
 would on the real site."""
 import http.server

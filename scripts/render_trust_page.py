@@ -1,8 +1,11 @@
-"""Renders trust/bundle/trust-center-bundle.json into trust/index.html:
-SBOM summary, the drill receipts present in the bundle, the CUEC
-declaration, and a freshness verdict (how old generated_at is right now).
-No dependency-free-renderer constraint here -- this is our own static site
-build step, not an npm package -- but it still writes plain HTML, no CDN."""
+"""Renders a signed trust-center bundle into trust/index.html: digest,
+freshness verdict, drill results and the CUEC controls.
+
+The bundle itself is not published (it is shared under NDA), so it is
+passed in from outside this repository:
+
+    python scripts/render_trust_page.py <trust-center-bundle.json> [out.html]
+"""
 from __future__ import annotations
 
 import html
@@ -12,8 +15,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-BUNDLE_DIR = REPO_ROOT / "trust" / "bundle"
-BUNDLE_PATH = BUNDLE_DIR / "trust-center-bundle.json"
+DEFAULT_OUT = REPO_ROOT / "trust" / "index.html"
+NDA_CONTACT = '<a href="mailto:sales@actaseal.com">sales@actaseal.com</a>'
 
 FRESHNESS_STALE_AFTER_DAYS = 90
 
@@ -43,10 +46,12 @@ HEAD = """<!doctype html>
     <div class="wordmark"><a href="/" style="text-decoration:none;color:inherit;">ActaSeal<span class="dot">.</span></a></div>
     <nav class="site-nav">
       <ul>
-        <li><a href="/docs/">Docs</a></li>
+        <li><a href="/as1215/">AS 1215</a></li>
+        <li><a href="https://verify.actaseal.com/browser/">Verify</a></li>
+        <li><a href="https://cbom.actaseal.com">CBOM Check</a></li>
         <li><a href="/trust/">Trust</a></li>
-        <li><a href="/changelog/">Changelog</a></li>
-        <li><a href="https://verify.actaseal.com">Verifier</a></li>
+        <li><a href="/docs/">Docs</a></li>
+        <li><a href="mailto:sales@actaseal.com">Contact</a></li>
       </ul>
     </nav>
   </div>
@@ -75,9 +80,8 @@ def render(bundle: dict) -> str:
     parts.append("<section>")
     parts.append("<h1>Trust</h1>")
     parts.append(
-        '<p class="lede">This page is rendered directly from a signed trust-center bundle -- '
-        "produced by <code>actaseal trust-center bundle</code>, the same command any customer "
-        "can run against their own deployment.</p>"
+        '<p class="lede">This page is rendered from a signed trust-center bundle, '
+        "produced by the same command any customer can run against their own deployment.</p>"
     )
     parts.append('<table class="dense">')
     parts.append(
@@ -90,8 +94,8 @@ def render(bundle: dict) -> str:
     )
     parts.append("</table>")
     parts.append(
-        '<p><a href="bundle/trust-center-bundle.json">Download the raw signed bundle</a> -- '
-        "verify the signature yourself with the public key above.</p>"
+        f"<p>The full signed bundle is available under NDA from {NDA_CONTACT}. "
+        "Check its digest and signature against the values above.</p>"
     )
     parts.append("</section>")
 
@@ -101,10 +105,7 @@ def render(bundle: dict) -> str:
         components = payload["sbom"].get("components", [])
         parts.append(f"<p>{len(components)} component(s) declared.</p>")
     else:
-        parts.append(
-            "<p>Not embedded in this bundle -- generate one with "
-            "<code>actaseal trust-center bundle --generate-sbom</code>.</p>"
-        )
+        parts.append("<p>Not embedded in this bundle.</p>")
     parts.append("</section>")
 
     parts.append('<section id="drills">')
@@ -123,14 +124,13 @@ def render(bundle: dict) -> str:
     parts.append('<section id="cuec">')
     parts.append("<h2>CUEC declaration</h2>")
     parts.append(
-        "<p>Complementary user-entity controls -- derived from code, not written prose.</p>"
+        "<p>Complementary user-entity controls: what the operator of a deployment is responsible for.</p>"
     )
-    parts.append('<table class="dense"><tr><th>Control</th><th>Statement</th><th>Verified from</th></tr>')
+    parts.append('<table class="dense"><tr><th>Control</th><th>Statement</th></tr>')
     for control in payload["cuec_declaration"]["controls"]:
         parts.append(
             f"<tr><td>{html.escape(control.get('control',''))}</td>"
-            f"<td>{html.escape(control.get('statement',''))}</td>"
-            f"<td class=\"hash\">{html.escape(control.get('verified_from',''))}</td></tr>"
+            f"<td>{html.escape(control.get('statement',''))}</td></tr>"
         )
     parts.append("</table>")
     parts.append("</section>")
@@ -138,12 +138,8 @@ def render(bundle: dict) -> str:
     parts.append('<section id="questionnaires">')
     parts.append("<h2>Security questionnaires</h2>")
     parts.append(
-        "<ul>"
-        '<li><a href="bundle/caiq-lite.json">CAIQ-Lite (JSON)</a> / '
-        '<a href="bundle/caiq-lite.csv">CAIQ-Lite (CSV)</a></li>'
-        '<li><a href="bundle/sig-lite.json">SIG-Lite (JSON)</a> / '
-        '<a href="bundle/sig-lite.csv">SIG-Lite (CSV)</a></li>'
-        "</ul>"
+        "<p>Completed CAIQ-Lite and SIG-Lite questionnaires are available under NDA from "
+        f"{NDA_CONTACT}.</p>"
     )
     parts.append("</section>")
 
@@ -151,16 +147,20 @@ def render(bundle: dict) -> str:
     return "\n".join(parts)
 
 
-def main() -> int:
-    if not BUNDLE_PATH.exists():
-        print(f"bundle not found: {BUNDLE_PATH}", file=sys.stderr)
+def main(argv: list[str]) -> int:
+    if len(argv) not in (2, 3):
+        print(__doc__, file=sys.stderr)
+        return 2
+    bundle_path = Path(argv[1])
+    if not bundle_path.exists():
+        print(f"bundle not found: {bundle_path}", file=sys.stderr)
         return 1
-    bundle = json.loads(BUNDLE_PATH.read_text())
-    out_path = REPO_ROOT / "trust" / "index.html"
+    bundle = json.loads(bundle_path.read_text())
+    out_path = Path(argv[2]) if len(argv) == 3 else DEFAULT_OUT
     out_path.write_text(render(bundle))
     print(f"wrote {out_path}")
     return 0
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(sys.argv))

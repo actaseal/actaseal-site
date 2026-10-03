@@ -12,9 +12,8 @@ Walks every .html file under the repo root. For each <a href> / <link href> /
     fails closed -- an unrecognised external host is a bug, not something to
     silently allow.
 
-Exits non-zero and prints every violation if any link fails. This mirrors
-CLAUDE.md's "fail closed" house style: an unmatched case is a failure, not a
-skip.
+Exits non-zero and prints every violation if any link fails: an unmatched
+case is a failure, not a skip.
 """
 from __future__ import annotations
 
@@ -30,6 +29,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "mailto:xavier@actaseal.com",
     "mailto:security@actaseal.com",
     "https://verify.actaseal.com",
+    "https://cbom.actaseal.com",
     "https://github.com/actaseal/actaseal-verify",
     "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/461",
     "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/462",

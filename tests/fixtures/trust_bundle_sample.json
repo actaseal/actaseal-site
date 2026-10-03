@@ -1,0 +1,18 @@
+{
+  "payload": {
+    "schema_version": "trust_center_bundle.v1",
+    "generated_at": "2026-01-01T00:00:00+00:00",
+    "bundle_hash": "00aa11bb22cc33dd44ee55ff66778899aabbccddeeff00112233445566778899",
+    "sbom_present": false,
+    "sbom": null,
+    "drill_receipts": {"tamper": {"payload": {"all_detected": true}}, "key_compromise": null},
+    "cuec_declaration": {
+      "schema_version": "cuec_declaration.v1",
+      "controls": [
+        {"control": "key_custody", "statement": "The operator holds the signing key.", "verified_from": "internal.module.path"}
+      ]
+    }
+  },
+  "signature_hex": "ab",
+  "signer_public_key_hex": "cd"
+}
