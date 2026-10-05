@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A CBOM can pass schema validation and still be wrong &middot; ActaSeal</title>
+<link rel="stylesheet" href="../css/base.css">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="A CBOM can pass schema validation and still be wrong">
+<meta property="og:description" content="A real, anonymized CycloneDX CBOM that validates cleanly against the schema while getting three load-bearing facts wrong. The schema checks shape, not meaning.">
+<meta property="og:url" content="https://actaseal.com/notes/cbom-schema-valid-semantically-wrong.html">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A CBOM can pass schema validation and still be wrong">
+<meta name="twitter:description" content="A real, anonymized CycloneDX CBOM that validates cleanly against the schema while getting three load-bearing facts wrong. The schema checks shape, not meaning.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="A real, anonymized CycloneDX CBOM that validates cleanly against the schema while getting three load-bearing facts wrong. The schema checks shape, not meaning.">
+</head>
+<body>
+<main class="wrap">
+<article>
+<p class="note-meta"><time datetime="2026-10-05">5 October 2026</time> &middot; Xavier Goshi</p>
+<h1>A CBOM can pass schema validation and still be wrong</h1>
+
+<p class="lede">A published CBOM from a PQC vendor validated cleanly against the CycloneDX
+schema and was wrong in three separate, load-bearing ways. The schema validates shape, not
+meaning.</p>
+
+<h2>Where this came up</h2>
+<p>A Cryptography Bill of Materials exists to answer one question: what in this system is
+quantum-vulnerable today, and what already isn't. A reader trusts a CBOM that validates
+against the CycloneDX schema to at least be internally coherent, even before checking
+whether its inventory is complete. That trust doesn't hold. Schema validation checks that
+each field has a shape the schema permits &mdash; the right type, a value from an allowed
+enum, required keys present. It has no opinion on whether the combination of fields on one
+component makes sense, or on whether the document as a whole does the one job it exists to
+do.</p>
+
+<h2>Three defects the schema does not catch</h2>
+
+<p><strong>An HSM typed as an algorithm.</strong> One component, a hardware security module,
+carried <code>assetType: "algorithm"</code> and, further down, a
+<code>nistQuantumSecurityLevel</code> field &mdash; which the CycloneDX cryptographic-asset
+spec defines under <code>algorithmProperties</code>, not under any device or module type.
+The schema's <code>assetType</code> enum allows the literal string <code>"algorithm"</code>
+on any component regardless of what that component actually is, so an HSM wearing an
+algorithm's type, with an algorithm-only property attached to it, passes without
+complaint. Nothing in the schema cross-checks a component's declared type against which
+properties it's allowed to carry.</p>
+
+<p><strong>A kernel module typed as a protocol.</strong> Same shape of problem, different
+pairing: a kernel module recorded with <code>assetType: "protocol"</code>. Both strings are
+valid enum members. Whether the specific component they're attached to is actually a
+protocol is a semantic judgment the schema was never asked to make.</p>
+
+<p><strong>No classical algorithms anywhere in the document.</strong> The CBOM listed only
+post-quantum algorithms &mdash; not one classical algorithm anywhere in the whole inventory.
+That inverts the entire point of a migration inventory, which exists to show what is
+quantum-vulnerable <em>today</em>, not to catalog the destination. A schema-valid CBOM that
+omits every classical algorithm in the system it describes is not an edge case the
+validator missed; it's a complete document that answers the wrong question, and the schema
+has no field for "is this migration inventory actually an inventory of what needs
+migrating."</p>
+
+<h2>The thesis, in one line</h2>
+<p>Schema validation checks shape. It does not check meaning. A CBOM can be fully
+CycloneDX-schema-valid and still misclassify what its components are, misplace their
+properties, and omit the one category of information the document exists to surface.</p>
+
+<p>If you have a CBOM lying around, you can check it against the three defects above (and a
+few related ones) yourself, offline, with no vendor or product named either way:
+<a href="https://github.com/actaseal/cbom-check">github.com/actaseal/cbom-check</a>.</p>
+
+<p><a href="/notes/">All notes</a> &middot; <a href="/">actaseal.com</a></p>
+</article>
+</main>
+</body>
+</html>

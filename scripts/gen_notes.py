@@ -70,6 +70,7 @@ def build() -> str:
 <ul class="note-list">
 {items}
 </ul>
+<p>CBOM semantic checker: <a href="https://github.com/actaseal/cbom-check">github.com/actaseal/cbom-check</a>.</p>
 <p><a href="/">Back to actaseal.com</a></p>
 </main>
 </body>
