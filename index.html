@@ -2,21 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>ActaSeal -- independently verifiable evidence for AI-agent and audit workflows</title>
+<title>ActaSeal &mdash; Proof of what your AI agents did</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="favicon.ico">
 <link rel="stylesheet" href="css/base.css">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ActaSeal">
 <meta property="og:title" content="ActaSeal">
-<meta property="og:description" content="Court- and regulator-grade evidence for AI-agent and audit workflows. Every decision returns a signed receipt that can be checked offline, years later, by someone who has never run ActaSeal.">
+<meta property="og:description" content="Proof of what your AI agents did, that your customer can verify without trusting us. Every decision returns a signed receipt your customer checks offline with an open-source verifier.">
 <meta property="og:url" content="https://actaseal.com/">
 <meta property="og:image" content="https://actaseal.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ActaSeal">
-<meta name="twitter:description" content="Court- and regulator-grade evidence for AI-agent and audit workflows. Every decision returns a signed receipt that can be checked offline, years later, by someone who has never run ActaSeal.">
+<meta name="twitter:description" content="Proof of what your AI agents did, that your customer can verify without trusting us. Every decision returns a signed receipt your customer checks offline with an open-source verifier.">
 <meta name="twitter:image" content="https://actaseal.com/og-image.png">
-<meta name="description" content="Court- and regulator-grade evidence for AI-agent and audit workflows. Every decision returns a signed receipt that can be checked offline, years later, by someone who has never run ActaSeal.">
+<meta name="description" content="Proof of what your AI agents did, that your customer can verify without trusting us. Every decision returns a signed receipt your customer checks offline with an open-source verifier.">
 </head>
 <body>
 <header class="site-head">
@@ -39,15 +39,16 @@
 
 <section id="what">
   <span class="section-number">01 -- What it is</span>
-  <h1>Court- and regulator-grade evidence for AI-agent and audit workflows.</h1>
-  <p class="lede">ActaSeal sits in front of money-touching agent actions as a policy gateway.
-  Every decision it makes -- allow, block, or route to a human approver -- is written to a
-  tamper-evident ledger and returned to the caller as an Ed25519-signed receipt. The receipt,
-  not ActaSeal's word, is the evidence: it can be checked offline, years later, by a party who
-  has never run ActaSeal and does not trust the vendor.</p>
-  <p>Below is an excerpt of a real receipt minted by the gateway's own default refund policy,
-  binding the merchant's terms document into the signed payload (<code>terms_hash</code>) so the
-  terms in force at decision time cannot be swapped after the fact.</p>
+  <h1>Proof of what your AI agents did &mdash; that your customer can verify without trusting us.</h1>
+  <p class="lede">If you sell AI agents to enterprises, your customer will ask what the agent
+  did and who allowed it. ActaSeal sits in front of the actions that move money. It decides each
+  one against your policy -- allow, block, or send to a person for approval -- records the
+  decision in a tamper-evident ledger, and signs a receipt for it. Your customer checks that
+  receipt on their own machine, with an open-source verifier, years later if need be. Nothing in
+  the check depends on us, or on you.</p>
+  <p>Below is an excerpt of a real receipt for an allowed refund. It binds the terms document in
+  force at the time into the signed payload (<code>terms_hash</code>), so those terms cannot be
+  swapped after the fact.</p>
   <pre class="evidence" id="receipt-excerpt">{
   "decision": "ALLOW",
   "reason_code": "POLICY_ALLOW",
@@ -63,28 +64,12 @@
 </section>
 
 <section id="who">
-  <span class="section-number">02 -- Who it stops what for</span>
-  <h2>Three groups, three specific consequences avoided</h2>
-  <dl>
-    <div class="who-row">
-      <dt>Audit firms</dt>
-      <dd>PCAOB AS 1215 archive integrity (workpapers cannot be altered after the documentation
-      completion date without it being provable) and QC 1000 / ISQM 1 monitoring and remediation
-      evidence for the firm's own quality-management system.</dd>
-    </div>
-    <div class="who-row">
-      <dt>Legal hold and med-mal</dt>
-      <dd>FRCP 37(e) preservation of electronically stored information when litigation is
-      reasonably anticipated, and an FRE 902(13)/(14) self-authenticating certification package
-      for records generated or copied by an electronic process.</dd>
-    </div>
-    <div class="who-row">
-      <dt>Agent-commerce disputes</dt>
-      <dd>An LCP (Legal Context Protocol) binding profile that ties the terms a merchant agent
-      relied on into the signed decision receipt itself, so "what terms were actually in force"
-      is not a matter of testimony after the dispute starts.</dd>
-    </div>
-  </dl>
+  <span class="section-number">02 -- Also used for</span>
+  <h2>Records that have to be provably unaltered</h2>
+  <p>The same signed, independently checkable record is used where a file must be shown not to
+  have changed after a date: audit workpaper archives under
+  <a href="/as1215/">PCAOB AS 1215</a>, and records under legal hold, with an
+  FRE 902(13)/(14) certification package for records produced by an electronic process.</p>
   <p><em>These are the standards ActaSeal's exports are built to address. ActaSeal is not
   certified under any of them; certification, where applicable, is the customer's own process.</em></p>
 </section>
