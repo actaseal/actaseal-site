@@ -69,3 +69,24 @@ def test_no_strategy_or_roadmap_language():
     low = _main_text().lower()
     for phrase in ("roadmap", "wedge", "segment", "go-to-market", "coming soon", "planned"):
         assert phrase not in low, f"homepage says {phrase!r}"
+
+
+# --- open core: one outcome sentence, no feature split ---------------------
+
+def _open_core() -> str:
+    return re.search(r'<section id="open-core">.*?</section>', _raw(), flags=re.S).group(0)
+
+
+def test_open_core_is_one_sentence_about_what_is_open_and_what_is_licensed():
+    text = _text(_open_core())
+    assert "The verifier and the evidence pack format are free and open under the Apache License 2.0" in text
+    assert "The product is licensed" in text
+    assert "<li" not in _open_core() and "<ul" not in _open_core()
+
+
+def test_open_core_has_no_feature_split_or_watermark_talk():
+    low = _text(_open_core()).lower()
+    for phrase in ("free forever", "licensed (", "watermark", "unlicensed", "evaluation copy", "questionnaire",
+                   "route coverage", "per-control"):
+        assert phrase not in low, f"open-core section says {phrase!r}"
+    assert "watermark" not in _main_text().lower()
