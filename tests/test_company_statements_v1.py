@@ -38,3 +38,10 @@ def test_about_names_the_founder_and_has_no_headcount_statements():
 
 def test_about_carries_the_entity_placeholder_until_it_is_decided():
     assert "<DECIDE:entity>" in _text("about/index.html")
+
+
+def test_about_has_no_certification_status_statement():
+    low = _text("about/index.html").lower()
+    assert "soc 2" not in low and "soc 2" not in low
+    # the product-level point it sat beside stays
+    assert "runs offline" in low and "apache license 2.0" in low
