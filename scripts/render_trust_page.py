@@ -1,5 +1,5 @@
 """Renders a signed trust-center bundle into trust/index.html: digest,
-freshness verdict, drill results and the CUEC controls.
+freshness dates, drill results and the CUEC controls.
 
 The bundle itself is not published (it is shared under NDA), so it is
 passed in from outside this repository:
@@ -11,7 +11,7 @@ from __future__ import annotations
 import html
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -78,11 +78,28 @@ happens to a key and the receipts it signed.</p>
 </section>"""
 
 
-def freshness_verdict(generated_at_iso: str) -> str:
+def _generated(generated_at_iso: str) -> datetime:
     generated_at = datetime.fromisoformat(generated_at_iso)
-    age_days = (datetime.now(timezone.utc) - generated_at).days
-    status = "FRESH" if age_days < FRESHNESS_STALE_AFTER_DAYS else "STALE"
-    return f"{status} -- generated {age_days} day(s) ago ({html.escape(generated_at_iso)})"
+    return generated_at if generated_at.tzinfo else generated_at.replace(tzinfo=timezone.utc)
+
+
+def is_stale(generated_at_iso: str, *, now: datetime | None = None) -> bool:
+    now = now or datetime.now(timezone.utc)
+    return now - _generated(generated_at_iso) >= timedelta(days=FRESHNESS_STALE_AFTER_DAYS)
+
+
+def freshness_statement(generated_at_iso: str, *, now: datetime | None = None) -> str:
+    """A line that stays true on a static page: the two dates and the
+    limit, never an age or a verdict that was only right on the day it was
+    rendered. A bundle already past its limit is refused the neutral
+    wording and labelled STALE."""
+    generated_at = _generated(generated_at_iso)
+    stale_on = (generated_at + timedelta(days=FRESHNESS_STALE_AFTER_DAYS)).date().isoformat()
+    line = (
+        f"Generated {generated_at.date().isoformat()}. Stale after {stale_on} "
+        f"({FRESHNESS_STALE_AFTER_DAYS} days): past that date, do not rely on this page."
+    )
+    return f"STALE. {line}" if is_stale(generated_at_iso, now=now) else line
 
 
 def render(bundle: dict) -> str:
@@ -99,7 +116,7 @@ def render(bundle: dict) -> str:
         f"<tr><th>Bundle digest</th><td class=\"hash\">{html.escape(payload['bundle_hash'])}</td></tr>"
     )
     parts.append(f"<tr><th>Generated at</th><td>{html.escape(payload['generated_at'])}</td></tr>")
-    parts.append(f"<tr><th>Freshness</th><td>{freshness_verdict(payload['generated_at'])}</td></tr>")
+    parts.append(f"<tr><th>Freshness</th><td>{html.escape(freshness_statement(payload['generated_at']))}</td></tr>")
     parts.append(
         f"<tr><th>Signer public key</th><td class=\"hash\">{html.escape(bundle['signer_public_key_hex'])}</td></tr>"
     )

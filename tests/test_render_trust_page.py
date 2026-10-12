@@ -21,7 +21,7 @@ def test_render_includes_digest_freshness_and_cuec(tmp_path):
     page = out.read_text()
     assert bundle["payload"]["bundle_hash"] in page
     assert bundle["payload"]["generated_at"] in page
-    assert "FRESH" in page or "STALE" in page
+    assert "Stale after" in page
     for control in bundle["payload"]["cuec_declaration"]["controls"]:
         assert control["control"] in page
         assert control["verified_from"] not in page
