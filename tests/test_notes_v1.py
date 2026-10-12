@@ -33,3 +33,28 @@ def test_no_cadence_promise():
     index = (ROOT / "notes" / "index.html").read_text(encoding="utf-8")
     for word in ("weekly", "monthly", "every week", "every month", "subscribe", "newsletter"):
         assert word not in index.lower(), f"index promises a cadence: {word}"
+
+
+# --- "Last reviewed": a note says how recently it was checked ---------------
+
+def _reviewed(source: str):
+    return re.search(r'Last reviewed: <time class="reviewed" datetime="(\d{4}-\d{2}-\d{2})"', source)
+
+
+def test_every_note_says_when_it_was_last_reviewed():
+    import datetime
+
+    today = datetime.date.today().isoformat()
+    for n in gen_notes.notes():
+        s = (ROOT / "notes" / n["file"]).read_text(encoding="utf-8")
+        reviewed = _reviewed(s)
+        assert reviewed, f"{n['file']}: no 'Last reviewed' line"
+        # a review cannot predate the note or lie in the future
+        assert n["date"] <= reviewed.group(1) <= today, n["file"]
+
+
+def test_index_shows_each_notes_review_date():
+    index = (ROOT / "notes" / "index.html").read_text(encoding="utf-8")
+    for n in gen_notes.notes():
+        s = (ROOT / "notes" / n["file"]).read_text(encoding="utf-8")
+        assert f'Last reviewed: <time class="reviewed" datetime="{_reviewed(s).group(1)}"' in index, n["file"]

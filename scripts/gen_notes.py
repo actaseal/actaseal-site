@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Build notes/index.html from the note files that exist.
 
-A note is any notes/*.html except index.html. Each must carry a <time datetime="...">
-and an author line; tests/test_notes_v1.py enforces that and enforces that the index
+A note is any notes/*.html except index.html. Each must carry a <time datetime="...">,
+an author line and a "Last reviewed" date; tests/test_notes_v1.py enforces that and enforces that the index
 lists exactly the notes present, in both directions.
 """
 import html
@@ -22,11 +22,13 @@ def notes():
         date = re.search(r'<time datetime="([0-9]{4}-[0-9]{2}-[0-9]{2})"', s)
         title = re.search(r"<h1>(.*?)</h1>", s, re.S)
         desc = re.search(r'<meta name="description" content="(.*?)">', s, re.S)
+        reviewed = re.search(r'<time class="reviewed" datetime="([0-9]{4}-[0-9]{2}-[0-9]{2})"', s)
         if not (date and title):
             raise SystemExit(f"{p.name}: needs a <time datetime> and an <h1>")
         out.append({
             "file": p.name,
             "date": date.group(1),
+            "reviewed": reviewed.group(1) if reviewed else date.group(1),
             "title": re.sub(r"\s+", " ", title.group(1)).strip(),
             "summary": re.sub(r"\s+", " ", desc.group(1)).strip() if desc else "",
         })
@@ -39,6 +41,7 @@ def build() -> str:
         f'    <time datetime="{n["date"]}">{n["date"]}</time>\n'
         f'    <a href="{n["file"]}">{html.escape(n["title"])}</a>\n'
         f'    <p>{html.escape(n["summary"])}</p>\n'
+        f'    <p class="note-meta">Last reviewed: <time class="reviewed" datetime="{n["reviewed"]}">{n["reviewed"]}</time></p>\n'
         f'  </li>'
         for n in notes()
     )
