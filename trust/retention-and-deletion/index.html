@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data retention and deletion &middot; ActaSeal</title>
+<link rel="stylesheet" href="../../css/base.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="Data retention and deletion">
+<meta property="og:description" content="What can be erased from a tamper-evident ledger, what cannot, and how long records are kept.">
+<meta property="og:url" content="https://actaseal.com/trust/retention-and-deletion/">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Data retention and deletion">
+<meta name="twitter:description" content="What can be erased from a tamper-evident ledger, what cannot, and how long records are kept.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="What can be erased from a tamper-evident ledger, what cannot, and how long records are kept.">
+</head>
+<body>
+<main class="wrap">
+<h1>Data retention and deletion</h1>
+
+<p>Questions or requests: <a href="mailto:security@actaseal.com">security@actaseal.com</a>.</p>
+
+<p>The ledger is hash-chained and tamper-evident. That is in tension with ordinary deletion,
+so this page states exactly what can be erased and what cannot.</p>
+
+<h2>What can be erased</h2>
+<p>Personal data in the sealed dispute-context section of a record is encrypted with a key
+that belongs to one data subject. An erasure request destroys that subject's key. The
+encrypted bytes stay where they are, so the chain still verifies, but the data inside them
+cannot be recovered. The request and the key's destruction are themselves written to the
+ledger. This covers:</p>
+<ul>
+  <li>the customer's purchase IP address</li>
+  <li>device fingerprint and device id</li>
+  <li>email address</li>
+  <li>shipping address</li>
+  <li>customer account id</li>
+</ul>
+<p>A legal hold overrides erasure while it is active: the request is refused, and the refusal
+is recorded.</p>
+
+<h2>What cannot be erased</h2>
+<ul>
+  <li><strong>Customer, order and payment identifiers</strong> you send with an action. They
+  are stored as sent, in the action, the ledger and the receipt. If they would be personal
+  data under your law, send pseudonymous ids rather than raw personal identifiers.</li>
+  <li><strong>Approver identity.</strong> It is recorded permanently in every approval, so
+  that approvals stay attributable. This is deliberate, and it is in tension with erasure
+  rights.</li>
+  <li><strong>Free-text reasons</strong> entered by an approver. They are permanent. Do not
+  type personal data into them.</li>
+  <li><strong>Console user email and display name.</strong> There is no erasure mechanism
+  for these.</li>
+</ul>
+
+<h2>Retention</h2>
+<p>The ledger is append-only. A retention lock in the application refuses to clear it before
+a set date. That lock does not stop someone with direct access to the underlying files or
+database; for that, use storage-level object lock in your own infrastructure.</p>
+<p>The default retention period is 7 years. A 5-year profile and custom periods are
+available, and your agreement can set a different one.</p>
+<p>In a self-hosted deployment your ledger, receipts and evidence stay with you when the
+agreement ends. ActaSeal holds no copy to return or destroy.</p>
+
+<h2>Where your data runs</h2>
+<p>A self-hosted deployment runs in your environment. Optional third-party services receive
+nothing unless you switch them on. The services this website and company use are listed on
+the <a href="/legal/subprocessors.html">sub-processors</a> page.</p>
+
+<p><a href="/security/">Reporting a vulnerability</a> &middot; <a href="/trust/">Trust</a> &middot; <a href="/">Back to actaseal.com</a></p>
+</main>
+</body>
+</html>

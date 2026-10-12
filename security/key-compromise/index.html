@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>If a signing key is compromised &middot; ActaSeal</title>
+<link rel="stylesheet" href="../../css/base.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="If a signing key is compromised">
+<meta property="og:description" content="What happens to a compromised signing key, and what it means for receipts already issued under it.">
+<meta property="og:url" content="https://actaseal.com/security/key-compromise/">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="If a signing key is compromised">
+<meta name="twitter:description" content="What happens to a compromised signing key, and what it means for receipts already issued under it.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="What happens to a compromised signing key, and what it means for receipts already issued under it.">
+</head>
+<body>
+<main class="wrap">
+<h1>If a signing key is compromised</h1>
+
+<p>Write to <a href="mailto:security@actaseal.com">security@actaseal.com</a>. Say which key
+(its key id) and when you first suspected a problem.</p>
+
+<h2>What happens</h2>
+<ol>
+  <li><strong>The key is revoked.</strong> It is flagged as revoked in the deployment's
+  published key list, at <code>/.well-known/actaseal-keys.json</code>, with the time and the
+  reason. It is never removed: it stays listed so that a receipt it signed can still be
+  traced to it.</li>
+  <li><strong>A new key takes over.</strong> A new key is added and made the active one.
+  Revoking and replacing are separate steps, so a key can be withdrawn at once without
+  waiting for its replacement.</li>
+  <li><strong>Unanchored receipts are anchored.</strong> A receipt signed under the old key
+  that has no independent timestamp or transparency-log proof from before the compromise
+  should have one requested straight away.</li>
+  <li><strong>You are told.</strong> You receive a written notice stating the period
+  affected.</li>
+</ol>
+
+<h2>What this means for your receipts</h2>
+<p>The verifier does not treat a receipt under a revoked key as valid. Given the published key
+list, it reports that the signature is genuine, that the key was revoked, and when.</p>
+<p>What settles the question is independent time. A receipt that carries a trusted timestamp
+or a transparency-log inclusion proof dated before the compromise can be shown to have
+existed before it, without relying on the compromised key. A receipt signed during the
+affected period with no such anchor cannot be shown that way. Treat it as unverified.</p>
+<p>Check again any receipt you relied on for a dispute or a record, and keep the verifier's
+output with it.</p>
+
+<h2>Who holds the key</h2>
+<p>In a production deployment the signing key is held in your own key-management service or
+hardware module, not by ActaSeal. A compromise of that custody is also a matter for your own
+security team.</p>
+
+<p><a href="/security/">Reporting a vulnerability</a> &middot; <a href="/trust/">Trust</a> &middot; <a href="/">Back to actaseal.com</a></p>
+</main>
+</body>
+</html>

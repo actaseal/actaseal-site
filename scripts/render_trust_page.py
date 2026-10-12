@@ -66,6 +66,17 @@ TAIL = """
 </html>
 """
 
+# Product behaviour, not bundle content: the same on every render.
+DELETION_SECTION = """<section id="deletion">
+<h2>Deletion and key compromise</h2>
+<p>Personal data in the sealed dispute-context section of a record can be erased by destroying
+the data subject's key; the ledger still verifies afterwards. Identifiers sent with an action,
+approver identity and free-text reasons cannot be erased. An active legal hold blocks erasure.
+See <a href="/trust/retention-and-deletion/">data retention and deletion</a> for the full
+statement, and <a href="/security/key-compromise/">if a signing key is compromised</a> for what
+happens to a key and the receipts it signed.</p>
+</section>"""
+
 
 def freshness_verdict(generated_at_iso: str) -> str:
     generated_at = datetime.fromisoformat(generated_at_iso)
@@ -142,6 +153,8 @@ def render(bundle: dict) -> str:
         f"{NDA_CONTACT}.</p>"
     )
     parts.append("</section>")
+
+    parts.append(DELETION_SECTION)
 
     parts.append(TAIL)
     return "\n".join(parts)

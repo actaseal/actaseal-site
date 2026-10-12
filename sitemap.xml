@@ -62,10 +62,18 @@
   </url>
   <url>
     <loc>https://actaseal.com/security/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
+    <loc>https://actaseal.com/security/key-compromise/</loc>
+    <lastmod>2026-10-12</lastmod>
   </url>
   <url>
     <loc>https://actaseal.com/trust/</loc>
-    <lastmod>2026-10-03</lastmod>
+    <lastmod>2026-10-12</lastmod>
+  </url>
+  <url>
+    <loc>https://actaseal.com/trust/retention-and-deletion/</loc>
+    <lastmod>2026-10-12</lastmod>
   </url>
 </urlset>
