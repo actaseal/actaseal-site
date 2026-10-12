@@ -90,3 +90,18 @@ def test_open_core_has_no_feature_split_or_watermark_talk():
                    "route coverage", "per-control"):
         assert phrase not in low, f"open-core section says {phrase!r}"
     assert "watermark" not in _main_text().lower()
+
+
+# --- "Book a demo": a plain email link in the first section -----------------
+
+def test_hero_has_a_book_a_demo_email_link():
+    hero = re.search(r'<section id="what">.*?</section>', _raw(), flags=re.S).group(0)
+    link = re.search(r'<a[^>]+href="(mailto:[^"]+)"[^>]*>\s*Book a demo\s*</a>', hero)
+    assert link, "no 'Book a demo' link in the first section"
+    assert "@actaseal.com" in link.group(1)
+    # it sits with the opening paragraph, above the receipt excerpt
+    assert hero.index("Book a demo") < hero.index('id="receipt-excerpt"')
+
+
+def test_homepage_runs_no_script():
+    assert "<script" not in _raw().lower()
