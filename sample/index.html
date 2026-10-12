@@ -43,9 +43,9 @@ not <code>VERIFIED</code>. The pack's chain-of-custody and workpaper-set
 integrity checks (the ledger hash chain and the SCITT/transparency chain)
 are genuine and independently re-derivable from the files themselves; only
 the TSA leg is a stand-in, and the command below deliberately doesn't ask
-the verifier to check it. This pack also carries an <code>UNLICENSED</code>
-watermark in its manifest, the same as any self-hosted deployment run
-without a licence would produce.</p>
+the verifier to check it. This pack's manifest is marked <code>UNLICENSED</code>,
+because it was produced without a licence. That marking does not affect
+verification.</p>
 
 <h2>Download</h2>
 <ul>
@@ -55,7 +55,7 @@ without a licence would produce.</p>
 
 <h2>What's in the pack</h2>
 <p><code>manifest.json</code> (engagement id, workpaper count, framework
-profile, licence watermark), <code>workpaper_index.json</code> (each
+profile, licence marking), <code>workpaper_index.json</code> (each
 workpaper's content hash plus its preparer/reviewer/EQR identity),
 <code>archive_attestation.json</code> (the RFC 3161 timestamp and the
 SCITT transparency-log inclusion proof, together covering the Merkle root

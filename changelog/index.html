@@ -56,31 +56,13 @@ expected now fails closed with a named error, instead of crashing).</li>
 </ul>
 </section>
 
-<section id="licensing">
-<h2>Licensing</h2>
-<ul>
-<li>Added an offline, Ed25519-signed licence file format, with an entitlement gate in front of
-every regulator-facing export.</li>
-<li>Unlicensed exports remain cryptographically valid and fully functional -- they are
-watermarked as an unlicensed evaluation copy, never refused or degraded.</li>
-<li>Added a vendor console (customers, licences, issuance history) run as a fully separate
-application with no access to any customer's ledger or evidence data.</li>
-<li>Automated licence issuance on subscription checkout, renewal, and cancellation.</li>
-<li>Added a revocation list a hosted deployment can poll, or an air-gapped deployment can load
-from a file, with fail-open-to-last-known-state semantics and visible staleness.</li>
-<li>Added an "unlicensed export" upgrade prompt directly in the console, linking to licensing.</li>
-</ul>
-</section>
-
 <section id="deployment">
 <h2>Deployment</h2>
 <ul>
-<li>Documented and fixed the fastest self-hosted path (<code>docker compose up --build</code>),
-including a real buildx-version prerequisite discovered on a clean-machine install.</li>
-<li>Added hosted-deployment provisioning: a per-customer Render blueprint generated from the
-product's own <code>render.yaml</code>.</li>
-<li>Added a signed usage-export/import path for hosted customers with zero access to ledger
-payloads or PII -- counts only.</li>
+<li>Documented the fastest self-hosted path (<code>docker compose up --build</code>), checked
+on a clean machine.</li>
+<li>Added an air-gapped mode that refuses each network-dependent component by name rather
+than degrading silently.</li>
 </ul>
 </section>
 
@@ -109,9 +91,8 @@ agentic-resolution-interop project.</li>
 report, with notice issued/delivered/acknowledged receipts.</li>
 <li>Added a QC 1000 / ISQM 1 monitoring-and-remediation spine: deficiency aggregation, cadence
 detection, recurring-deficiency detection, and an internal-vs-regulator delta.</li>
-<li>Added per-control export, route-coverage attestation, and conformance receipt exports, and
-made every one of them reachable over an authenticated HTTP route -- previously CLI-only,
-unreachable for a hosted customer with no CLI access.</li>
+<li>Added per-control export, route-coverage attestation, and conformance receipt exports,
+available over the API as well as the command line.</li>
 <li>Added a signed trust-center bundle: version/build info, an optional SBOM, resilience drill
 receipts, and a CUEC declaration derived directly from code rather than written prose.</li>
 <li>Added CAIQ-Lite and SIG-Lite security questionnaire exports.</li>
