@@ -58,3 +58,26 @@ def test_index_shows_each_notes_review_date():
     for n in gen_notes.notes():
         s = (ROOT / "notes" / n["file"]).read_text(encoding="utf-8")
         assert f'Last reviewed: <time class="reviewed" datetime="{_reviewed(s).group(1)}"' in index, n["file"]
+
+
+def test_last_reviewed_is_never_later_than_the_notes_last_commit():
+    """A review date is a claim that someone read the note against the
+    product on that day. It cannot be later than the last time the note
+    itself was committed: moving the date means committing the note."""
+    import subprocess
+
+    for n in gen_notes.notes():
+        path = ROOT / "notes" / n["file"]
+        last_commit = subprocess.run(
+            ["git", "log", "-1", "--format=%cs", "--", str(path.relative_to(ROOT))],
+            cwd=ROOT, capture_output=True, text=True,
+        ).stdout.strip()
+        if not last_commit:
+            continue  # not a git checkout, or a note not yet committed: nothing to compare against
+        reviewed = _reviewed(path.read_text(encoding="utf-8")).group(1)
+        dirty = subprocess.run(
+            ["git", "status", "--porcelain", "--", str(path.relative_to(ROOT))], cwd=ROOT, capture_output=True, text=True
+        ).stdout.strip()
+        if dirty:
+            continue  # being edited right now; the date is checked once it is committed
+        assert reviewed <= last_commit, f"{n['file']}: reviewed {reviewed} is after its last commit {last_commit}"
