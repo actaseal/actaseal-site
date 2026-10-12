@@ -104,3 +104,31 @@ def test_the_check_itself_catches_each_kind():
                  "python -m actaseal.mcp --config proxy.json", "security@actaseal.com", "verify.actaseal.com"):
         for _label, pattern in PATTERNS:
             assert not pattern.search(fine), (fine, _label)
+
+
+# --- a route inventory must never be a public page --------------------------
+
+ROUTE_LINE = re.compile(r"\b(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)\s+/[\w{}./-]*")
+
+
+def test_no_api_reference_page_or_generator_is_published():
+    assert not (ROOT / "docs" / "api").exists(), "docs/api/ is a route inventory"
+    for name in ("render_openapi.py", "openapi.json"):
+        assert not list(p for p in ROOT.rglob(name) if ".git" not in p.parts), f"{name} would bring the page back"
+    assert "/docs/api" not in (ROOT / "sitemap.xml").read_text(encoding="utf-8")
+    for path in _pages():
+        if path.suffix == ".html":
+            raw = path.read_text(encoding="utf-8")
+            assert not re.search(r'href="(?:/docs/)?api/?"', raw), f"{path.relative_to(ROOT)} links to an API reference"
+
+
+@pytest.mark.parametrize("path", list(_pages()), ids=lambda p: str(p.relative_to(ROOT)))
+def test_no_page_lists_routes(path):
+    found = sorted({m.group(0) for m in ROUTE_LINE.finditer(_visible(path))})
+    assert not found, f"route(s) listed: {found[:8]}"
+
+
+def test_route_check_catches_an_inventory():
+    assert ROUTE_LINE.search("GET /accounts/{account_id}/balance")
+    assert ROUTE_LINE.search("POST /gateway/preflight")
+    assert not ROUTE_LINE.search("Get it from the operator directly")
