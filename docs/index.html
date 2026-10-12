@@ -39,7 +39,7 @@
 <section>
 <h1>Docs</h1>
 <p class="lede">Quickstart, the live API reference, and SDK usage. Every command below was
-run locally against this repo before being written down here.</p>
+run locally before being written down here.</p>
 </section>
 
 <section id="quickstart">
@@ -54,9 +54,8 @@ export ACTASEAL_ADMIN_USERNAME=admin
 export ACTASEAL_ADMIN_PASSWORD='choose-a-real-password'
 docker compose up --build</pre>
 <p>The production route boots with no policy pack bound -- <code>/gateway/preflight</code>
-returns <code>MISSING_POLICY_REFERENCE</code> until you load one via the config-file route
-(see <code>README-DEPLOY.md</code> in the repo for the full path, including the Postgres
-buildx-version prerequisite).</p>
+returns <code>MISSING_POLICY_REFERENCE</code> until you load one. The deployment guide supplied
+with the software walks through loading it.</p>
 
 <h3>2. First-run setup</h3>
 <p>Open <code>http://localhost:8000</code> and log in with the admin credentials above (env-var
@@ -88,14 +87,16 @@ hand-written, so it cannot drift from the real routes) --
 <h3>Python</h3>
 <pre class="evidence">from actaseal.sdk.thin_client import ActaSeal
 
-guard = ActaSeal("https://gateway.example.com", api_key="...", policy_id="refunds_policy")
+guard = ActaSeal(
+    "https://gateway.example.com", api_key="...",
+    policy_id="refunds_policy", policy_version="refunds_policy.v1",
+)
 decision = guard.guard({"action_type": "refund_request", "money": {"amount": "50.00", "currency": "USD"}})</pre>
 
 <h3>TypeScript</h3>
-<p>The TypeScript SDK is not published to npm yet. It is installed from a
-tarball we provide, not with <code>npm install</code>. The import line below is what
-the API looks like once it resolves, not something you can run today. Ask and
-we will send you a tarball.</p>
+<p>The TypeScript SDK is not published to npm. It is supplied as a package file on
+request, and installed from that file rather than by name. The snippet below shows its
+API; it runs after that package is installed.</p>
 <pre class="evidence">import { ActaSeal, ActaSealBlocked, ActaSealApprovalRequired } from "@actaseal/sdk";
 
 const guard = new ActaSeal("https://gateway.example.com", { apiKey: process.env.ACTASEAL_API_KEY! });
@@ -107,17 +108,38 @@ const sendRefund = guard.wrap(
 <h3>LangChain / LangGraph</h3>
 <pre class="evidence">from actaseal.sdk.integrations.langchain_tools import guard_langchain_tool
 
-guarded_tool = guard_langchain_tool(actaseal, my_refund_tool, action_type="refund_request")
+guarded_tool = guard_langchain_tool(guard, my_refund_tool, action_type="refund_request")
 # BLOCK -> langchain_core.tools.ToolException (surfaced to the model as a tool error)
 # APPROVAL_REQUIRED -> ActaSealApprovalRequired re-raised for your own retry/escalation logic</pre>
 
 <h3>OpenAI Agents SDK</h3>
-<pre class="evidence">from actaseal.sdk.integrations.openai_agents_tools import guard_openai_agents_tool
+<p>Wrap the plain function first, then hand the wrapped function to the SDK to make the tool.</p>
+<pre class="evidence">from agents import function_tool
+from actaseal.sdk.integrations.openai_agents_tools import guard_openai_agents_tool
 
-guarded_tool = guard_openai_agents_tool(actaseal, my_refund_tool, action_type="refund_request")</pre>
+guarded_send_refund = guard_openai_agents_tool(guard, send_refund, action_type="refund_request")
+refund_tool = function_tool(guarded_send_refund)
+# A blocked or approval-held call does not run send_refund; the model sees a tool error.</pre>
 
 <p>Both adapters are optional imports -- <code>actaseal</code> imports cleanly with neither
 framework installed.</p>
+</section>
+
+<section id="mcp">
+<h2>MCP</h2>
+<p>To put ActaSeal in front of an MCP tool server, run the proxy as its own process and point
+your agent's MCP server setting at it instead of at the tool server:</p>
+<pre class="evidence">python -m actaseal.mcp --config proxy.json</pre>
+<p>Every <code>tools/call</code> is decided first. Only an allowed call is forwarded to the tool
+server; a blocked or held call is answered by the proxy and never reaches it.</p>
+<p>Two limits of the proxy, stated rather than left to be found:</p>
+<ul>
+  <li>Every mapped tool call must carry an amount and currency. The proxy is built for tools
+  that move money or commit to a customer.</li>
+  <li>The proxy cannot attach evidence to a call. A tool whose policy requires evidence is held,
+  not allowed and not sent for approval. For those tools use one of the SDK adapters above,
+  which pass evidence with each call.</li>
+</ul>
 </section>
 
 <h2 id="draft">Standards work</h2>
