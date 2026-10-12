@@ -33,6 +33,11 @@ PATTERNS = [
     ("metering limit", re.compile(r"\bup to \d+ (archived )?(engagements|agents|users|seats|actions)|per (archived )?engagement, per year|\b\d+ (archived )?engagements per year", re.I)),
     ("tier language", re.compile(r"\bfor your tier\b|\bat every tier\b|\btier table\b", re.I)),
     ("watermark", re.compile(r"watermark", re.I)),
+    ("product setting name", re.compile(r"\bACTASEAL_[A-Z0-9_]+\b")),
+    ("class or field name", re.compile(r"\b[A-Z][a-z]+(?:[A-Z][a-z]+)+\.[a-z_]+\b")),
+    ("product route", re.compile(r"(?<![\w.:/-])/(?:gateway|receipts|approvals|admin|ui|policy|auth|archive|breaches|ledger|licence|internal)/[\w{}./-]*|(?<![\w.:/-])/(?:healthz|readyz|metrics|openapi\.json)\b")),
+    ("roadmap", re.compile(r"\broadmap\b|coming soon|not yet built|not yet implemented", re.I)),
+    ("admission about the product's code", re.compile(r"legacy[- ]scaffold|dead code|unenforced|not (yet )?wired|unwired|hardcode", re.I)),
     ("discount terms", re.compile(r"discount|early[- ]adopter|early deployer|first (three|few|\d+) (deployments|customers|firms)|design partner|founding customer", re.I)),
     ("company stage", re.compile(r"no customers|not in production|in production yet|one person|solo founder|single founder|small vendor|no committee", re.I)),
     ("score or percentage", re.compile(r"\b\d+(\.\d+)?\s?%|\bconfidence (score|level)\b|\b(risk|trust|readiness|quality) score\b", re.I)),
@@ -73,7 +78,12 @@ def _findings(path: Path) -> list[str]:
 # Legal wording is not edited by this check's author: the licence terms
 # say "the fees for your tier", and changing a contract term is a legal
 # decision. Recorded here so the exception is visible, not silent.
-LEGAL_WORDING_EXCEPTIONS = {"legal/terms.html": {"tier language"}}
+LEGAL_WORDING_EXCEPTIONS = {
+    "legal/terms.html": {"tier language"},
+    # The privacy notice names three settings that control outbound
+    # connections. Also legal text; listed for a decision, not edited here.
+    "legal/privacy.html": {"product setting name"},
+}
 
 
 @pytest.mark.parametrize("path", list(_pages()), ids=lambda p: str(p.relative_to(ROOT)))
@@ -94,6 +104,11 @@ def test_the_check_itself_catches_each_kind():
         "watermark": "exports are watermarked",
         "discount terms": "an early-adopter rate",
         "company stage": "run by one person",
+        "product setting name": "set ACTASEAL_AIRGAPPED",
+        "class or field name": "see ApprovalRule.required_role",
+        "product route": "call /gateway/preflight first",
+        "roadmap": "marked (roadmap)",
+        "admission about the product's code": "does not hardcode it",
         "score or percentage": "a 97% match",
     }
     for label, sample in samples.items():
