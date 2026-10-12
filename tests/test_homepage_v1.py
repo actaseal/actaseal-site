@@ -105,3 +105,19 @@ def test_hero_has_a_book_a_demo_email_link():
 
 def test_homepage_runs_no_script():
     assert "<script" not in _raw().lower()
+
+
+# --- deploy: only what exists today -------------------------------------------
+
+def test_deploy_section_offers_only_what_the_terms_say_exists():
+    """The licence terms say the software is installed on the customer's
+    own infrastructure and that there is no hosted service. The homepage
+    must not offer one."""
+    deploy = re.search(r'<section id="deploy">.*?</section>', _raw(), flags=re.S).group(0)
+    text = _text(deploy)
+    assert "Self-hosted" in text and "Air-gapped" in text
+    low = re.sub(r"self-hosted", "", text.lower())
+    assert "hosted" not in low, "the deploy section still offers a hosted option"
+    assert "run by us" not in low
+    terms = _text((ROOT / "legal" / "terms.html").read_text(encoding="utf-8"))
+    assert "There is no hosted ActaSeal service" in terms  # if the terms change, revisit this section
