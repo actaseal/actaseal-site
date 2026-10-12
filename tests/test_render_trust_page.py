@@ -37,3 +37,29 @@ def test_published_page_does_not_link_nda_material():
     assert "bundle/" not in page
     assert "caiq-lite" not in page and "sig-lite" not in page
     assert not (REPO_ROOT / "trust" / "bundle").exists()
+
+
+def test_a_bundle_signed_with_a_throwaway_key_is_not_rendered(tmp_path):
+    """The generator marks a directory whose bundle was signed with a key
+    made up for one run. Such a bundle must not reach the public page."""
+    import shutil
+
+    bundle_dir = tmp_path / "bundle"
+    bundle_dir.mkdir()
+    shutil.copy(SAMPLE, bundle_dir / "trust-center-bundle.json")
+    (bundle_dir / "EPHEMERAL-KEY-NOT-FOR-PUBLICATION.txt").write_text("throwaway\n")
+    out = tmp_path / "trust.html"
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), str(bundle_dir / "trust-center-bundle.json"), str(out)],
+        capture_output=True, text=True, cwd=REPO_ROOT,
+    )
+    assert result.returncode == 1
+    assert "not for publication" in result.stderr.lower()
+    assert not out.exists()
+
+    (bundle_dir / "EPHEMERAL-KEY-NOT-FOR-PUBLICATION.txt").unlink()
+    again = subprocess.run(
+        [sys.executable, str(SCRIPT), str(bundle_dir / "trust-center-bundle.json"), str(out)],
+        capture_output=True, text=True, cwd=REPO_ROOT,
+    )
+    assert again.returncode == 0 and out.exists()

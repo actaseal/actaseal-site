@@ -19,6 +19,8 @@ DEFAULT_OUT = REPO_ROOT / "trust" / "index.html"
 NDA_CONTACT = '<a href="mailto:sales@actaseal.com">sales@actaseal.com</a>'
 
 FRESHNESS_STALE_AFTER_DAYS = 90
+# Written by the bundle generator beside a bundle signed with a throwaway key.
+EPHEMERAL_MARKER = "EPHEMERAL-KEY-NOT-FOR-PUBLICATION.txt"
 
 HEAD = """<!doctype html>
 <html lang="en">
@@ -184,6 +186,14 @@ def main(argv: list[str]) -> int:
     bundle_path = Path(argv[1])
     if not bundle_path.exists():
         print(f"bundle not found: {bundle_path}", file=sys.stderr)
+        return 1
+    marker = bundle_path.parent / EPHEMERAL_MARKER
+    if marker.exists():
+        print(
+            f"refusing to render {bundle_path}: {marker.name} is beside it. That bundle was signed with a "
+            "key made up for one run and is not for publication. Regenerate it with the deployment's own "
+            "trust-bundle signing key.", file=sys.stderr,
+        )
         return 1
     bundle = json.loads(bundle_path.read_text())
     out_path = Path(argv[2]) if len(argv) == 3 else DEFAULT_OUT
