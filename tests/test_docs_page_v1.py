@@ -47,11 +47,22 @@ def test_openai_agents_snippet_wraps_the_function_then_makes_the_tool():
     assert f"function_tool({guarded_name})" in snippet
 
 
-def test_mcp_section_states_how_it_is_used_and_its_two_limits():
+def test_mcp_section_states_how_it_is_used_how_evidence_is_attached_and_its_limit():
     section = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", _section("mcp"))))
     assert "tools/call" in section
     assert "amount and currency" in section
-    assert "cannot attach evidence" in section
+    assert "com.actaseal/evidence" in section and "_meta" in section
+    assert "never reaches the tool server" in section or "removes it before" in section
+    assert "cannot attach evidence" not in section
+
+
+def test_mcp_evidence_key_matches_the_product():
+    if not (PRODUCT / "actaseal" / "mcp" / "proxy.py").is_file():
+        pytest.skip("product repository is not checked out next to this one")
+    source = (PRODUCT / "actaseal" / "mcp" / "proxy.py").read_text(encoding="utf-8")
+    key = re.search(r'^EVIDENCE_META_KEY = "([^"]+)"', source, flags=re.M)
+    assert key, "the MCP proxy no longer takes evidence: the docs say it does"
+    assert key.group(1) in html.unescape(_section("mcp"))
 
 
 def test_snippets_match_the_real_adapters():

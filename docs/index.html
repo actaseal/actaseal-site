@@ -124,14 +124,13 @@ your agent's MCP server setting at it instead of at the tool server:</p>
 <pre class="evidence">python -m actaseal.mcp --config proxy.json</pre>
 <p>Every <code>tools/call</code> is decided first. Only an allowed call is forwarded to the tool
 server; a blocked or held call is answered by the proxy and never reaches it.</p>
-<p>Two limits of the proxy, stated rather than left to be found:</p>
-<ul>
-  <li>Every mapped tool call must carry an amount and currency. The proxy is built for tools
-  that move money or commit to a customer.</li>
-  <li>The proxy cannot attach evidence to a call. A tool whose policy requires evidence is held,
-  not allowed and not sent for approval. For those tools use one of the SDK adapters above,
-  which pass evidence with each call.</li>
-</ul>
+<p>A tool whose policy requires evidence gets it in the call's <code>_meta</code>, under the
+key <code>com.actaseal/evidence</code>: a list of signed evidence packets, the same ones the
+SDKs pass. The gateway verifies them and removes it before forwarding, so the evidence never
+reaches the tool server. A call held for evidence is told what is required.</p>
+<p>One limit of the proxy, stated rather than left to be found: every mapped tool call must
+carry an amount and currency. The proxy is built for tools that move money or commit to a
+customer.</p>
 </section>
 
 <h2 id="draft">Standards work</h2>
