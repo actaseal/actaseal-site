@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What ActaSeal is not &middot; ActaSeal</title>
+<link rel="icon" href="../favicon.ico">
+<link rel="stylesheet" href="../css/base.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="What ActaSeal is not">
+<meta property="og:description" content="The limits of the product, stated plainly: what it cannot stop, what it does not prove and what it does not do.">
+<meta property="og:url" content="https://actaseal.com/limits/">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What ActaSeal is not">
+<meta name="twitter:description" content="The limits of the product, stated plainly: what it cannot stop, what it does not prove and what it does not do.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="The limits of the product, stated plainly: what it cannot stop, what it does not prove and what it does not do.">
+</head>
+<body>
+<main class="wrap">
+<h1>What ActaSeal is not</h1>
+<p class="lede">Each line below is a limit of the product. If a limit matters for what you are buying it for,
+you should know it before you read anything else on this site.</p>
+<p class="note-meta">Last reviewed <time datetime="2026-10-17">17 October 2026</time></p>
+
+<h2>It cannot stop an agent that never asks</h2>
+<p>The gateway decides about the actions it is asked about. An agent, or a developer, that sends a
+payment without calling the gateway is not stopped by it. The console can show actions that ran
+without a decision when it is given a log of what ran, but it cannot prevent them.</p>
+
+<h2>It does not move money</h2>
+<p>It answers allow, block, or hold for a person, and signs the answer. Your own code makes the
+payment, the refund or the transfer.</p>
+
+<h2>It does not know whether the evidence is true</h2>
+<p>A policy can require evidence from a named source, such as an order system. ActaSeal checks that the
+evidence is signed by that source and has not changed. If the source is wrong, the decision is made on
+something wrong, and the receipt will say exactly what it was made on.</p>
+
+<h2>A receipt does not say the decision was right</h2>
+<p>A receipt shows what was decided, under which version of which policy, on what evidence, and that
+none of it has been altered since. Whether the policy was a good one is a separate question.</p>
+
+<h2>The offline verifier does not decide again</h2>
+<p>It checks signatures, the hash chain and the documents in a packet. It does not re-run the policy.
+The browser demo and the npm package check less than the Python verifier: the hash chain and
+Ed25519 signatures only, and each says so.</p>
+
+<h2>It is not a certification and its exports are not legal advice</h2>
+<p>The exports are evidence prepared for a standard or a regulator. ActaSeal is not certified under any
+of them, and nothing it produces says that you comply with anything. Certification and legal
+judgement are yours and your advisers'.</p>
+
+<h2>It does not route or inspect model traffic</h2>
+<p>It is not an LLM gateway, a prompt filter or a model router. It sits in front of actions, not in
+front of models.</p>
+
+<h2>It cannot judge a person's judgement</h2>
+<p>When a person approves an action, the receipt records who, when and what they were shown. It does
+not say they were right to approve.</p>
+
+<p><a href="/">actaseal.com</a> &middot; <a href="/notes/">Notes</a></p>
+</main>
+</body>
+</html>
