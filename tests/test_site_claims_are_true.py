@@ -406,3 +406,46 @@ def test_sample_page_verify_commands_and_output_match_the_real_verifier():
             f"{command!r}: page's claimed output does not match the real verifier's output.\n"
             f"page claims:\n{claimed_output}\n\nreal output:\n{result.stdout}"
         )
+
+
+# --- backlog K8-K10 ----------------------------------------------------
+
+
+def test_every_ietf_draft_mention_links_to_the_datatracker_page():
+    link = "https://datatracker.ietf.org/doc/draft-xg-payment-dispute-profile/"
+    for page, t in pages().items():
+        if "draft-xg-payment-dispute-profile" in t:
+            assert link in t, f"{page}: mentions the IETF draft without linking its datatracker page"
+
+
+def test_the_landing_page_links_the_zenodo_doi_and_the_pip_install():
+    t = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
+    assert "https://doi.org/10.5281/zenodo.23309307" in t
+    assert "pip install actaseal-verify" in t
+
+
+def test_limits_page_exists_states_product_limits_only_and_has_a_review_date():
+    t = (REPO_ROOT / "limits" / "index.html").read_text(encoding="utf-8")
+    assert "What ActaSeal is not" in t and re.search(r'Last reviewed <time datetime="\d{4}-\d{2}-\d{2}"', t)
+    for word in ("our team", "our company", "we are a small", "runway", "funding", "headcount"):
+        assert word not in t.lower(), f"limits page speaks about the company: {word}"
+
+
+def test_every_note_shows_when_it_was_last_reviewed_or_when_it_was_written():
+    for p in (REPO_ROOT / "notes").glob("*.html"):
+        if p.name != "index.html":
+            assert re.search(r'<time datetime="\d{4}-\d{2}-\d{2}"', p.read_text(encoding="utf-8")), p.name
+
+
+def test_the_post_quantum_claim_matches_the_product():
+    """docs/ says receipts can be signed with ML-DSA. The product must have the algorithms and the public verifier must check them."""
+    docs = (REPO_ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    if "ML-DSA" not in docs:
+        return
+    src = product_text()
+    if src is not None:
+        for name in ("ml-dsa-65", "ml-dsa-87", "hybrid-ed25519-ml-dsa-65"):
+            assert name in src, f"docs claim {name}, not in the product"
+    if VERIFY.exists():
+        v = (VERIFY / "verify.py").read_text(encoding="utf-8")
+        assert "ml-dsa-65" in v and "hybrid-ed25519-ml-dsa-65" in v

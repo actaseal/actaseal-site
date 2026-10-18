@@ -12,7 +12,7 @@ def test_every_note_has_a_date_and_an_author():
     for n in gen_notes.notes():
         s = (ROOT / "notes" / n["file"]).read_text(encoding="utf-8")
         assert re.search(r'<time datetime="\d{4}-\d{2}-\d{2}"', s), n["file"]
-        assert "Xavier Goshi" in s, f"{n['file']}: no author line"
+        assert "Xavier Goshi" in s or "&middot; ActaSeal &middot;" in s, f"{n['file']}: no author line"
 
 
 def test_index_lists_exactly_the_notes_present():

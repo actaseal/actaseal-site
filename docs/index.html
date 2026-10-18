@@ -134,8 +134,16 @@ customer.</p>
 </section>
 
 <h2 id="draft">Standards work</h2>
-<p>draft-xg-payment-dispute-profile-00 -- see the <a href="/#proof">proof section</a> on the
+<p><a href="https://datatracker.ietf.org/doc/draft-xg-payment-dispute-profile/">draft-xg-payment-dispute-profile</a> -- see the <a href="/#proof">proof section</a> on the
 landing page for the full list of public standards work and links.</p>
+
+<h2 id="signatures">Signature algorithms</h2>
+<p>Receipts are signed with Ed25519 by default. They can instead be signed with ML-DSA-65 or
+ML-DSA-87, or with Ed25519 and ML-DSA-65 together (hybrid). The post-quantum algorithms need the
+optional <code>liboqs-python</code> package on the machine that signs and on the machine that
+verifies; without it the offline verifier says the algorithm is unsupported rather than passing
+the receipt. Conformance vectors for each are in the
+<a href="https://github.com/actaseal/actaseal-verify/tree/main/conformance/vectors">public repository</a>.</p>
 
 </main>
 <footer class="site-foot"><div class="wrap">ActaSeal</div></footer>

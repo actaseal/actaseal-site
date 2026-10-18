@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to verify a pack offline in 2 minutes &middot; ActaSeal</title>
+<link rel="stylesheet" href="../css/base.css">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="How to verify a pack offline in 2 minutes">
+<meta property="og:description" content="Check an ActaSeal evidence packet yourself with one script and one library, no account and no network.">
+<meta property="og:url" content="https://actaseal.com/notes/verify-a-pack-offline-in-two-minutes.html">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to verify a pack offline in 2 minutes">
+<meta name="twitter:description" content="Check an ActaSeal evidence packet yourself with one script and one library, no account and no network.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="Check an ActaSeal evidence packet yourself with one script and one library, no account and no network.">
+</head>
+<body>
+<main class="wrap">
+<article>
+<p class="note-meta"><time datetime="2026-10-17">17 October 2026</time> &middot; ActaSeal &middot; Last reviewed 17 October 2026</p>
+<h1>How to verify a pack offline in 2 minutes</h1>
+
+<p class="lede">You have been handed an evidence packet, a <code>.zip</code>. You do not have to take the sender's word
+that it is intact.</p>
+
+<h2>What you need</h2>
+<p>Python 3 and the <code>cryptography</code> package. Nothing else, and no network once those are installed.</p>
+
+<h2>Steps</h2>
+<pre class="evidence">pip install actaseal-verify          # or: pip install cryptography, and download verify.py
+python -m verify your-packet.zip</pre>
+
+<p>A packet that passes ends with <code>VERIFIED</code> and exits 0. One that fails names the check that failed
+and exits 1. Exit 2 means the <code>cryptography</code> package is missing, and nothing is passed in that case.</p>
+
+<h2>Read the key line</h2>
+<p>Unless you give it the operator's published key, the verifier checks the signature against the key the packet
+itself declares, and says so. A packet re-signed from start to finish with a different key would pass that check.
+Compare the key it prints with the one the operator has published, or pass it with
+<code>--receipt-public-key</code>.</p>
+
+<h2>Try it first</h2>
+<p>The <a href="/sample/">sample pack</a> has a clean packet and one with a single byte changed. The second one
+fails.</p>
+
+<h2>What it does not do</h2>
+<p>It checks the hash chain, the signature and the documents in the packet. It does not decide again whether the
+action should have been allowed. See <a href="/limits/">what ActaSeal is not</a>.</p>
+
+<p><a href="/notes/">All notes</a> &middot; <a href="/">actaseal.com</a></p>
+</article>
+</main>
+</body>
+</html>
