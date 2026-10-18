@@ -138,6 +138,9 @@ def test_standards_section_keeps_ietf_zenodo_and_lists_the_x402_implementation()
     assert "https://doi.org/10.5281/zenodo.23309307" in proof
     assert "Independent implementations" in text(proof)
     assert "https://github.com/actaseal/x402-acceptance-check-cold" in proof
+    # what the repo's own README measures: 50/50 at upstream 6e487f0
+    entry = text(re.search(r"<li><strong>Independent implementations.*?</li>", proof, flags=re.S).group(0))
+    assert "all 50 vectors" in entry and "6e487f0" in entry and "46" not in entry
 
 
 # I9 -- the drop list
