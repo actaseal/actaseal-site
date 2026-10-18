@@ -1,0 +1,15 @@
+{
+  "schema": "actaseal-ai-catalog.v1",
+  "name": "ActaSeal",
+  "summary": "Policy gateway in front of money-touching agent actions: a policy decision, evidence check, tamper-evident ledger and a signed receipt for every action, with human approval where the policy asks for it.",
+  "deployment_model": "self-hosted; there is no hosted service",
+  "public_resources": [
+    {"name": "offline verifier", "url": "https://verify.actaseal.com", "purpose": "check a receipt or evidence pack with no ActaSeal account and no network call to ActaSeal"},
+    {"name": "actaseal-verify", "url": "https://pypi.org/project/actaseal-verify/", "purpose": "the offline verifier as a Python package, Apache License 2.0"},
+    {"name": "verifier source", "url": "https://github.com/actaseal/actaseal-verify", "purpose": "source code and conformance vectors"},
+    {"name": "docs", "url": "https://actaseal.com/docs/", "purpose": "quickstart and SDK usage"},
+    {"name": "limits", "url": "https://actaseal.com/limits/", "purpose": "what the product does not do"},
+    {"name": "llms.txt", "url": "https://actaseal.com/llms.txt", "purpose": "plain-text index of this site"}
+  ],
+  "licence_contact": "mailto:sales@actaseal.com"
+}

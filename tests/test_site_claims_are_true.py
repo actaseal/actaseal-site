@@ -449,3 +449,32 @@ def test_the_post_quantum_claim_matches_the_product():
     if VERIFY.exists():
         v = (VERIFY / "verify.py").read_text(encoding="utf-8")
         assert "ml-dsa-65" in v and "hybrid-ed25519-ml-dsa-65" in v
+
+
+# --- homepage proof lines (Phase I) -----------------------------------
+
+
+def test_verifier_makes_no_network_call_and_is_apache():
+    """'Your proof still verifies if we disappear' / 'no network call'."""
+    if not VERIFY.exists():
+        return
+    src = (VERIFY / "verify.py").read_text(encoding="utf-8")
+    for needle in ("urllib", "import requests", "import socket", "http.client", "urlopen"):
+        assert needle not in src, f"verify.py uses {needle!r}: the 'no network call' claim is false"
+    assert "Apache License" in (VERIFY / "LICENSE").read_text(encoding="utf-8")
+
+
+def test_ledger_entries_are_hash_chained():
+    """'every entry is hash-chained to the one before'."""
+    src = product_text()
+    if src is None:
+        return
+    assert "previous_event_hash" in src
+
+
+def test_the_printed_deadline_is_marked_verified_in_the_dates_tracker():
+    tracker = PRODUCT / "docs/internal/regulatory_dates.md"
+    if not tracker.exists():
+        return
+    row = next(l for l in tracker.read_text(encoding="utf-8").splitlines() if l.startswith("| PCAOB QC 1000"))
+    assert "15 December 2026" in row and "VERIFIED" in row

@@ -1,0 +1,26 @@
+# ActaSeal
+
+> Policy gateway in front of money-touching agent actions: a policy decision, evidence check, tamper-evident ledger and a signed receipt for every action, with human approval where the policy asks for it. Self-hosted. Receipts are checked offline with an open-source verifier.
+
+## Check a receipt
+
+- https://verify.actaseal.com : the offline verifier, in the browser or as a download
+- https://pypi.org/project/actaseal-verify/ : `pip install actaseal-verify` (Apache License 2.0)
+- https://github.com/actaseal/actaseal-verify : source and conformance vectors
+
+## Read
+
+- https://actaseal.com/docs/ : quickstart and SDK usage
+- https://actaseal.com/limits/ : what ActaSeal is not
+- https://actaseal.com/trust/ : trust page
+- https://actaseal.com/security/ : reporting a vulnerability
+- https://actaseal.com/notes/ : notes
+
+## Machine-readable
+
+- https://actaseal.com/.well-known/ai-catalog.json : catalog of the public parts of this site
+- https://actaseal.com/sitemap.xml
+
+## Contact
+
+- sales@actaseal.com : demo and licence enquiries. The product is installed on the customer's own infrastructure; there is no hosted service.
