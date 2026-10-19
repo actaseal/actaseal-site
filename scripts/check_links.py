@@ -42,6 +42,8 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://pcaobus.org/oversight/standards/auditing-standards/",
     "https://pcaobus.org/oversight/enforcement/",
     "https://pcaobus.org/news-events/news-releases/",
+    "https://leg.colorado.gov/bills/sb26-189",
+    "https://www.seyfarth.com/news-insights/colorado-enacts-artificial-intelligence-replacement-law.html",
     "https://www.fsb.org/2026/10/sound-practices-for-responsible-adoption-of-artificial-intelligence-ai-final-report/",
     "https://github.com/actaseal/x402-acceptance-check-cold",
     "https://pcaobus.org/Standards/QandA/SAPA-14-improper-alteration-audit-documentation.pdf",
