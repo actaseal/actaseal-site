@@ -12,7 +12,7 @@ SOURCES = ("https://leg.colorado.gov/bills/sb26-189",
 
 REQUIRED = [
     "Colorado SB 26-189: can you show what happened, three years later?",
-    "Colorado's SB 26-189 replaced its AI Act. It is set to apply from 1 January 2027.",
+    "Colorado's SB 26-189 replaced its AI Act. Its main obligations are reported to apply from 1 January 2027.",
     "If an automated system materially influences a decision about lending, insurance, housing, employment, "
     "healthcare, education or public services, the people affected get notice, an explanation and a right to "
     "human review, and records have to be kept for three years.",

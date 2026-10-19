@@ -42,6 +42,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://pcaobus.org/oversight/standards/auditing-standards/",
     "https://pcaobus.org/oversight/enforcement/",
     "https://pcaobus.org/news-events/news-releases/",
+    "https://www.medianama.com/2026/09/223-npci-ai-agents-upi-payments/",
     "https://leg.colorado.gov/bills/sb26-189",
     "https://www.seyfarth.com/news-insights/colorado-enacts-artificial-intelligence-replacement-law.html",
     "https://www.fsb.org/2026/10/sound-practices-for-responsible-adoption-of-artificial-intelligence-ai-final-report/",
