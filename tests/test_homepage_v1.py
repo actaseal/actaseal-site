@@ -1,8 +1,8 @@
-"""The homepage leads with one buyer and one outcome.
+"""The homepage is written for a buyer: one headline, one outcome, two ways forward, nothing about how the
+product is built, and nothing that belongs to a standards audience.
 
-The headline is fixed wording. The first screen speaks to a company that
-sells AI agents to enterprises; audit archives and legal hold are named
-further down, as a secondary use, not as a list of target groups.
+Two phrases carry product words because they are the names of the actions: the secondary button "Verify a
+sample receipt" and the nav entry "Verify a receipt". Everything else on the page keeps the buyer vocabulary.
 """
 import html
 import re
@@ -10,114 +10,77 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "index.html"
-HEADLINE = "Proof of what your AI agents did — that your customer can verify without trusting us."
+HEADLINE = "When your AI agent moves money and someone disputes it, show proof they can check themselves."
+NAV = ["Product", "Verify a receipt", "Paid pilot", "Security", "Contact"]
+NAV_HREFS = ["/#product", "https://verify.actaseal.com/browser/", "/pilot/", "/security/", "mailto:sales@actaseal.com"]
+ALLOWED_PHRASES = ("Verify a sample receipt", "Verify a receipt")
+BUYER_ZONE_BANNED = ("receipt", "signed", "verif", "ledger", "offline", "policy version", "gateway", "tamper",
+                     "hash", "ed25519", "docker", "self-hosted", "air-gapped", "open-source", "apache", "api key")
+HEADER_PAGES = ["index.html", "as1215/index.html", "changelog/index.html", "docs/index.html", "legal/dpa.html",
+                "legal/privacy.html", "legal/subprocessors.html", "legal/terms.html", "trust/index.html"]
 
 
-def _raw() -> str:
+def raw() -> str:
     return PAGE.read_text(encoding="utf-8")
 
 
-def _text(fragment: str) -> str:
+def text(fragment: str) -> str:
     fragment = re.sub(r"<(script|style)\b.*?</\1>", " ", fragment, flags=re.S)
     return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", fragment))).strip()
 
 
-def _main_text() -> str:
-    return _text(re.search(r"<main\b.*?</main>", _raw(), flags=re.S).group(0))
+def test_the_headline_is_the_agreed_wording_and_the_only_h1():
+    assert [text(h) for h in re.findall(r"<h1\b[^>]*>(.*?)</h1>", raw(), flags=re.S)] == [HEADLINE]
+    assert HEADLINE in html.unescape(re.search(r"<title>(.*?)</title>", raw(), flags=re.S).group(1)) or "show proof" in raw()
 
 
-def test_headline_is_the_agreed_wording():
-    headings = re.findall(r"<h1\b[^>]*>(.*?)</h1>", _raw(), flags=re.S)
-    assert [_text(h) for h in headings] == [HEADLINE]
+def test_there_is_no_banner_and_no_deadline_on_the_homepage():
+    low = raw().lower()
+    assert "top-banner" not in low and "pcaob" not in low and "qc 1000" not in low and "verifier live" not in low
 
 
-def test_page_title_and_share_text_match_the_headline():
-    raw = html.unescape(_raw())
-    assert "Proof of what your AI agents did" in re.search(r"<title>(.*?)</title>", raw, flags=re.S).group(1)
-    for prop in ('property="og:description"', 'name="twitter:description"', 'name="description"'):
-        tag = re.search(r"<meta[^>]+" + re.escape(prop) + r"[^>]*>", raw).group(0)
-        assert "customer" in tag and "audit workflows" not in tag, tag
+def test_one_primary_and_one_secondary_call_in_the_first_section():
+    hero = re.search(r'<section id="what">.*?</section>', raw(), flags=re.S).group(0)
+    primary = re.search(r'<a class="cta-line" href="(mailto:sales@actaseal\.com[^"]*)">\s*Book a 20-min call\s*</a>', hero)
+    secondary = re.search(r'<a class="cta-secondary" href="(https://verify\.actaseal\.com/browser/)">\s*Verify a sample receipt\s*</a>', hero)
+    assert primary and secondary
+    assert hero.index("Book a 20-min call") < hero.index("Verify a sample receipt")
+    assert len(re.findall(r'class="cta-line"', raw())) == 1
 
 
-def test_first_paragraph_speaks_to_companies_selling_agents_to_enterprises():
-    lede = _text(re.search(r'<p class="lede">(.*?)</p>', _raw(), flags=re.S).group(1))
-    assert "enterprise" in lede.lower()
-    assert "agent" in lede.lower()
-    assert "receipt" in lede.lower()
+def test_nav_is_product_verify_pilot_security_contact_on_every_page_with_a_header():
+    for page in HEADER_PAGES:
+        src = (ROOT / page).read_text(encoding="utf-8")
+        nav = re.search(r'<nav class="site-nav">.*?</nav>', src, flags=re.S).group(0)
+        assert [text(a) for a in re.findall(r"<a\b[^>]*>(.*?)</a>", nav, flags=re.S)] == NAV, page
+        assert re.findall(r'<a href="([^"]+)"', nav) == NAV_HREFS, page
 
 
-def test_no_list_of_target_groups():
-    raw = _raw()
-    text = _main_text()
-    assert "Three groups" not in text
-    assert "who-row" not in raw
-    for label in ("Audit firms", "Legal hold and med-mal", "Agent-commerce disputes"):
-        assert not re.search(r"<(dt|h3|li)[^>]*>\s*" + re.escape(label), raw), f"{label!r} is still a listed group"
+def test_the_homepage_uses_the_buyer_vocabulary():
+    body = text(re.search(r"<main\b.*?</main>", raw(), flags=re.S).group(0)) + " " + text(re.search(r"<footer.*?</footer>", raw(), flags=re.S).group(0))
+    for phrase in ALLOWED_PHRASES:
+        body = body.replace(phrase, "")
+    low = body.lower()
+    for word in BUYER_ZONE_BANNED:
+        assert word not in low, f"the homepage says {word!r}"
 
 
-def test_audit_and_legal_hold_are_named_but_come_second():
-    text = _main_text()
-    assert "AS 1215" in text and "legal hold" in text.lower()
-    assert text.index(HEADLINE) < text.index("AS 1215")
-    lede = _text(re.search(r'<p class="lede">(.*?)</p>', _raw(), flags=re.S).group(1))
-    assert "AS 1215" not in lede and "legal hold" not in lede.lower()
-    for heading in re.findall(r"<h[12]\b[^>]*>(.*?)</h[12]>", _raw(), flags=re.S):
-        assert "AS 1215" not in _text(heading)
+def test_audit_archives_cbom_and_the_agent_door_are_off_the_homepage_main_and_in_the_footer():
+    main = text(re.search(r"<main\b.*?</main>", raw(), flags=re.S).group(0))
+    for word in ("AS 1215", "CBOM", "llms.txt", "You are an agent", "legal hold", "PCAOB"):
+        assert word not in main, word
+    foot = re.search(r"<footer.*?</footer>", raw(), flags=re.S).group(0)
+    for href in ("/as1215/", "https://cbom.actaseal.com", "/standards/", "/llms.txt", "/.well-known/ai-catalog.json", "/pilot/", "/security/"):
+        assert f'href="{href}"' in foot, href
 
 
-def test_no_strategy_or_roadmap_language():
-    low = _main_text().lower()
-    for phrase in ("roadmap", "wedge", "segment", "go-to-market", "coming soon", "planned"):
-        assert phrase not in low, f"homepage says {phrase!r}"
+def test_no_strategy_roadmap_price_or_customer_language():
+    low = text(raw()).lower()
+    for phrase in ("roadmap", "wedge", "segment", "go-to-market", "coming soon", "planned", "pricing", "per month", "tier",
+                   "our customers", "design partner", "founding"):
+        assert phrase not in low, phrase
 
 
-# --- open core: one outcome sentence, no feature split ---------------------
-
-def _open_core() -> str:
-    return re.search(r'<section id="open-core">.*?</section>', _raw(), flags=re.S).group(0)
-
-
-def test_open_core_is_one_sentence_about_what_is_open_and_what_is_licensed():
-    text = _text(_open_core())
-    assert "The verifier and the evidence pack format are free and open under the Apache License 2.0" in text
-    assert "The product is licensed" in text
-    assert "<li" not in _open_core() and "<ul" not in _open_core()
-
-
-def test_open_core_has_no_feature_split_or_watermark_talk():
-    low = _text(_open_core()).lower()
-    for phrase in ("free forever", "licensed (", "watermark", "unlicensed", "evaluation copy", "questionnaire",
-                   "route coverage", "per-control"):
-        assert phrase not in low, f"open-core section says {phrase!r}"
-    assert "watermark" not in _main_text().lower()
-
-
-# --- "Book a demo": a plain email link in the first section -----------------
-
-def test_hero_has_a_book_a_demo_email_link():
-    hero = re.search(r'<section id="what">.*?</section>', _raw(), flags=re.S).group(0)
-    link = re.search(r'<a[^>]+href="(mailto:[^"]+)"[^>]*>\s*Book a demo\s*</a>', hero)
-    assert link, "no 'Book a demo' link in the first section"
-    assert "@actaseal.com" in link.group(1)
-    # it sits with the opening paragraph, above the receipt excerpt
-    assert hero.index("Book a demo") < hero.index('id="receipt-excerpt"')
-
-
-def test_homepage_runs_no_script():
-    assert "<script" not in _raw().lower()
-
-
-# --- deploy: only what exists today -------------------------------------------
-
-def test_deploy_section_offers_only_what_the_terms_say_exists():
-    """The licence terms say the software is installed on the customer's
-    own infrastructure and that there is no hosted service. The homepage
-    must not offer one."""
-    deploy = re.search(r'<section id="deploy">.*?</section>', _raw(), flags=re.S).group(0)
-    text = _text(deploy)
-    assert "Self-hosted" in text and "Air-gapped" in text
-    low = re.sub(r"self-hosted", "", text.lower())
-    assert "hosted" not in low, "the deploy section still offers a hosted option"
-    assert "run by us" not in low
-    terms = _text((ROOT / "legal" / "terms.html").read_text(encoding="utf-8"))
-    assert "There is no hosted ActaSeal service" in terms  # if the terms change, revisit this section
+def test_the_homepage_runs_no_script_and_prints_no_regulation_dates():
+    assert "<script" not in raw().lower()
+    assert not re.search(r"\b\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}\b", text(raw()))

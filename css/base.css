@@ -255,3 +255,9 @@ a.door em { display: block; margin-top: 10px; font-style: normal; font-size: 14p
   .doors, .foot-cols { grid-template-columns: 1fr; }
   .enemy { font-size: 21px; }
 }
+
+/* homepage: second call to action, outcome list */
+.cta-secondary, .cta-secondary:visited { display: inline-block; padding: 9px 15px; border: 2px solid var(--accent); color: var(--accent); text-decoration: none; font-size: 14px; font-weight: 600; }
+.cta-secondary:hover { background: var(--accent); color: var(--accent-ink); }
+dl.outcomes dt { font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--ink); margin-top: 18px; }
+dl.outcomes dd { margin: 4px 0 0; max-width: 62ch; }

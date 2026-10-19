@@ -50,11 +50,10 @@ HEAD = """<!doctype html>
     <div class="wordmark"><a href="/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/brand/actaseal-lockup-paper.svg"><img src="/brand/actaseal-lockup-oxblood.svg" alt="ActaSeal" width="148" height="37"></picture></a></div>
     <nav class="site-nav">
       <ul>
-        <li><a href="/as1215/">AS 1215</a></li>
-        <li><a href="https://verify.actaseal.com/browser/">Verify</a></li>
-        <li><a href="https://cbom.actaseal.com">CBOM Check</a></li>
-        <li><a href="/trust/">Trust</a></li>
-        <li><a href="/docs/">Docs</a></li>
+        <li><a href="/#product">Product</a></li>
+        <li><a href="https://verify.actaseal.com/browser/">Verify a receipt</a></li>
+        <li><a href="/pilot/">Paid pilot</a></li>
+        <li><a href="/security/">Security</a></li>
         <li><a href="mailto:sales@actaseal.com">Contact</a></li>
       </ul>
     </nav>

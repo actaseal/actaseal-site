@@ -418,8 +418,9 @@ def test_every_ietf_draft_mention_links_to_the_datatracker_page():
             assert link in t, f"{page}: mentions the IETF draft without linking its datatracker page"
 
 
-def test_the_landing_page_links_the_zenodo_doi_and_the_pip_install():
-    t = (REPO_ROOT / "index.html").read_text(encoding="utf-8")
+def test_the_standards_page_links_the_zenodo_doi_and_the_pip_install():
+    """The homepage speaks to a buyer; the DOI and the install line live on the standards page."""
+    t = (REPO_ROOT / "standards" / "index.html").read_text(encoding="utf-8")
     assert "https://doi.org/10.5281/zenodo.23309307" in t
     assert "pip install actaseal-verify" in t
 

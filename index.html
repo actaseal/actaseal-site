@@ -2,41 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>ActaSeal &mdash; Proof of what your AI agents did</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/brand/actaseal-seal-small-oxblood.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>ActaSeal &mdash; Proof they can check themselves</title>
 <link rel="stylesheet" href="css/base.css">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ActaSeal">
 <meta property="og:title" content="ActaSeal">
-<meta property="og:description" content="Proof of what your AI agents did, that your customer can verify without trusting us. Every decision returns a signed receipt your customer checks offline with an open-source verifier.">
+<meta property="og:description" content="When your AI agent moves money and someone disputes it, show proof your customer, their bank or their auditor can check for themselves.">
 <meta property="og:url" content="https://actaseal.com/">
 <meta property="og:image" content="https://actaseal.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="ActaSeal">
-<meta name="twitter:description" content="Proof of what your AI agents did, that your customer can verify without trusting us. Every decision returns a signed receipt your customer checks offline with an open-source verifier.">
+<meta name="twitter:title" content="When your AI agent moves money and someone disputes it, show proof they can check themselves.">
+<meta name="twitter:description" content="When your AI agent moves money and someone disputes it, show proof your customer, their bank or their auditor can check for themselves.">
 <meta name="twitter:image" content="https://actaseal.com/og-image.png">
-<meta name="description" content="Proof of what your AI agents did, that your customer can verify without trusting us. Every decision returns a signed receipt your customer checks offline with an open-source verifier.">
+<meta name="description" content="When your AI agent moves money and someone disputes it, show proof your customer, their bank or their auditor can check for themselves.">
 </head>
 <body>
-<div class="top-banner" role="note">
-  <div class="wrap">
-    <span><a href="https://verify.actaseal.com">Verifier live</a> &mdash; check a receipt offline, in your browser or with the Python package.</span>
-    <span>PCAOB QC 1000 takes effect 15 December 2026 (<a href="https://pcaobus.org/news-events/news-releases/news-release-detail/pcaob-postpones-effective-date-of-qc-1000-and-related-standards--rules--and-forms">PCAOB notice</a>).</span>
-  </div>
-</div>
 <header class="site-head">
   <div class="wrap">
     <div class="wordmark"><a href="/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/brand/actaseal-lockup-paper.svg"><img src="/brand/actaseal-lockup-oxblood.svg" alt="ActaSeal" width="148" height="37"></picture></a></div>
     <nav class="site-nav">
       <ul>
+        <li><a href="/#product">Product</a></li>
         <li><a href="https://verify.actaseal.com/browser/">Verify a receipt</a></li>
-        <li><a href="/docs/">Build with it</a></li>
-        <li><a href="/trust/">Trust and security</a></li>
-        <li><a href="/as1215/">Audit archives (AS 1215)</a></li>
-        <li><a href="https://cbom.actaseal.com">CBOM Check</a></li>
+        <li><a href="/pilot/">Paid pilot</a></li>
+        <li><a href="/security/">Security</a></li>
         <li><a href="mailto:sales@actaseal.com">Contact</a></li>
       </ul>
     </nav>
@@ -44,123 +37,35 @@
 </header>
 
 <main class="wrap">
-
 <section id="what">
-  <span class="section-number">01 -- What it is</span>
-  <h1>Proof of what your AI agents did &mdash; that your customer can verify without trusting us.</h1>
-  <p class="enemy">Your agent's logs are your own testimony.</p>
-  <p class="lede">If you sell AI agents to enterprises, your customer will ask what the agent
-  did and who allowed it. ActaSeal sits in front of the actions that move money. It decides each
-  one it is asked about, against your policy, before it runs -- allow, block, or send to a person
-  for approval -- records the decision in a tamper-evident ledger, and signs a receipt for it.
-  Your customer checks that receipt on their own machine, with an open-source verifier, years
-  later if need be, without trusting us.</p>
+  <h1>When your AI agent moves money and someone disputes it, show proof they can check themselves.</h1>
+  <p class="lede">Your customer says the agent paid the wrong person, or paid more than was agreed. Your own
+  logs are your own account of what happened. ActaSeal gives you a record that your customer, their bank or
+  their auditor can check for themselves, without taking your word for it.</p>
   <div class="cta-row">
-    <code>pip install actaseal-verify</code>
-    <a class="cta-line" href="mailto:sales@actaseal.com?subject=ActaSeal%20demo">Book a demo</a>
-  </div>
-  <p>Below is an excerpt of a real receipt for an allowed refund. It binds the terms document in
-  force at the time into the signed payload (<code>terms_hash</code>), so those terms cannot be
-  swapped after the fact.</p>
-  <pre class="evidence" id="receipt-excerpt">{
-  "decision": "ALLOW",
-  "reason_code": "POLICY_ALLOW",
-  "policy_hash": "9c54da05406442e71a1afe92a5c548f3b30758f9825bfb71ed201a512cff3dce",
-  "action_hash": "14c55c4f8792690b37b63600042944122cccf92b931d68b009fe7c07ac627140",
-  "ledger_entry_hash": "96f7b13d7ae398134635498a7ffc670750e0c791f243e81b7bfcb8ab31753f81",
-  "terms_hash": "5bc04174974fc7cd5d97dd6fe17e79549004f713f1d1e7956aa7fd8bf096259b",
-  "signature": "af9de4214f73e89b6a6d9b252bed62f355a05ccbf12097921aa890cab3d8eb4...",
-  "algorithm": "ed25519"
-}</pre>
-  <p><a href="https://verify.actaseal.com">Verify a receipt like this yourself</a>, offline, using
-  only the public key and the standalone verifier -- no ActaSeal account or network call required.</p>
-</section>
-
-<section id="doors">
-  <span class="section-number">02 -- Where to start</span>
-  <h2>Pick the door that is yours</h2>
-  <div class="doors">
-    <a class="door" href="mailto:sales@actaseal.com?subject=ActaSeal%20demo">
-      <strong>You sell AI agents</strong>
-      <span>Give each enterprise customer a receipt for every money action, one they can check without you.</span>
-      <em>Book a demo</em>
-    </a>
-    <a class="door" href="/docs/">
-      <strong>You build</strong>
-      <span>Put the gateway in front of your agent's payments and refunds. Self-hosted, with a Python SDK.</span>
-      <em>Read the quickstart</em>
-    </a>
-    <a class="door" href="/llms.txt">
-      <strong>You are an agent</strong>
-      <span>A plain-text index and a machine-readable catalog of what is public here.</span>
-      <em>Open llms.txt</em>
-    </a>
+    <a class="cta-line" href="mailto:sales@actaseal.com?subject=ActaSeal%2020-min%20call">Book a 20-min call</a>
+    <a class="cta-secondary" href="https://verify.actaseal.com/browser/">Verify a sample receipt</a>
   </div>
 </section>
 
-<section id="why-it-holds">
-  <span class="section-number">03 -- Why the proof holds</span>
-  <h2>Two things that do not depend on trusting us</h2>
-  <p><strong>Your proof still verifies if we disappear.</strong> The verifier is open source
-  under the Apache License 2.0 and makes no network call. A receipt, the slice of the ledger
-  it came from and the public key are all it needs.</p>
-  <p><strong>Records live outside the agent, so a compromised agent cannot rewrite them.</strong>
-  The ledger belongs to the gateway, a separate service from your agent. The agent can ask for
-  a decision; it cannot write the record, and every entry is hash-chained to the one before, so
-  an edit after the fact breaks the chain. The gateway decides about the actions it is asked
-  about -- <a href="/limits/">what ActaSeal is not</a> says where that stops.</p>
-</section>
-
-<section id="who">
-  <span class="section-number">04 -- Also used for</span>
-  <h2>Records that have to be provably unaltered</h2>
-  <p>The same signed, independently checkable record is used where a file must be shown not to
-  have changed after a date: audit workpaper archives under
-  <a href="/as1215/">PCAOB AS 1215</a>, and records under legal hold, with an
-  FRE 902(13)/(14) certification package for records produced by an electronic process.</p>
-  <p><em>These are the standards ActaSeal's exports are built to address. ActaSeal is not
-  certified under any of them; certification, where applicable, is the customer's own process. <a href="/limits/">What ActaSeal is not</a>.</em></p>
-</section>
-
-<section id="proof">
-  <span class="section-number">05 -- Proof, not claims</span>
-  <h2>Every claim on this page links to something that exists</h2>
-  <ul class="proof-list">
-    <li><a href="https://verify.actaseal.com">Public offline verifier</a> -- verify.actaseal.com</li>
-    <li><a href="https://github.com/actaseal/actaseal-verify/releases/tag/v0.1.0">actaseal-verify v0.1.0 release</a></li>
-    <li><a href="https://github.com/actaseal/actaseal-verify/tree/main/conformance/vectors">Conformance vectors</a> (public repo, signed/tampered/checkpoint cases)</li>
-    <li><a href="https://datatracker.ietf.org/doc/draft-xg-payment-dispute-profile/">IETF draft-xg-payment-dispute-profile</a> -- card-scheme dispute evidence profile</li>
-    <li><a href="https://doi.org/10.5281/zenodo.23309307">Zenodo archive of the public verifier</a> -- concept DOI 10.5281/zenodo.23309307, always the latest version</li>
-    <li><code>pip install actaseal-verify</code> -- the offline verifier on <a href="https://pypi.org/project/actaseal-verify/">PyPI</a></li>
-    <li><a href="https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/461">SCITT architecture issue #461</a> -- evidence-binding trust-boundary finding filed by ActaSeal</li>
-    <li><a href="https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/462">SCITT architecture issue #462</a> (opened by maxchop) -- ActaSeal contributed the verification-result requirements and an implementation entry</li>
-    <li><a href="https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/463">SCITT architecture PR #463</a> -- Receipt Profile requirements for verification results, plus an Implementation Status section</li>
-    <li><strong>Independent implementations:</strong> <a href="https://github.com/actaseal/x402-acceptance-check-cold">x402 acceptance-record checker</a> -- a second implementation, written independently, of the acceptance-record conditions in x402-foundation/tsc#4; it agrees with all 50 vectors of the upstream corpus at upstream commit 6e487f0</li>
-    <li><a href="https://github.com/legal-context-protocol/legal-context-protocol/pull/4">Legal Context Protocol PR #4</a> -- the terms-binding profile itself, open for review</li>
-    <li><a href="https://github.com/shunhe-wang/agentic-resolution-interop/pull/22">agentic-resolution-interop PR #22</a> -- a real ActaSeal receipt submitted as a conformance evidence item</li>
-  </ul>
-</section>
-
-<section id="open-core">
-  <span class="section-number">06 -- Open core</span>
-  <h2>Open where it has to be</h2>
-  <p id="licensing">The verifier and the evidence pack format are free and open under the
-  Apache License 2.0, so anyone can check what you produce without asking us. The product is
-  licensed. <a class="cta-line" href="mailto:sales@actaseal.com?subject=ActaSeal%20licence%20request">Request a licence</a></p>
-</section>
-
-<section id="deploy">
-  <span class="section-number">07 -- Deploy</span>
-  <h2>Self-hosted or air-gapped</h2>
-  <dl class="deploy-rows">
-    <dt>Self-hosted</dt>
-    <dd><code>docker compose up --build</code> against your own infrastructure; see the docs quickstart.</dd>
-    <dt>Air-gapped</dt>
-    <dd>Air-gapped mode fails closed on every external-witness integration
-    (object-lock anchoring, transparency-log anchoring, TSA, SSO) instead of silently degrading.</dd>
+<section id="product">
+  <h2>What it does for you</h2>
+  <dl class="deploy-rows outcomes">
+    <dt>It decides before the money moves.</dt>
+    <dd>Each payment your agent attempts is checked against rules you set, before it runs. It goes ahead, is
+    stopped, or is sent to a person for approval.</dd>
+    <dt>It leaves a record nobody can quietly change.</dt>
+    <dd>What was decided, and why, is written down in a form that shows any later change.</dd>
+    <dt>Your customer can check it without you.</dt>
+    <dd>They do not need your account, your software or your word.</dd>
   </dl>
 </section>
 
+<section id="pilot">
+  <h2>Start with a paid pilot</h2>
+  <p>Run ActaSeal in front of one of your agents' payment flows and see the outcome with your own data. The
+  scope is agreed on a call. <a href="/pilot/">How a pilot works</a></p>
+</section>
 </main>
 
 <footer class="site-foot">
@@ -169,9 +74,13 @@
       <div>
         <h2>For humans</h2>
         <ul>
+          <li><a href="/pilot/">Paid pilot</a></li>
+          <li><a href="/security/">Security</a></li>
           <li><a href="/notes/">Notes</a></li>
           <li><a href="/about/">About</a></li>
-          <li><a href="/security/">Security</a></li>
+          <li><a href="/standards/">Standards and open source</a></li>
+          <li><a href="/as1215/">Audit archives (AS 1215)</a></li>
+          <li><a href="https://cbom.actaseal.com">CBOM Check</a></li>
           <li><a href="/accessibility/">Accessibility</a></li>
           <li><a href="/legal/terms.html">Terms</a></li>
           <li><a href="/legal/privacy.html">Privacy</a></li>
@@ -186,11 +95,10 @@
           <li><a href="/llms.txt">llms.txt</a></li>
           <li><a href="/.well-known/ai-catalog.json">ai-catalog.json</a></li>
           <li><a href="/sitemap.xml">sitemap.xml</a></li>
-          <li><a href="https://verify.actaseal.com">verify.actaseal.com</a></li>
         </ul>
       </div>
     </div>
-    <span class="copy">&copy; 2026 ActaSeal. All rights reserved. The standalone verifier is published separately under the Apache License 2.0.</span>
+    <span class="copy">&copy; 2026 ActaSeal. All rights reserved.</span>
   </div>
 </footer>
 

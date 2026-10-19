@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/brand/actaseal-seal-small-oxblood.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Standards and open source &middot; ActaSeal</title>
+<link rel="stylesheet" href="../css/base.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="Standards and open source">
+<meta property="og:description" content="What ActaSeal's records are built to be checked against, and where the open-source checker lives.">
+<meta property="og:url" content="https://actaseal.com/standards/">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Standards and open source">
+<meta name="twitter:description" content="What ActaSeal's records are built to be checked against, and where the open-source checker lives.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="What ActaSeal's records are built to be checked against, and where the open-source checker lives.">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <div class="wordmark"><a href="/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/brand/actaseal-lockup-paper.svg"><img src="/brand/actaseal-lockup-oxblood.svg" alt="ActaSeal" width="148" height="37"></picture></a></div>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="/#product">Product</a></li>
+        <li><a href="https://verify.actaseal.com/browser/">Verify a receipt</a></li>
+        <li><a href="/pilot/">Paid pilot</a></li>
+        <li><a href="/security/">Security</a></li>
+        <li><a href="mailto:sales@actaseal.com">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+<section id="standards-intro">
+  <h1>Standards and open source</h1>
+  <p class="lede">What ActaSeal's records are built to be checked against, and where the open-source checker lives.</p>
+</section>
+
+<section id="why-it-holds">
+  <span class="section-number">01 -- Why the proof holds</span>
+  <h2>Two things that do not depend on trusting us</h2>
+  <p><strong>Your proof still verifies if we disappear.</strong> The verifier is open source
+  under the Apache License 2.0 and makes no network call. A receipt, the slice of the ledger
+  it came from and the public key are all it needs.</p>
+  <p><strong>Records live outside the agent, so a compromised agent cannot rewrite them.</strong>
+  The ledger belongs to the gateway, a separate service from your agent. The agent can ask for
+  a decision; it cannot write the record, and every entry is hash-chained to the one before, so
+  an edit after the fact breaks the chain. The gateway decides about the actions it is asked
+  about -- <a href="/limits/">what ActaSeal is not</a> says where that stops.</p>
+</section>
+
+<section id="proof">
+  <span class="section-number">02 -- Proof, not claims</span>
+  <h2>Every claim on this page links to something that exists</h2>
+  <ul class="proof-list">
+    <li><a href="https://verify.actaseal.com">Public offline verifier</a> -- verify.actaseal.com</li>
+    <li><a href="https://github.com/actaseal/actaseal-verify/releases/tag/v0.1.0">actaseal-verify v0.1.0 release</a></li>
+    <li><a href="https://github.com/actaseal/actaseal-verify/tree/main/conformance/vectors">Conformance vectors</a> (public repo, signed/tampered/checkpoint cases)</li>
+    <li><a href="https://datatracker.ietf.org/doc/draft-xg-payment-dispute-profile/">IETF draft-xg-payment-dispute-profile</a> -- card-scheme dispute evidence profile</li>
+    <li><a href="https://doi.org/10.5281/zenodo.23309307">Zenodo archive of the public verifier</a> -- concept DOI 10.5281/zenodo.23309307, always the latest version</li>
+    <li><code>pip install actaseal-verify</code> -- the offline verifier on <a href="https://pypi.org/project/actaseal-verify/">PyPI</a></li>
+    <li><a href="https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/461">SCITT architecture issue #461</a> -- evidence-binding trust-boundary finding filed by ActaSeal</li>
+    <li><a href="https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/462">SCITT architecture issue #462</a> (opened by maxchop) -- ActaSeal contributed the verification-result requirements and an implementation entry</li>
+    <li><a href="https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/463">SCITT architecture PR #463</a> -- Receipt Profile requirements for verification results, plus an Implementation Status section</li>
+    <li><strong>Independent implementations:</strong> <a href="https://github.com/actaseal/x402-acceptance-check-cold">x402 acceptance-record checker</a> -- a second implementation, written independently, of the acceptance-record conditions in x402-foundation/tsc#4; it agrees with all 50 vectors of the upstream corpus at upstream commit 6e487f0</li>
+    <li><a href="https://github.com/legal-context-protocol/legal-context-protocol/pull/4">Legal Context Protocol PR #4</a> -- the terms-binding profile itself, open for review</li>
+    <li><a href="https://github.com/shunhe-wang/agentic-resolution-interop/pull/22">agentic-resolution-interop PR #22</a> -- a real ActaSeal receipt submitted as a conformance evidence item</li>
+  </ul>
+</section>
+
+<section id="who">
+  <span class="section-number">03 -- Also used for</span>
+  <h2>Records that have to be provably unaltered</h2>
+  <p>The same signed, independently checkable record is used where a file must be shown not to
+  have changed after a date: audit workpaper archives under
+  <a href="/as1215/">PCAOB AS 1215</a>, and records under legal hold, with an
+  FRE 902(13)/(14) certification package for records produced by an electronic process.</p>
+  <p><em>These are the standards ActaSeal's exports are built to address. ActaSeal is not
+  certified under any of them; certification, where applicable, is the customer's own process. <a href="/limits/">What ActaSeal is not</a>.</em></p>
+</section>
+
+<section id="open-core">
+  <span class="section-number">04 -- Open core</span>
+  <h2>Open where it has to be</h2>
+  <p id="licensing">The verifier and the evidence pack format are free and open under the
+  Apache License 2.0, so anyone can check what you produce without asking us. The product is
+  licensed. <a class="cta-line" href="mailto:sales@actaseal.com?subject=ActaSeal%20licence%20request">Request a licence</a></p>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <a href="/">ActaSeal</a> &middot; <a href="/pilot/">Paid pilot</a> &middot; <a href="/security/">Security</a> &middot;
+    <a href="/legal/terms.html">Terms</a> &middot; <a href="/legal/privacy.html">Privacy</a>
+    <br><span class="copy">&copy; 2026 ActaSeal. All rights reserved. The standalone verifier is published separately under the Apache License 2.0.</span>
+  </div>
+</footer>
+
+</body>
+</html>
