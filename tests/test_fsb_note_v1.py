@@ -11,7 +11,7 @@ TRACKER = Path.home() / "a/active_code/docs/internal/regulatory_dates.md"
 REQUIRED = [
     "FSB's AI sound practices, read for AI agents that move money",
     "On 15 October 2026 the Financial Stability Board published its final report, Sound Practices for "
-    "Responsible Adoption of Artificial Intelligence: twelve non-binding practices for financial institutions.",
+    "Responsible Adoption of Artificial Intelligence: twelve practices that financial institutions are encouraged to consider.",
     "The report is technology-neutral and mentions agentic AI only in its introduction. Read with AI agents "
     "in mind, four practices meet at one point:",
     "Practice 3 asks institutions to document their use of AI.",
@@ -50,6 +50,11 @@ def test_it_is_a_note_like_the_others_with_a_review_line_and_a_link_to_the_sourc
     assert raw.count("<li>") == 4
 
 
+def test_it_does_not_call_the_practices_non_binding():
+    text, _ = _text()
+    assert "non-binding" not in text.lower()
+
+
 def test_no_product_vocabulary_and_no_call_to_action():
     text, raw = _text()
     meta = " ".join(re.findall(r'<meta (?:name|property)="(?:description|og:title|og:description|twitter:title|twitter:description)" content="(.*?)">', raw))
@@ -65,3 +70,4 @@ def test_the_dates_tracker_has_the_row():
         return
     row = next(l for l in TRACKER.read_text(encoding="utf-8").splitlines() if l.startswith("| FSB Sound Practices"))
     assert "15 October 2026" in row and "VERIFIED" in row and "primary" in row and SOURCE in row
+    assert "non-binding" not in row.lower()
