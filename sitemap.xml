@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://actaseal.com/about/</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-10-19</lastmod>
   </url>
   <url>
     <loc>https://actaseal.com/accessibility/</loc>
-    <lastmod>2026-09-30</lastmod>
+    <lastmod>2026-10-19</lastmod>
   </url>
   <url>
     <loc>https://actaseal.com/as1215/</loc>
@@ -42,11 +42,11 @@
   </url>
   <url>
     <loc>https://actaseal.com/limits/</loc>
-    <lastmod>2026-10-17</lastmod>
+    <lastmod>2026-10-19</lastmod>
   </url>
   <url>
     <loc>https://actaseal.com/notes/cbom-schema-valid-semantically-wrong.html</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-10-19</lastmod>
   </url>
   <url>
     <loc>https://actaseal.com/notes/</loc>
@@ -54,7 +54,7 @@
   </url>
   <url>
     <loc>https://actaseal.com/notes/verifier-signing-its-own-result.html</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-10-19</lastmod>
   </url>
   <url>
     <loc>https://actaseal.com/notes/verify-a-pack-offline-in-two-minutes.html</loc>
@@ -62,15 +62,15 @@
   </url>
   <url>
     <loc>https://actaseal.com/sample/</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-10-19</lastmod>
   </url>
   <url>
     <loc>https://actaseal.com/security/</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-10-19</lastmod>
   </url>
   <url>
     <loc>https://actaseal.com/security/key-compromise/</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-10-19</lastmod>
   </url>
   <url>
     <loc>https://actaseal.com/trust/</loc>
@@ -78,6 +78,6 @@
   </url>
   <url>
     <loc>https://actaseal.com/trust/retention-and-deletion/</loc>
-    <lastmod>2026-10-12</lastmod>
+    <lastmod>2026-10-19</lastmod>
   </url>
 </urlset>
