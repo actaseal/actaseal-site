@@ -42,6 +42,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://pcaobus.org/oversight/standards/auditing-standards/",
     "https://pcaobus.org/oversight/enforcement/",
     "https://pcaobus.org/news-events/news-releases/",
+    "https://www.fsb.org/2026/10/sound-practices-for-responsible-adoption-of-artificial-intelligence-ai-final-report/",
     "https://github.com/actaseal/x402-acceptance-check-cold",
     "https://pcaobus.org/Standards/QandA/SAPA-14-improper-alteration-audit-documentation.pdf",
     "https://www.law.cornell.edu/uscode/text/18/1519",
