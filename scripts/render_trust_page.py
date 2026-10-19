@@ -28,7 +28,9 @@ HEAD = """<!doctype html>
 <meta charset="utf-8">
 <title>Trust -- ActaSeal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="../favicon.ico">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/brand/actaseal-seal-small-oxblood.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="../css/base.css">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ActaSeal">
@@ -45,7 +47,7 @@ HEAD = """<!doctype html>
 <body>
 <header class="site-head">
   <div class="wrap">
-    <div class="wordmark"><a href="/" style="text-decoration:none;color:inherit;">ActaSeal<span class="dot">.</span></a></div>
+    <div class="wordmark"><a href="/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/brand/actaseal-lockup-paper.svg"><img src="/brand/actaseal-lockup-oxblood.svg" alt="ActaSeal" width="148" height="37"></picture></a></div>
     <nav class="site-nav">
       <ul>
         <li><a href="/as1215/">AS 1215</a></li>
