@@ -8,11 +8,12 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-KIT = Path.home() / "a/active_code/brand/final"
+import os
+KIT = Path(os.environ.get("ACTASEAL_BRAND_KIT", str(Path.home() / "a/active_code/brand/final")))
 SKIP = {"tests", "scripts", ".git", ".hypothesis"}
 ICON_BLOCK = (
     '<link rel="icon" href="/favicon.ico" sizes="any">',
-    '<link rel="icon" href="/brand/actaseal-seal-small-oxblood.svg" type="image/svg+xml">',
+    '<link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">',
     '<link rel="apple-touch-icon" href="/apple-touch-icon.png">',
 )
 
@@ -45,7 +46,7 @@ def test_every_header_shows_the_lockup_in_both_colour_schemes_and_no_text_wordma
 
 def test_the_files_the_pages_name_exist_and_match_the_kit():
     for name in ("brand/actaseal-lockup-oxblood.svg", "brand/actaseal-lockup-paper.svg",
-                 "brand/actaseal-seal-small-oxblood.svg", "favicon.ico", "apple-touch-icon.png", "og-image.png"):
+                 "brand/actaseal-seal-small-oxblood.svg", "brand/actaseal-favicon.svg", "favicon.ico", "apple-touch-icon.png", "og-image.png"):
         assert (ROOT / name).is_file(), name
     if not KIT.exists():
         pytest.skip("the product repository's brand/final is not on this machine")
@@ -53,6 +54,8 @@ def test_the_files_the_pages_name_exist_and_match_the_kit():
         assert (ROOT / "brand" / name).read_bytes() == (KIT / name).read_bytes(), name
     for name in ("favicon.ico", "apple-touch-icon.png"):
         assert (ROOT / name).read_bytes() == (KIT / name).read_bytes(), name
+    # H14: the tab icon draws the hash in paper colour; the small seal's hash is a hole that shows the tab colour
+    assert (ROOT / "brand" / "actaseal-favicon.svg").read_bytes() == (KIT / "actaseal-favicon-oxblood.svg").read_bytes()
 
 
 def test_the_social_image_is_1200_by_630_and_every_page_points_at_it():
