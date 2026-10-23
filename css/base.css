@@ -261,3 +261,4 @@ a.door em { display: block; margin-top: 10px; font-style: normal; font-size: 14p
 .cta-secondary:hover { background: var(--accent); color: var(--accent-ink); }
 dl.outcomes dt { font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--ink); margin-top: 18px; }
 dl.outcomes dd { margin: 4px 0 0; max-width: 62ch; }
+.for-whom { font-size: 15px; color: var(--muted); margin: 6px 0 0; }

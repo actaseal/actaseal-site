@@ -1,8 +1,7 @@
 """The homepage is written for a buyer: one headline, one outcome, two ways forward, nothing about how the
 product is built, and nothing that belongs to a standards audience.
 
-Two phrases carry product words because they are the names of the actions: the secondary button "Verify a
-sample receipt" and the nav entry "Verify a receipt". Everything else on the page keeps the buyer vocabulary.
+One phrase carries product words because it is the name of an action: the nav entry "Verify a receipt". Everything else on the page keeps the buyer vocabulary.
 """
 import html
 import re
@@ -13,7 +12,7 @@ PAGE = ROOT / "index.html"
 HEADLINE = "When your AI agent moves money and someone disputes it, show proof they can check themselves."
 NAV = ["Product", "Verify a receipt", "Paid pilot", "Security", "Contact"]
 NAV_HREFS = ["/#product", "https://verify.actaseal.com/browser/", "/pilot/", "/security/", "mailto:sales@actaseal.com"]
-ALLOWED_PHRASES = ("Verify a sample receipt", "Verify a receipt")
+ALLOWED_PHRASES = ("Verify a receipt",)
 BUYER_ZONE_BANNED = ("receipt", "signed", "verif", "ledger", "offline", "policy version", "gateway", "tamper",
                      "hash", "ed25519", "docker", "self-hosted", "air-gapped", "open-source", "apache", "api key")
 HEADER_PAGES = ["index.html", "as1215/index.html", "changelog/index.html", "docs/index.html", "legal/dpa.html",
@@ -42,9 +41,9 @@ def test_there_is_no_banner_and_no_deadline_on_the_homepage():
 def test_one_primary_and_one_secondary_call_in_the_first_section():
     hero = re.search(r'<section id="what">.*?</section>', raw(), flags=re.S).group(0)
     primary = re.search(r'<a class="cta-line" href="(mailto:sales@actaseal\.com[^"]*)">\s*Book a 20-min call\s*</a>', hero)
-    secondary = re.search(r'<a class="cta-secondary" href="(https://verify\.actaseal\.com/browser/)">\s*Verify a sample receipt\s*</a>', hero)
+    secondary = re.search(r'<a class="cta-secondary" href="(https://verify\.actaseal\.com/browser/)">\s*Check a sample record yourself\s*</a>', hero)
     assert primary and secondary
-    assert hero.index("Book a 20-min call") < hero.index("Verify a sample receipt")
+    assert hero.index("Book a 20-min call") < hero.index("Check a sample record yourself")
     assert len(re.findall(r'class="cta-line"', raw())) == 1
 
 
@@ -84,3 +83,12 @@ def test_no_strategy_roadmap_price_or_customer_language():
 def test_the_homepage_runs_no_script_and_prints_no_regulation_dates():
     assert "<script" not in raw().lower()
     assert not re.search(r"\b\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}\b", text(raw()))
+
+
+def test_the_homepage_says_who_it_is_for_and_links_the_regulatory_notes_without_dates():
+    main = re.search(r"<main\b.*?</main>", raw(), flags=re.S).group(0)
+    assert "For payment companies, fintechs and banks letting AI agents move money." in text(main)
+    why = re.search(r'<section id="why-now">.*?</section>', main, flags=re.S).group(0)
+    for note in ("cert-in-ai-agents-advisory", "fsb-ai-sound-practices-for-agents", "npci-agents-on-upi", "colorado-sb-26-189"):
+        href = f"/notes/{note}.html"
+        assert f'href="{href}"' in why and (ROOT / href.lstrip("/")).is_file(), note
