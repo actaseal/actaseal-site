@@ -36,8 +36,8 @@ def test_about_names_the_founder_and_has_no_headcount_statements():
         assert phrase not in low, f"about still says {phrase!r}"
 
 
-def test_about_carries_the_entity_placeholder_until_it_is_decided():
-    assert "<DECIDE:entity>" in _text("about/index.html")
+def test_about_shows_no_unfinished_placeholder():
+    assert "DECIDE" not in _text("about/index.html")
 
 
 def test_about_has_no_certification_status_statement():
