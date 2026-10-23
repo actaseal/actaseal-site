@@ -1,6 +1,5 @@
-"""The Terms and the DPA must name the contracting legal entity. Until it
-is decided they carry a visible placeholder rather than a guess, and the
-engagement letter is not a published page."""
+"""The Terms and the DPA point at the order form for the contracting entity and show no unfinished placeholder;
+the engagement letter is not a published page."""
 import html
 import re
 from pathlib import Path
@@ -11,9 +10,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 @pytest.mark.parametrize("page", ["legal/terms.html", "legal/dpa.html"])
-def test_entity_placeholder_is_present(page):
+def test_entity_is_named_in_the_order_form_and_no_placeholder_shows(page):
     text = html.unescape(re.sub(r"<[^>]+>", " ", (ROOT / page).read_text(encoding="utf-8")))
-    assert "<DECIDE:entity>" in text
+    assert "The contracting entity is named in your order form." in text
+    assert "DECIDE" not in text
 
 
 def test_engagement_letter_is_not_published():
