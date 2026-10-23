@@ -79,7 +79,6 @@ def _findings(path: Path) -> list[str]:
 # say "the fees for your tier", and changing a contract term is a legal
 # decision. Recorded here so the exception is visible, not silent.
 LEGAL_WORDING_EXCEPTIONS = {
-    "legal/terms.html": {"tier language"},
     # The privacy notice names three settings that control outbound
     # connections. Also legal text; listed for a decision, not edited here.
     "legal/privacy.html": {"product setting name"},
@@ -147,3 +146,11 @@ def test_route_check_catches_an_inventory():
     assert ROUTE_LINE.search("GET /accounts/{account_id}/balance")
     assert ROUTE_LINE.search("POST /gateway/preflight")
     assert not ROUTE_LINE.search("Get it from the operator directly")
+
+
+@pytest.mark.parametrize("name", ["legal/terms.html", "legal/privacy.html"])
+def test_legal_pages_name_no_tier_and_no_pricing_page(name):
+    """ONE-SHOT cloud C2: the contract points at the order, never at a tier or a published price list."""
+    text = re.sub(r"<[^>]+>", " ", (ROOT / name).read_text(encoding="utf-8")).lower()
+    for word in ("tier", "pricing page", "next tier"):
+        assert word not in text, (name, word)
