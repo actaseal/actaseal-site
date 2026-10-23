@@ -30,6 +30,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "mailto:security@actaseal.com",
     "https://verify.actaseal.com",
     "https://cbom.actaseal.com",
+    "https://cal.com/actaseal/20min",
     "https://github.com/actaseal/actaseal-verify",
     "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/461",
     "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/issues/462",
