@@ -37,6 +37,8 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://github.com/ietf-wg-scitt/draft-ietf-scitt-architecture/pull/463",
     "https://datatracker.ietf.org/doc/draft-xg-payment-dispute-profile/",
     "https://doi.org/10.5281/zenodo.23309307",
+    "https://doi.org/10.5281/zenodo.23610510",
+    "https://doi.org/10.5281/zenodo.23486469",
     "https://pypi.org/project/actaseal-verify/",
     "https://github.com/legal-context-protocol/legal-context-protocol/pull/4",
     "https://github.com/shunhe-wang/agentic-resolution-interop/pull/22",
