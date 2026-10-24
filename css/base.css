@@ -247,7 +247,7 @@ a.door:hover { border-color: var(--accent); }
 a.door strong { display: block; font-family: var(--serif); font-size: 19px; margin-bottom: 6px; }
 a.door span { display: block; color: var(--muted); font-size: 15px; }
 a.door em { display: block; margin-top: 10px; font-style: normal; font-size: 14px; font-weight: 600; color: var(--accent); }
-.foot-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; margin-bottom: 14px; }
+.foot-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px 32px; margin-bottom: 14px; }
 .foot-cols h2 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 6px; }
 .foot-cols ul { list-style: none; margin: 0; padding: 0; }
 .foot-cols li { margin: 3px 0; }
@@ -296,7 +296,8 @@ dl.outcomes dd { margin: 4px 0 0; max-width: 62ch; }
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .record-art .ok-bg { fill: #143a26; }
-  :root:not([data-theme="light"]) .record-art .ok-t, :root:not([data-theme="light"]) .record-art .ok-mark { fill: #7fd3a2; stroke: #7fd3a2; }
+  :root:not([data-theme="light"]) .record-art .ok-t { fill: #7fd3a2; }
+  :root:not([data-theme="light"]) .record-art .ok-mark { stroke: #7fd3a2; }
   :root:not([data-theme="light"]) .record-art .ok-t { stroke: none; }
   :root:not([data-theme="light"]) .record-art .bad-bg, :root:not([data-theme="light"]) .record-art .bad-hl { fill: #4a1d1a; }
   :root:not([data-theme="light"]) .record-art .bad-t, :root:not([data-theme="light"]) .record-art .bad-v { fill: #ff9d93; }
