@@ -28,6 +28,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://github.com/actaseal",
     "https://www.linkedin.com/company/actaseal/",
     "https://x.com/actaseal",
+    "https://xaviergoshi.substack.com/",
     "mailto:xavier@actaseal.com",
     "mailto:security@actaseal.com",
     "https://verify.actaseal.com",
