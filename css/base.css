@@ -199,7 +199,7 @@ table.dense th {
 .cta-line:visited, .cta-end:visited { color: var(--accent-ink); }
 
 footer.site-foot {
-  border-top: 3px solid var(--ink);
+  border-top: 1px solid var(--rule);
   padding: 22px 0;
   font-size: 13px;
   color: var(--muted);
