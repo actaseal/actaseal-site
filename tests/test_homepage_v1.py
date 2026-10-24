@@ -10,8 +10,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "index.html"
 HEADLINE = "When your AI agent moves money and someone disputes it, show proof they can check themselves."
-NAV = ["Product", "Check a record", "Paid pilot", "Security", "Contact"]
-NAV_HREFS = ["/#product", "https://verify.actaseal.com/browser/", "/pilot/", "/security/", "mailto:sales@actaseal.com"]
+NAV = ["Notes 7", "Check a record", "Paid pilot", "Security", "Contact"]
+NAV_HREFS = ["/notes/", "https://verify.actaseal.com/browser/", "/pilot/", "/security/", "mailto:sales@actaseal.com"]
 ALLOWED_PHRASES = ("Verify a receipt",)
 BUYER_ZONE_BANNED = ("receipt", "signed", "verif", "ledger", "offline", "policy version", "gateway", "tamper",
                      "hash", "ed25519", "docker", "self-hosted", "air-gapped", "open-source", "apache", "api key")
@@ -92,3 +92,10 @@ def test_the_homepage_says_who_it_is_for_and_links_the_regulatory_notes_without_
     for note in ("cert-in-ai-agents-advisory", "fsb-ai-sound-practices-for-agents", "npci-agents-on-upi", "colorado-sb-26-189"):
         href = f"/notes/{note}.html"
         assert f'href="{href}"' in why and (ROOT / href.lstrip("/")).is_file(), note
+
+
+def test_notes_count_in_the_nav_matches_the_notes_page():
+    notes = set(re.findall(r'href="([a-z0-9-]+\.html)"', (ROOT / "notes" / "index.html").read_text(encoding="utf-8")))
+    for page in HEADER_PAGES:
+        nav = re.search(r'<nav class="site-nav">.*?</nav>', (ROOT / page).read_text(encoding="utf-8"), flags=re.S).group(0)
+        assert re.search(r'<span class="nav-count"[^>]*>(\d+)</span>', nav).group(1) == str(len(notes)), page
