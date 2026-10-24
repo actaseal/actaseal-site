@@ -22,7 +22,33 @@
 </head>
 <body>
 <main class="wrap">
-<h1>Reporting a vulnerability</h1>
+<h1>Security</h1>
+
+<section id="vendor-review">
+<h2>For your vendor-risk review</h2>
+<p>What a bank's or a payment company's security and vendor-risk team usually asks first, in one place.</p>
+<dl class="review-facts">
+  <dt>Where it runs</dt>
+  <dd>Inside your own environment: one Linux machine or container. Your payment data does not leave it.</dd>
+  <dt>Who holds the keys</dt>
+  <dd>You do. ActaSeal never holds a production signing key; you choose where it is kept.</dd>
+  <dt>Who else sees your data</dt>
+  <dd>Your payment records stay with you. The only outside services ActaSeal uses are for billing, email, this website and its domain, and none of them receives your payment records. <a href="/legal/subprocessors.html">Sub-processors</a></dd>
+  <dt>What you can check without ActaSeal</dt>
+  <dd>Any record, with the <a href="https://verify.actaseal.com/browser/">free public checker</a>. It does not need an account, the product or ActaSeal's word.</dd>
+  <dt>Under NDA</dt>
+  <dd>Completed CAIQ-Lite and SIG-Lite questionnaires, and the full signed trust bundle behind the <a href="/trust/">trust page</a>. Ask <a href="mailto:sales@actaseal.com">sales@actaseal.com</a>.</dd>
+</dl>
+<p>Documents: <a href="/legal/dpa.html">Data processing agreement</a> &middot;
+<a href="/legal/privacy.html">Privacy</a> &middot;
+<a href="/legal/terms.html">Terms</a> &middot;
+<a href="/trust/retention-and-deletion/">Data retention and deletion</a> &middot;
+<a href="/security/key-compromise/">If a signing key is compromised</a> &middot;
+<a href="/accessibility/">Accessibility</a></p>
+</section>
+
+<h2>Reporting a vulnerability</h2>
+
 
 <p>If you believe you have found a security issue in ActaSeal, in the standalone
 verifier, or on this site, please write to

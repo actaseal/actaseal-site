@@ -338,3 +338,7 @@ nav.site-nav a.nav-cta:hover { color: var(--accent-ink); opacity: .92; }
 @media (max-width: 480px) { nav.site-nav a.nav-cta { padding: 4px 8px; } }
 /* Phone: Security stays in the footer so the booking button fits on one line. */
 @media (max-width: 480px) { nav.site-nav li:nth-child(4) { display: none; } }
+.review-facts { display: grid; grid-template-columns: 220px 1fr; gap: 10px 24px; margin: 16px 0; }
+.review-facts dt { font-weight: 600; }
+.review-facts dd { margin: 0; }
+@media (max-width: 640px) { .review-facts { grid-template-columns: 1fr; gap: 2px 0; } .review-facts dd { margin-bottom: 10px; } }

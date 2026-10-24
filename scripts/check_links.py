@@ -29,7 +29,6 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://www.linkedin.com/company/actaseal/",
     "https://x.com/actaseal",
     "https://xaviergoshi.substack.com/",
-    "https://medium.com/@actaseal",
     "mailto:xavier@actaseal.com",
     "mailto:security@actaseal.com",
     "https://verify.actaseal.com",
