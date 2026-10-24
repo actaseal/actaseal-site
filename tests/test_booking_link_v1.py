@@ -13,5 +13,6 @@ def test_both_pages_book_through_the_calendar_and_no_booking_link_is_a_mail():
         assert hrefs and set(hrefs) == {CAL}, page
 
 
-def test_contact_is_still_a_mail_link():
-    assert 'href="mailto:sales@actaseal.com">Contact' in (ROOT / "index.html").read_text(encoding="utf-8")
+def test_sales_mail_is_still_on_the_homepage():
+    # The nav books a call; the footer keeps the mail address for anyone who would rather write.
+    assert 'href="mailto:sales@actaseal.com">sales@actaseal.com</a>' in (ROOT / "index.html").read_text(encoding="utf-8")

@@ -333,3 +333,8 @@ dl.outcomes dd { margin: 4px 0 0; max-width: 62ch; }
 .founder img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; }
 .founder p:first-child { margin-top: 0; }
 @media (max-width: 560px) { .founder { grid-template-columns: 1fr; } .founder img { width: 120px; height: 120px; } }
+nav.site-nav a.nav-cta { background: var(--accent); color: var(--accent-ink); padding: 6px 12px; font-weight: 600; }
+nav.site-nav a.nav-cta:hover { color: var(--accent-ink); opacity: .92; }
+@media (max-width: 480px) { nav.site-nav a.nav-cta { padding: 4px 8px; } }
+/* Phone: Security stays in the footer so the booking button fits on one line. */
+@media (max-width: 480px) { nav.site-nav li:nth-child(4) { display: none; } }
