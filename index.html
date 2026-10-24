@@ -38,6 +38,7 @@
 
 <main class="wrap">
 <section id="what">
+  <div class="hero-text">
   <h1>When your AI agent moves money and someone disputes it, show proof they can check themselves.</h1>
   <p class="lede">Your customer says the agent paid the wrong person, or paid more than was agreed. Your own
   logs are your own account of what happened. ActaSeal gives you a record that your customer, their bank or
@@ -47,19 +48,66 @@
     <a class="cta-line" href="https://cal.com/actaseal/20min">Book a 20-min call</a>
     <a class="cta-secondary" href="https://verify.actaseal.com/browser/">Check a sample record yourself</a>
   </div>
+  </div>
+  <figure class="hero-figure" aria-label="Two copies of the same payment record. The original checks out. A copy edited later to show ten times the amount does not match, and anyone can see that it changed.">
+    <svg viewBox="0 0 560 390" role="img" aria-hidden="true" class="record-art">
+      <g transform="translate(14 18)">
+        <rect class="card" x="0" y="0" width="320" height="300" rx="12"/>
+        <text class="k" x="22" y="38">Payment record</text>
+        <text class="l" x="22" y="78">Agent</text><text class="v" x="122" y="78">purchasing-agent</text>
+        <text class="l" x="22" y="112">Paid to</text><text class="v" x="122" y="112">Northwind Supplies</text>
+        <text class="l" x="22" y="146">Amount</text><text class="v" x="122" y="146">USD 4,800.00</text>
+        <text class="l" x="22" y="180">Customer limit</text><text class="v" x="122" y="180">USD 5,000.00</text>
+        <text class="l" x="22" y="214">Decision</text><text class="v" x="122" y="214">Allowed before payment</text>
+        <rect class="ok-bg" x="22" y="240" width="150" height="34" rx="17"/>
+        <path class="ok-mark" d="M38 257 l7 7 l13 -14"/>
+        <text class="ok-t" x="68" y="262">Checks out</text>
+      </g>
+      <g transform="translate(226 70)">
+        <rect class="card card-b" x="0" y="0" width="320" height="300" rx="12"/>
+        <text class="k" x="22" y="38">Same record, edited later</text>
+        <text class="l" x="22" y="78">Agent</text><text class="v" x="122" y="78">purchasing-agent</text>
+        <text class="l" x="22" y="112">Paid to</text><text class="v" x="122" y="112">Northwind Supplies</text>
+        <rect class="bad-hl" x="116" y="128" width="116" height="26" rx="4"/>
+        <text class="l" x="22" y="146">Amount</text><text class="v bad-v" x="122" y="146">USD 48,000.00</text>
+        <text class="l" x="22" y="180">Customer limit</text><text class="v" x="122" y="180">USD 5,000.00</text>
+        <text class="l" x="22" y="214">Decision</text><text class="v" x="122" y="214">Allowed before payment</text>
+        <rect class="bad-bg" x="22" y="240" width="226" height="34" rx="17"/>
+        <path class="bad-mark" d="M38 250 l14 14 M52 250 l-14 14"/>
+        <text class="bad-t" x="66" y="262">Changed after the fact</text>
+      </g>
+    </svg>
+  </figure>
 </section>
 
 <section id="product">
   <h2>What it does for you</h2>
-  <dl class="deploy-rows outcomes">
-    <dt>It decides before the money moves.</dt>
-    <dd>Each payment your agent attempts is checked against rules you set, before it runs. It goes ahead, is
-    stopped, or is sent to a person for approval.</dd>
-    <dt>It leaves a record nobody can quietly change.</dt>
-    <dd>What was decided, and why, is written down in a form that shows any later change.</dd>
-    <dt>Your customer can check it without you.</dt>
-    <dd>They do not need your account, your software or your word.</dd>
-  </dl>
+  <div class="steps">
+    <div class="step">
+      <svg class="step-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 24h18M20 16l8 8-8 8"/><path d="M34 10v28"/></svg>
+      <h3>It decides before the money moves.</h3>
+      <p>Each payment your agent attempts is checked against rules you set, before it runs. It goes ahead, is
+      stopped, or is sent to a person for approval.</p>
+    </div>
+    <div class="step">
+      <svg class="step-icon" viewBox="0 0 48 48" aria-hidden="true"><rect x="12" y="20" width="24" height="18" rx="3"/><path d="M17 20v-5a7 7 0 0 1 14 0v5"/></svg>
+      <h3>It leaves a record nobody can quietly change.</h3>
+      <p>What was decided, and why, is written down in a form that shows any later change.</p>
+    </div>
+    <div class="step">
+      <svg class="step-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M6 24s7-12 18-12 18 12 18 12-7 12-18 12S6 24 6 24z"/><path d="M19 24l4 4 7-8"/></svg>
+      <h3>Your customer can check it without you.</h3>
+      <p>They do not need your account, your software or your word.</p>
+    </div>
+  </div>
+</section>
+
+<section id="proof" class="proof-strip">
+  <ul>
+    <li><a href="https://datatracker.ietf.org/doc/draft-xg-payment-dispute-profile/">Standards work at the IETF</a></li>
+    <li><a href="https://doi.org/10.5281/zenodo.23610510">Published research</a></li>
+    <li><a href="/standards/">A free public check anyone can run</a></li>
+  </ul>
 </section>
 
 <section id="why-now">
