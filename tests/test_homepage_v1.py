@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "index.html"
 HEADLINE = "When your AI agent moves money and someone disputes it, show proof they can check themselves."
-NAV = ["Product", "Verify a receipt", "Paid pilot", "Security", "Contact"]
+NAV = ["Product", "Check a record", "Paid pilot", "Security", "Contact"]
 NAV_HREFS = ["/#product", "https://verify.actaseal.com/browser/", "/pilot/", "/security/", "mailto:sales@actaseal.com"]
 ALLOWED_PHRASES = ("Verify a receipt",)
 BUYER_ZONE_BANNED = ("receipt", "signed", "verif", "ledger", "offline", "policy version", "gateway", "tamper",
