@@ -305,3 +305,7 @@ dl.outcomes dd { margin: 4px 0 0; max-width: 62ch; }
 }
 
 .cta-end { margin-top: 18px; }
+.foot-line { margin: 0 0 12px; font-weight: 600; color: var(--ink); }
+.foot-contacts { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; }
+.foot-contacts dt { color: var(--muted); }
+.foot-contacts dd { margin: 0; }
