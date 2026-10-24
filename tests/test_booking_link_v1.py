@@ -10,7 +10,7 @@ def test_both_pages_book_through_the_calendar_and_no_booking_link_is_a_mail():
     for page in (ROOT / "index.html", ROOT / "pilot" / "index.html"):
         src = page.read_text(encoding="utf-8")
         hrefs = re.findall(r'href="([^"]*)"[^>]*>\s*Book a 20-min call', src)
-        assert hrefs == [CAL], page
+        assert hrefs and set(hrefs) == {CAL}, page
 
 
 def test_contact_is_still_a_mail_link():
