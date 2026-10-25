@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "index.html"
-HEADLINE = "When your AI agent moves money and someone disputes it, show proof they can check themselves."
+HEADLINE = "When your AI agent refunds or pays and someone asks why, show proof they can check themselves."
 NAV = ["Notes 7", "Check a record", "Paid pilot", "Security", "Book a call"]
 NAV_HREFS = ["/notes/", "https://verify.actaseal.com/browser/", "/pilot/", "/security/", "https://cal.com/actaseal/20min"]
 ALLOWED_PHRASES = ("Verify a receipt",)
@@ -87,7 +87,7 @@ def test_the_homepage_runs_no_script_and_prints_no_regulation_dates():
 
 def test_the_homepage_says_who_it_is_for_and_links_the_regulatory_notes_without_dates():
     main = re.search(r"<main\b.*?</main>", raw(), flags=re.S).group(0)
-    assert "For payment companies, fintechs and banks letting AI agents move money." in text(main)
+    assert "For teams whose AI support agent issues refunds, and for payment companies, fintechs and banks letting AI agents move money." in text(main)
     why = re.search(r'<section id="why-now">.*?</section>', main, flags=re.S).group(0)
     for note in ("cert-in-ai-agents-advisory", "fsb-ai-sound-practices-for-agents", "npci-agents-on-upi", "colorado-sb-26-189"):
         href = f"/notes/{note}.html"
@@ -99,3 +99,10 @@ def test_notes_count_in_the_nav_matches_the_notes_page():
     for page in HEADER_PAGES:
         nav = re.search(r'<nav class="site-nav">.*?</nav>', (ROOT / page).read_text(encoding="utf-8"), flags=re.S).group(0)
         assert re.search(r'<span class="nav-count"[^>]*>(\d+)</span>', nav).group(1) == str(len(notes)), page
+
+
+def test_the_first_section_points_a_refund_team_at_the_audit():
+    hero = re.search(r'<section id="what">.*?</section>', raw(), flags=re.S).group(0)
+    assert 'href="/refunds/"' in hero and "refund" in text(hero).lower()
+    pilot = re.search(r'<section id="pilot">.*?</section>', raw(), flags=re.S).group(0)
+    assert "Start with a refund audit" in pilot and 'href="/refunds/"' in pilot and 'href="/pilot/"' in pilot
