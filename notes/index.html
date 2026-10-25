@@ -24,50 +24,73 @@
 <main class="wrap">
 <h1>Notes</h1>
 <p class="lede">Working notes on evidence, verification and the standards ActaSeal is built against. Written when there is something to record, not on a schedule.</p>
+<div class="note-filter" role="group" aria-label="Show notes by how soon they need action" hidden>
+  <button type="button" data-level="all" aria-pressed="true">All</button>
+  <button type="button" data-level="3" aria-pressed="false">Act now</button>
+  <button type="button" data-level="2" aria-pressed="false">Prepare</button>
+  <button type="button" data-level="1" aria-pressed="false">Watch</button>
+</div>
+<p class="note-filter-help" hidden>All: newest source first. Act now: in force or rated critical. Prepare: rules on the way. Watch: guidance worth knowing.</p>
 <ul class="note-list">
-  <li>
-    <time datetime="2026-10-19">2026-10-19</time>
-    <a href="cert-in-ai-agents-advisory.html">CERT-In on AI agents: could you show what the agent did?</a>
-    <p>CERT-In&#x27;s critical advisory on AI agents that reached live systems, as MediaNama reported it, and the question it puts to any bank, NBFC or fintech running agents.</p>
-    <p class="note-meta">Last reviewed: <time class="reviewed" datetime="2026-10-19">2026-10-19</time></p>
-  </li>
-  <li>
-    <time datetime="2026-10-19">2026-10-19</time>
-    <a href="colorado-sb-26-189.html">Colorado SB 26-189: can you show what happened, three years later?</a>
-    <p>Colorado&#x27;s replacement AI law gives people notice, an explanation and a right to human review, and requires three years of records. The question for any team using AI in those decisions.</p>
-    <p class="note-meta">Last reviewed: <time class="reviewed" datetime="2026-10-19">2026-10-19</time></p>
-  </li>
-  <li>
-    <time datetime="2026-10-19">2026-10-19</time>
-    <a href="fsb-ai-sound-practices-for-agents.html">FSB&#x27;s AI sound practices, read for AI agents that move money</a>
-    <p>Four of the FSB&#x27;s twelve practices meet at one question once an AI agent can move money: when it acted, can you prove what happened to someone who has no reason to believe you?</p>
-    <p class="note-meta">Last reviewed: <time class="reviewed" datetime="2026-10-19">2026-10-19</time></p>
-  </li>
-  <li>
-    <time datetime="2026-10-19">2026-10-19</time>
-    <a href="npci-agents-on-upi.html">NPCI on AI agents and UPI: who shows what was authorised?</a>
-    <p>NPCI&#x27;s chairman on AI agents and UPI, as MediaNama reported it, and the question customers will ask first when an agent pays and gets it wrong.</p>
-    <p class="note-meta">Last reviewed: <time class="reviewed" datetime="2026-10-19">2026-10-19</time></p>
-  </li>
-  <li>
+  <li data-criticality="0" data-source-date="2026-10-17">
     <time datetime="2026-10-17">2026-10-17</time>
     <a href="verify-a-pack-offline-in-two-minutes.html">How to verify a pack offline in 2 minutes</a>
     <p>Check an ActaSeal evidence packet yourself with one script and one library, no account and no network.</p>
-    <p class="note-meta">Last reviewed: <time class="reviewed" datetime="2026-10-17">2026-10-17</time></p>
+    <p class="note-meta">Source published: <time class="source" datetime="2026-10-17">2026-10-17</time> &middot; Last reviewed: <time class="reviewed" datetime="2026-10-17">2026-10-17</time></p>
   </li>
-  <li>
+  <li data-criticality="3" data-source-date="2026-10-15">
+    <time datetime="2026-10-19">2026-10-19</time> <span class="crit crit-3">Act now</span>
+    <a href="cert-in-ai-agents-advisory.html">CERT-In on AI agents: could you show what the agent did?</a>
+    <p>CERT-In&#x27;s critical advisory on AI agents that reached live systems, as MediaNama reported it, and the question it puts to any bank, NBFC or fintech running agents.</p>
+    <p class="note-meta">Source published: <time class="source" datetime="2026-10-15">2026-10-15</time> &middot; Last reviewed: <time class="reviewed" datetime="2026-10-19">2026-10-19</time></p>
+  </li>
+  <li data-criticality="1" data-source-date="2026-10-15">
+    <time datetime="2026-10-19">2026-10-19</time> <span class="crit crit-1">Watch</span>
+    <a href="fsb-ai-sound-practices-for-agents.html">FSB&#x27;s AI sound practices, read for AI agents that move money</a>
+    <p>Four of the FSB&#x27;s twelve practices meet at one question once an AI agent can move money: when it acted, can you prove what happened to someone who has no reason to believe you?</p>
+    <p class="note-meta">Source published: <time class="source" datetime="2026-10-15">2026-10-15</time> &middot; Last reviewed: <time class="reviewed" datetime="2026-10-19">2026-10-19</time></p>
+  </li>
+  <li data-criticality="0" data-source-date="2026-10-05">
     <time datetime="2026-10-05">2026-10-05</time>
     <a href="cbom-schema-valid-semantically-wrong.html">A CBOM can pass schema validation and still be wrong</a>
     <p>A real, anonymized CycloneDX CBOM that validates cleanly against the schema while getting three load-bearing facts wrong. The schema checks shape, not meaning.</p>
-    <p class="note-meta">Last reviewed: <time class="reviewed" datetime="2026-10-05">2026-10-05</time></p>
+    <p class="note-meta">Source published: <time class="source" datetime="2026-10-05">2026-10-05</time> &middot; Last reviewed: <time class="reviewed" datetime="2026-10-05">2026-10-05</time></p>
   </li>
-  <li>
+  <li data-criticality="0" data-source-date="2026-09-30">
     <time datetime="2026-09-30">2026-09-30</time>
     <a href="verifier-signing-its-own-result.html">What a verifier signing its own result proves</a>
     <p>An offline checker with no separately trusted identity gains nothing by signing its own verdict. What the emitted result has to preserve instead.</p>
-    <p class="note-meta">Last reviewed: <time class="reviewed" datetime="2026-09-30">2026-09-30</time></p>
+    <p class="note-meta">Source published: <time class="source" datetime="2026-09-30">2026-09-30</time> &middot; Last reviewed: <time class="reviewed" datetime="2026-09-30">2026-09-30</time></p>
+  </li>
+  <li data-criticality="2" data-source-date="2026-09-10">
+    <time datetime="2026-10-19">2026-10-19</time> <span class="crit crit-2">Prepare</span>
+    <a href="npci-agents-on-upi.html">NPCI on AI agents and UPI: who shows what was authorised?</a>
+    <p>NPCI&#x27;s chairman on AI agents and UPI, as MediaNama reported it, and the question customers will ask first when an agent pays and gets it wrong.</p>
+    <p class="note-meta">Source published: <time class="source" datetime="2026-09-10">2026-09-10</time> &middot; Last reviewed: <time class="reviewed" datetime="2026-10-19">2026-10-19</time></p>
+  </li>
+  <li data-criticality="2" data-source-date="2026-05-14">
+    <time datetime="2026-10-19">2026-10-19</time> <span class="crit crit-2">Prepare</span>
+    <a href="colorado-sb-26-189.html">Colorado SB 26-189: can you show what happened, three years later?</a>
+    <p>Colorado&#x27;s replacement AI law gives people notice, an explanation and a right to human review, and requires three years of records. The question for any team using AI in those decisions.</p>
+    <p class="note-meta">Source published: <time class="source" datetime="2026-05-14">2026-05-14</time> &middot; Last reviewed: <time class="reviewed" datetime="2026-10-19">2026-10-19</time></p>
   </li>
 </ul>
+<script>
+(function () {
+  var bar = document.querySelector(".note-filter");
+  var help = document.querySelector(".note-filter-help");
+  var items = document.querySelectorAll(".note-list li");
+  bar.hidden = false; help.hidden = false;
+  bar.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    bar.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    items.forEach(function (li) {
+      li.hidden = b.dataset.level !== "all" && li.dataset.criticality !== b.dataset.level;
+    });
+  });
+})();
+</script>
 <p>CBOM semantic checker: <a href="https://github.com/actaseal/cbom-check">github.com/actaseal/cbom-check</a>.</p>
 <p><a href="/">Back to actaseal.com</a></p>
 </main>

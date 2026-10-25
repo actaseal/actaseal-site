@@ -344,3 +344,25 @@ nav.site-nav a.nav-cta:hover { color: var(--accent-ink); opacity: .92; }
 .review-facts dt { font-weight: 600; }
 .review-facts dd { margin: 0; }
 @media (max-width: 640px) { .review-facts { grid-template-columns: 1fr; gap: 2px 0; } .review-facts dd { margin-bottom: 10px; } }
+
+/* Notes: filter by how soon a note needs action */
+.note-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 4px; }
+.note-filter button { font: inherit; font-size: 14px; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--rule, #ccc); background: transparent; color: inherit; cursor: pointer; }
+.note-filter button[aria-pressed="true"] { background: #2f5bd8; border-color: #2f5bd8; color: #fff; }
+.note-filter-help { font-size: 13px; opacity: .75; margin: 4px 0 8px; }
+.note-list li[hidden] { display: none; }
+.crit { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; vertical-align: 1px; }
+.note-list li > time:first-child { display: inline; }
+.note-list li > a { display: block; margin-top: 2px; }
+.note-list .note-meta time { display: inline; font-size: inherit; }
+.crit-3 { background: #fde2e1; color: #a1160d; }
+.crit-2 { background: #fff1d6; color: #8a5300; }
+.crit-1 { background: #e3ecfd; color: #1f4bb8; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .crit-3 { background: #4a1a17; color: #ffb4ab; }
+  :root:not([data-theme="light"]) .crit-2 { background: #45330f; color: #ffd28a; }
+  :root:not([data-theme="light"]) .crit-1 { background: #1c2b4d; color: #a9c2ff; }
+}
+:root[data-theme="dark"] .crit-3 { background: #4a1a17; color: #ffb4ab; }
+:root[data-theme="dark"] .crit-2 { background: #45330f; color: #ffd28a; }
+:root[data-theme="dark"] .crit-1 { background: #1c2b4d; color: #a9c2ff; }

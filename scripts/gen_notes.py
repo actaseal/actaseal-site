@@ -23,25 +23,66 @@ def notes():
         title = re.search(r"<h1>(.*?)</h1>", s, re.S)
         desc = re.search(r'<meta name="description" content="(.*?)">', s, re.S)
         reviewed = re.search(r'<time class="reviewed" datetime="([0-9]{4}-[0-9]{2}-[0-9]{2})"', s)
+        level = re.search(r'<meta name="actaseal:criticality" content="([0-3])">', s)
+        source = re.search(r'<meta name="actaseal:source-date" content="([0-9]{4}-[0-9]{2}-[0-9]{2})">', s)
         if not (date and title):
             raise SystemExit(f"{p.name}: needs a <time datetime> and an <h1>")
+        if not (level and source):
+            raise SystemExit(f"{p.name}: needs actaseal:criticality (0-3) and actaseal:source-date metas")
         out.append({
             "file": p.name,
             "date": date.group(1),
+            "criticality": int(level.group(1)),
+            "source_date": source.group(1),
             "reviewed": reviewed.group(1) if reviewed else date.group(1),
             "title": re.sub(r"\s+", " ", title.group(1)).strip(),
             "summary": re.sub(r"\s+", " ", desc.group(1)).strip() if desc else "",
         })
-    return sorted(out, key=lambda n: n["date"], reverse=True)
+    return sorted(out, key=lambda n: (n["source_date"], n["criticality"], n["date"], n["file"]), reverse=True)
+
+
+LEVELS = {3: "Act now", 2: "Prepare", 1: "Watch"}
+
+FILTER = """<div class="note-filter" role="group" aria-label="Show notes by how soon they need action" hidden>
+  <button type="button" data-level="all" aria-pressed="true">All</button>
+  <button type="button" data-level="3" aria-pressed="false">Act now</button>
+  <button type="button" data-level="2" aria-pressed="false">Prepare</button>
+  <button type="button" data-level="1" aria-pressed="false">Watch</button>
+</div>
+<p class="note-filter-help" hidden>All: newest source first. Act now: in force or rated critical. Prepare: rules on the way. Watch: guidance worth knowing.</p>"""
+
+SCRIPT = """<script>
+(function () {
+  var bar = document.querySelector(".note-filter");
+  var help = document.querySelector(".note-filter-help");
+  var items = document.querySelectorAll(".note-list li");
+  bar.hidden = false; help.hidden = false;
+  bar.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    bar.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    items.forEach(function (li) {
+      li.hidden = b.dataset.level !== "all" && li.dataset.criticality !== b.dataset.level;
+    });
+  });
+})();
+</script>"""
+
+
+def _badge(level: int) -> str:
+    if level not in LEVELS:
+        return ""
+    return f' <span class="crit crit-{level}">{LEVELS[level]}</span>'
+
 
 
 def build() -> str:
     items = "\n".join(
-        f'  <li>\n'
-        f'    <time datetime="{n["date"]}">{n["date"]}</time>\n'
+        f'  <li data-criticality="{n["criticality"]}" data-source-date="{n["source_date"]}">\n'
+        f'    <time datetime="{n["date"]}">{n["date"]}</time>{_badge(n["criticality"])}\n'
         f'    <a href="{n["file"]}">{html.escape(n["title"])}</a>\n'
         f'    <p>{html.escape(n["summary"])}</p>\n'
-        f'    <p class="note-meta">Last reviewed: <time class="reviewed" datetime="{n["reviewed"]}">{n["reviewed"]}</time></p>\n'
+        f'    <p class="note-meta">Source published: <time class="source" datetime="{n["source_date"]}">{n["source_date"]}</time> &middot; Last reviewed: <time class="reviewed" datetime="{n["reviewed"]}">{n["reviewed"]}</time></p>\n'
         f'  </li>'
         for n in notes()
     )
@@ -73,9 +114,11 @@ def build() -> str:
 <main class="wrap">
 <h1>Notes</h1>
 <p class="lede">{desc}</p>
+{FILTER}
 <ul class="note-list">
 {items}
 </ul>
+{SCRIPT}
 <p>CBOM semantic checker: <a href="https://github.com/actaseal/cbom-check">github.com/actaseal/cbom-check</a>.</p>
 <p><a href="/">Back to actaseal.com</a></p>
 </main>

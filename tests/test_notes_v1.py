@@ -81,3 +81,34 @@ def test_last_reviewed_is_never_later_than_the_notes_last_commit():
         if dirty:
             continue  # being edited right now; the date is checked once it is committed
         assert reviewed <= last_commit, f"{n['file']}: reviewed {reviewed} is after its last commit {last_commit}"
+
+
+# --- Criticality and source date: the index can be filtered and sorted --------
+
+def test_every_note_has_a_criticality_and_a_source_date():
+    for n in gen_notes.notes():
+        assert n["criticality"] in (0, 1, 2, 3), n["file"]
+        assert re.fullmatch(r"\d{4}-\d{2}-\d{2}", n["source_date"]) and n["source_date"] <= n["date"], n["file"]
+
+
+def test_the_index_is_newest_source_first_and_each_item_carries_its_level():
+    index = (ROOT / "notes" / "index.html").read_text(encoding="utf-8")
+    items = re.findall(r'<li data-criticality="(\d)" data-source-date="([\d-]+)">', index)
+    assert len(items) == len(gen_notes.notes())
+    dates = [d for _, d in items]
+    assert dates == sorted(dates, reverse=True)
+
+
+def test_the_filter_offers_all_and_three_levels():
+    index = (ROOT / "notes" / "index.html").read_text(encoding="utf-8")
+    labels = re.findall(r'<button type="button" data-level="(\w+)"[^>]*>([^<]+)</button>', index)
+    assert labels == [("all", "All"), ("3", "Act now"), ("2", "Prepare"), ("1", "Watch")]
+
+
+def test_a_note_without_a_level_is_refused(tmp_path, monkeypatch):
+    import pytest
+
+    (tmp_path / "x.html").write_text('<time datetime="2026-01-01"></time><h1>X</h1>', encoding="utf-8")
+    monkeypatch.setattr(gen_notes, "NOTES", tmp_path)
+    with pytest.raises(SystemExit):
+        gen_notes.notes()
