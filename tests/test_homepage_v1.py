@@ -5,12 +5,13 @@ One phrase carries product words because it is the name of an action: the nav en
 """
 import html
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "index.html"
 HEADLINE = "When your AI agent refunds or pays and someone asks why, show proof they can check themselves."
-NAV = ["Notes 7", "Check a record", "Paid pilot", "Security", "Book a call"]
+NAV = ["Notes", "Check a record", "Paid pilot", "Security", "Book a call"]
 NAV_HREFS = ["/notes/", "https://verify.actaseal.com/browser/", "/pilot/", "/security/", "https://cal.com/actaseal/20min"]
 ALLOWED_PHRASES = ("Verify a receipt",)
 BUYER_ZONE_BANNED = ("receipt", "signed", "verif", "ledger", "offline", "policy version", "gateway", "tamper",
@@ -99,11 +100,11 @@ def test_the_homepage_says_who_it_is_for_and_links_the_regulatory_notes_without_
         assert f'href="{href}"' in why and (ROOT / href.lstrip("/")).is_file(), note
 
 
-def test_notes_count_in_the_nav_matches_the_notes_page():
-    notes = set(re.findall(r'href="([a-z0-9-]+\.html)"', (ROOT / "notes" / "index.html").read_text(encoding="utf-8")))
+def test_the_nav_shows_no_count_or_badge():
+    """A red count reads as unread notifications a static site cannot know about."""
     for page in HEADER_PAGES:
         nav = re.search(r'<nav class="site-nav">.*?</nav>', (ROOT / page).read_text(encoding="utf-8"), flags=re.S).group(0)
-        assert re.search(r'<span class="nav-count"[^>]*>(\d+)</span>', nav).group(1) == str(len(notes)), page
+        assert "nav-count" not in nav and "nav-new" not in nav, page
 
 
 def test_the_first_section_points_a_refund_team_at_the_audit():
