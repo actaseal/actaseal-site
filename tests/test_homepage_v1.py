@@ -40,11 +40,16 @@ def test_there_is_no_banner_and_no_deadline_on_the_homepage():
 
 def test_one_primary_and_one_secondary_call_in_the_first_section():
     hero = re.search(r'<section id="what">.*?</section>', raw(), flags=re.S).group(0)
-    primary = re.search(r'<a class="cta-line" href="(https://cal\.com/actaseal/20min)">\s*Book a 20-min call\s*</a>', hero)
-    secondary = re.search(r'<a class="cta-secondary" href="(https://verify\.actaseal\.com/browser/)">\s*Check a sample record yourself\s*</a>', hero)
+    primary = re.search(r'<a class="cta-line" href="/refunds/">\s*Start a refund audit\s*</a>', hero)
+    secondary = re.search(r'<a class="cta-secondary" href="(https://cal\.com/actaseal/20min)">\s*Book a 20-min call\s*</a>', hero)
     assert primary and secondary
-    assert hero.index("Book a 20-min call") < hero.index("Check a sample record yourself")
+    assert hero.index("Start a refund audit") < hero.index("Book a 20-min call")
+    assert 'href="https://verify.actaseal.com/browser/"' in hero
     assert len(re.findall(r'class="cta-line"', raw())) == 1
+
+
+def test_the_customer_needs_nothing_from_us_either():
+    assert "They do not need your account, your software, your word or ours." in text(raw())
 
 
 def test_nav_is_product_verify_pilot_security_contact_on_every_page_with_a_header():
