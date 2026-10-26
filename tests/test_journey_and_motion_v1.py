@@ -53,3 +53,10 @@ def test_notes_page_pins_act_now_notes():
 def test_about_answers_the_buyer_before_the_standards_work():
     src = page("about/index.html")
     assert src.index("What that means for a buyer") < src.index("<h2>Standards work</h2>")
+
+
+def test_no_founder_photo_on_the_site():
+    assert not (ROOT / "about" / "xavier-goshi.jpg").exists()
+    for p in ROOT.rglob("*.html"):
+        if ".git" not in p.parts and "tests" not in p.parts:
+            assert "xavier-goshi.jpg" not in p.read_text(encoding="utf-8"), p

@@ -329,7 +329,7 @@ dl.outcomes dd { margin: 4px 0 0; max-width: 62ch; }
 @media (max-width: 345px) {
   nav.site-nav ul { flex-wrap: wrap; justify-content: flex-start; }
 }
-.founder { display: grid; grid-template-columns: 160px 1fr; gap: 24px; align-items: start; margin: 8px 0 24px; }
+.founder { display: block; gap: 24px; align-items: start; margin: 8px 0 24px; }
 .founder img { width: 160px; height: 160px; border-radius: 50%; object-fit: cover; }
 .founder p:first-child { margin-top: 0; }
 @media (max-width: 560px) { .founder { grid-template-columns: 1fr; } .founder img { width: 120px; height: 120px; } }
