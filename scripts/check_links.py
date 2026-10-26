@@ -55,6 +55,8 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://www.fsb.org/2026/10/sound-practices-for-responsible-adoption-of-artificial-intelligence-ai-final-report/",
     "https://www.lewissilkin.com/insights/2026/07/27/the-digital-omnibus-on-ai-enters-into-force-today-102nedo",
     "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+    "https://paymentexpert.com/2026/10/23/ai-agents-blocked-by-banks/",
+    "https://complexdiscovery.com/us-bank-regulators-ask-whether-lenders-can-stop-their-ai-agents/",
     "https://www.ansa.it/sito/notizie/economia/business_wire/2026/09/01/emvco-requests-feedback-on-framework-for-secure-interoperable-and-scalable-card_d1aa8cc6-6678-4d51-9daf-a56be16355bb.html",
     "https://github.com/actaseal/x402-acceptance-check-cold",
     "https://pcaobus.org/Standards/QandA/SAPA-14-improper-alteration-audit-documentation.pdf",

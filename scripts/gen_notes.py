@@ -25,6 +25,11 @@ def notes():
         reviewed = re.search(r'<time class="reviewed" datetime="([0-9]{4}-[0-9]{2}-[0-9]{2})"', s)
         level = re.search(r'<meta name="actaseal:criticality" content="([0-3])">', s)
         source = re.search(r'<meta name="actaseal:source-date" content="([0-9]{4}-[0-9]{2}-[0-9]{2})">', s)
+        region = re.search(r'<meta name="actaseal:region" content="(India|EU|US|Global)">', s)
+        status = re.search(r'<meta name="actaseal:status" content="(In force|Coming|Draft|Guidance|Signal)">', s)
+        deadline = re.search(r'<meta name="actaseal:deadline" content="([0-9]{4}-[0-9]{2}-[0-9]{2})">', s)
+        if bool(region) != bool(status):
+            raise SystemExit(f"{p.name}: a radar note needs both actaseal:region and actaseal:status")
         if not (date and title):
             raise SystemExit(f"{p.name}: needs a <time datetime> and an <h1>")
         if not (level and source):
@@ -34,9 +39,12 @@ def notes():
             "date": date.group(1),
             "criticality": int(level.group(1)),
             "source_date": source.group(1),
+            "region": region.group(1) if region else None,
+            "status": status.group(1) if status else None,
+            "deadline": deadline.group(1) if deadline else None,
             "reviewed": reviewed.group(1) if reviewed else date.group(1),
-            "title": re.sub(r"\s+", " ", title.group(1)).strip(),
-            "summary": re.sub(r"\s+", " ", desc.group(1)).strip() if desc else "",
+            "title": html.unescape(re.sub(r"\s+", " ", title.group(1)).strip()),
+            "summary": html.unescape(re.sub(r"\s+", " ", desc.group(1)).strip()) if desc else "",
         })
     return sorted(out, key=lambda n: (n["source_date"], n["criticality"], n["date"], n["file"]), reverse=True)
 
@@ -114,6 +122,7 @@ def build() -> str:
 <main class="wrap">
 <h1>Notes</h1>
 <p class="lede">{desc}</p>
+<p>Regulators, supervisors and payment networks on AI agents, by region and status: <a href="/radar/">the radar</a>.</p>
 {FILTER}
 <ul class="note-list">
 {items}
@@ -127,6 +136,115 @@ def build() -> str:
 """
 
 
+REGIONS = ("India", "EU", "US", "Global")
+STATUSES = ("In force", "Coming", "Draft", "Guidance", "Signal")
+STATUS_HELP = ("In force: issued and applying now. Coming: law with a date ahead. Draft: open for comment. "
+               "Guidance: published, not binding. Signal: statements, supervisory questions, market moves.")
+
+RADAR_SCRIPT = """<script>
+(function () {
+  var sel = {region: "all", status: "all"};
+  var items = document.querySelectorAll(".radar-list li");
+  document.querySelectorAll(".radar-filter").forEach(function (bar) {
+    bar.hidden = false;
+    bar.addEventListener("click", function (e) {
+      var b = e.target.closest("button");
+      if (!b) return;
+      bar.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+      sel[b.dataset.filter] = b.dataset.value;
+      var shown = 0;
+      items.forEach(function (li) {
+        var ok = (sel.region === "all" || li.dataset.region === sel.region) &&
+                 (sel.status === "all" || li.dataset.status === sel.status);
+        li.hidden = !ok; if (ok) shown++;
+      });
+      document.querySelector(".radar-empty").hidden = shown > 0;
+    });
+  });
+  var today = new Date().toISOString().slice(0, 10);
+  document.querySelectorAll(".radar-timeline li").forEach(function (li) {
+    if (li.dataset.date < today) li.classList.add("passed");
+  });
+})();
+</script>"""
+
+
+def _bar(kind: str, label: str, values) -> str:
+    buttons = "\n".join(
+        f'  <button type="button" data-filter="{kind}" data-value="{v}" aria-pressed="{str(v == "all").lower()}">'
+        f'{"All" if v == "all" else v}</button>'
+        for v in ("all", *values)
+    )
+    return f'<div class="radar-filter note-filter" role="group" aria-label="{label}" hidden>\n{buttons}\n</div>'
+
+
+def build_radar() -> str:
+    on = [n for n in notes() if n["region"]]
+    timeline = "\n".join(
+        f'  <li data-date="{n["deadline"]}"><time datetime="{n["deadline"]}">{n["deadline"]}</time> '
+        f'<span class="radar-tag">{n["region"]}</span> <a href="/notes/{n["file"]}">{html.escape(n["title"])}</a></li>'
+        for n in sorted((n for n in on if n["deadline"]), key=lambda n: n["deadline"])
+    )
+    items = "\n".join(
+        f'  <li data-region="{n["region"]}" data-status="{n["status"]}" data-criticality="{n["criticality"]}">\n'
+        f'    <span class="radar-tag">{n["region"]}</span> <span class="radar-tag radar-status">{n["status"]}</span>'
+        f'{_badge(n["criticality"])}\n'
+        f'    <a href="/notes/{n["file"]}">{html.escape(n["title"])}</a>\n'
+        f'    <p>{html.escape(n["summary"])}</p>\n'
+        f'    <p class="note-meta">Source published: <time class="source" datetime="{n["source_date"]}">{n["source_date"]}</time></p>\n'
+        f'  </li>'
+        for n in on
+    )
+    desc = ("What regulators, supervisors and payment networks are saying and doing about AI agents that "
+            "act on people's money, by region and status, newest source first.")
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>AI agents and money: the radar &middot; ActaSeal</title>
+<link rel="stylesheet" href="../css/base.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="AI agents and money: the radar">
+<meta property="og:description" content="{desc}">
+<meta property="og:url" content="https://actaseal.com/radar/">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI agents and money: the radar">
+<meta name="twitter:description" content="{desc}">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="{desc}">
+</head>
+<body>
+<main class="wrap">
+<h1>AI agents and money: the radar</h1>
+<p class="lede">{desc} Each entry links to a short note with its source. Updated when something happens.</p>
+<h2>Dates to know</h2>
+<ol class="radar-timeline">
+{timeline}
+</ol>
+<h2>Everything on the radar</h2>
+{_bar("region", "Filter by region", REGIONS)}
+{_bar("status", "Filter by status", STATUSES)}
+<p class="note-filter-help">{STATUS_HELP}</p>
+<ul class="note-list radar-list">
+{items}
+</ul>
+<p class="radar-empty" hidden>Nothing on the radar for that combination yet.</p>
+<p>This is a reading of public sources, not legal advice. <a href="/notes/">All notes</a> &middot; <a href="/">actaseal.com</a></p>
+</main>
+{RADAR_SCRIPT}
+</body>
+</html>
+"""
+
+
 if __name__ == "__main__":
+    (ROOT / "radar").mkdir(exist_ok=True)
+    (ROOT / "radar" / "index.html").write_text(build_radar(), encoding="utf-8")
     (NOTES / "index.html").write_text(build(), encoding="utf-8")
     print(f"notes/index.html: {len(notes())} note(s)")

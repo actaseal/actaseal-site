@@ -364,3 +364,15 @@ nav.site-nav a.nav-cta:hover { color: var(--accent-ink); opacity: .92; }
 :root[data-theme="dark"] .crit-3 { background: #4a1a17; color: #ffb4ab; }
 :root[data-theme="dark"] .crit-2 { background: #45330f; color: #ffd28a; }
 :root[data-theme="dark"] .crit-1 { background: #1c2b4d; color: #a9c2ff; }
+
+/* Radar */
+.radar-filter { margin-top: 8px; }
+.radar-tag { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--rule, #ccc); font-size: 12px; font-weight: 600; vertical-align: 1px; }
+.radar-list .crit { margin-left: 4px; }
+.radar-timeline { list-style: none; padding: 0; margin: 8px 0 24px; border-left: 2px solid var(--rule, #ccc); }
+.radar-timeline li { position: relative; padding: 6px 0 6px 18px; }
+.radar-timeline li::before { content: ""; position: absolute; left: -6px; top: 13px; width: 10px; height: 10px; border-radius: 50%; background: #2f5bd8; }
+.radar-timeline li.passed { opacity: .55; }
+.radar-timeline li.passed::before { background: var(--rule, #ccc); }
+.radar-timeline time { font-family: var(--mono, monospace); font-size: 13px; margin-right: 6px; }
+.radar-empty { opacity: .75; }
