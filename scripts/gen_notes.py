@@ -88,6 +88,17 @@ def _badge(level: int) -> str:
 
 
 
+def _pinned() -> str:
+    urgent = [n for n in notes() if n["criticality"] == 3]
+    if not urgent:
+        return ""
+    rows = "\n".join(
+        f'  <p><span class="crit crit-3">Act now</span> <a href="{n["file"]}">{html.escape(n["title"])}</a></p>'
+        for n in urgent
+    )
+    return f'<section class="notes-pinned">\n  <h2>Needs attention now</h2>\n{rows}\n</section>'
+
+
 def build() -> str:
     items = "\n".join(
         f'  <li data-criticality="{n["criticality"]}" data-source-date="{n["source_date"]}">\n'
@@ -127,6 +138,7 @@ def build() -> str:
 <h1>Notes</h1>
 <p class="lede">{desc}</p>
 <p>Regulators, supervisors and payment networks on AI agents, by region and status: <a href="/radar/">the radar</a>.</p>
+{_pinned()}
 {FILTER}
 <ul class="note-list">
 {items}
@@ -195,6 +207,49 @@ def _long_date(d: str) -> str:
     return datetime.date.fromisoformat(d).strftime("%-d %B %Y")
 
 
+QUADRANT = {"India": 0, "EU": 1, "US": 2, "Global": 3}  # clockwise from the top right
+RING = {3: 70, 2: 115, 1: 160, 0: 160}
+
+
+def _legend() -> str:
+    return "\n".join(
+        f'    <li><span class="legend-dot status-{st.lower().replace(" ", "-")}"></span>{st}</li>' for st in STATUSES
+    )
+
+
+def _scope(on) -> str:
+    import math
+    cx = cy = 200
+    by_q = {q: [n for n in on if n["region"] == q] for q in QUADRANT}
+    blips = []
+    for q, items in by_q.items():
+        start = -90 + 90 * QUADRANT[q]
+        for i, n in enumerate(items):
+            angle = math.radians(start + 90 * (i + 1) / (len(items) + 1))
+            r = RING[n["criticality"]]
+            x, y = cx + r * math.cos(angle), cy + r * math.sin(angle)
+            st = n["status"].lower().replace(" ", "-")
+            blips.append(
+                f'  <a href="/notes/{n["file"]}" aria-label="{html.escape(n["title"], quote=True)}">'
+                f'<circle class="blip status-{st}" cx="{x:.1f}" cy="{y:.1f}" r="7"><title>{html.escape(n["title"])}</title></circle></a>'
+            )
+    labels = (
+        '  <text x="372" y="34" text-anchor="end">India</text>\n'
+        '  <text x="28" y="34">EU</text>\n'
+        '  <text x="28" y="378">US</text>\n'
+        '  <text x="372" y="378" text-anchor="end">Global</text>'
+    )
+    blip_rows = "\n".join(blips)
+    return f"""<svg class="radar-scope" viewBox="0 0 400 400" role="img" aria-label="Radar of every item, by region; closer to the centre needs action sooner">
+  <defs><linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="currentColor" stop-opacity="0"/><stop offset="1" stop-color="currentColor" stop-opacity=".28"/></linearGradient></defs>
+  <circle class="ring" cx="200" cy="200" r="160"/><circle class="ring" cx="200" cy="200" r="115"/><circle class="ring" cx="200" cy="200" r="70"/>
+  <line class="ring" x1="200" y1="30" x2="200" y2="370"/><line class="ring" x1="30" y1="200" x2="370" y2="200"/>
+  <g class="sweep"><path d="M200 200 L200 40 A160 160 0 0 1 338.6 120 Z" fill="url(#sweep)"/></g>
+{labels}
+{blip_rows}
+</svg>"""
+
+
 def build_radar() -> str:
     on = [n for n in notes() if n["region"]]
     updated = max(max(n["date"], n["reviewed"]) for n in on)
@@ -252,6 +307,16 @@ def build_radar() -> str:
 <p class="radar-kicker">Radar &middot; Last updated: <time datetime="{updated}">{updated}</time> &middot; {len(on)} items</p>
 <h1>AI agents and money: the radar</h1>
 <p class="lede">{desc}</p>
+<div class="radar-hero">
+{_scope(on)}
+<div class="radar-legend">
+  <p>Each dot is one item. Tap a dot to read it.</p>
+  <p><strong>Distance from the centre</strong>: inner ring, act now; middle, prepare; outer, watch.</p>
+  <ul class="legend-status">
+{_legend()}
+  </ul>
+</div>
+</div>
 <p class="radar-method">Only public sources that can be cited. Each item links to a short note and its source.
 Added when something material happens, not on a schedule.</p>
 

@@ -422,3 +422,62 @@ nav.site-nav a.nav-cta:hover { color: var(--accent-ink); opacity: .92; }
 :root[data-theme="dark"] .act-now-box h2 { color: #ff8a80; }
 .radar-bridge { margin: 32px 0 16px; padding-top: 16px; border-top: 1px solid var(--rule); }
 .radar-bridge p { font-size: 18px; max-width: 720px; }
+
+/* ---- 2026-10-26: journey sections and motion (CSS only; nothing moves under reduced motion) ---- */
+.ladder-steps { list-style: none; padding: 0; margin: 20px 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; counter-reset: none; }
+.ladder-step { position: relative; padding: 18px 18px 14px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper-raised); }
+.ladder-step h3 { margin: 10px 0 6px; font-size: 17px; }
+.ladder-step p { margin: 0; color: var(--muted); }
+.ladder-n { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.ladder-step:not(:last-child)::after { content: ""; position: absolute; top: 32px; right: -15px; width: 16px; height: 2px; background: var(--accent); }
+@media (max-width: 720px) {
+  .ladder-steps { grid-template-columns: 1fr; }
+  .ladder-step:not(:last-child)::after { top: auto; bottom: -15px; right: auto; left: 32px; width: 2px; height: 16px; }
+}
+.check-band { padding: 24px; border-radius: 12px; background: var(--paper-raised); border: 1px solid var(--rule); }
+.trust-strip { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--muted); font-size: 14px; }
+.trust-strip li::before { content: "✓"; margin-right: 6px; color: var(--accent); font-weight: 700; }
+.book-band { text-align: center; padding: 32px 0 8px; }
+.book-band p { color: var(--muted); }
+.notes-pinned { margin: 16px 0; padding: 12px 16px; border-left: 4px solid #c5221f; border-radius: 6px; background: var(--paper-raised); }
+.notes-pinned h2 { margin: 0 0 6px; font-size: 16px; }
+.notes-pinned p { margin: 4px 0; }
+
+/* hero: the edited copy arrives, its amount flashes, and the record calls it out */
+@keyframes card-in { from { opacity: 0; translate: 40px 20px; } to { opacity: 1; translate: 0 0; } }
+@keyframes pop { from { opacity: 0; scale: .85; } to { opacity: 1; scale: 1; } }
+@keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+.record-art g + g { animation: card-in .7s cubic-bezier(.2,.7,.2,1) .5s both; }
+.record-art .ok-bg, .record-art .ok-mark, .record-art .ok-t { transform-box: fill-box; transform-origin: center; animation: pop .4s ease-out .25s both; }
+.record-art .bad-hl { animation: flash .5s ease-in-out 1.3s 3; }
+.record-art .bad-bg, .record-art .bad-mark, .record-art .bad-t { transform-box: fill-box; transform-origin: center; animation: pop .4s ease-out 2.1s both; }
+
+/* sections rise into place as they scroll in, where the browser supports scroll-driven animation */
+@keyframes rise { from { opacity: 0; translate: 0 24px; } to { opacity: 1; translate: 0 0; } }
+@supports (animation-timeline: view()) {
+  .step, .ladder-step, .check-band, .deadline-card, .act-now-box, .radar-list li {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 25%;
+  }
+}
+
+/* radar scope */
+.radar-hero { display: grid; grid-template-columns: minmax(0, 360px) 1fr; gap: 24px; align-items: center; margin: 12px 0 4px; }
+.radar-scope { width: 100%; height: auto; color: var(--accent); }
+.radar-scope .ring { fill: none; stroke: var(--rule); stroke-width: 1.2; }
+.radar-scope text { font-family: var(--mono); font-size: 13px; fill: var(--muted); }
+.radar-scope .sweep { transform-box: view-box; transform-origin: 200px 200px; animation: spin 7s linear infinite; }
+.radar-scope .blip { fill: currentColor; stroke: var(--paper); stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: blip 2.4s ease-in-out infinite; }
+.radar-scope a:hover .blip, .radar-scope a:focus .blip { stroke: var(--ink); stroke-width: 3; }
+.radar-legend { color: var(--muted); font-size: 14px; }
+@keyframes spin { to { rotate: 360deg; } }
+@keyframes blip { 0%, 100% { scale: 1; } 50% { scale: 1.25; } }
+@media (max-width: 720px) { .radar-hero { grid-template-columns: 1fr; } .radar-scope { max-width: 340px; margin: 0 auto; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+.radar-legend p { margin: 0 0 8px; }
+.legend-status { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 14px; color: var(--muted); }
+.legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; background: currentColor !important; vertical-align: 0; }
