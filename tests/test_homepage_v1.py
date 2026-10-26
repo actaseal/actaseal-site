@@ -93,7 +93,7 @@ def test_the_homepage_runs_no_script_and_prints_no_regulation_dates():
 
 def test_the_homepage_says_who_it_is_for_and_links_the_regulatory_notes_without_dates():
     main = re.search(r"<main\b.*?</main>", raw(), flags=re.S).group(0)
-    assert "For teams whose AI support agent issues refunds, and for payment companies, fintechs and banks letting AI agents move money." in text(main)
+    assert "For support teams whose AI agent issues refunds and credits, payment companies running agent-initiated payouts, and fintechs and banks testing AI agents that move money." in text(main)
     why = re.search(r'<section id="why-now">.*?</section>', main, flags=re.S).group(0)
     for note in ("cert-in-ai-agents-advisory", "fsb-ai-sound-practices-for-agents", "npci-agents-on-upi", "colorado-sb-26-189"):
         href = f"/notes/{note}.html"

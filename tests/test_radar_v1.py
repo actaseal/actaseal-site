@@ -34,10 +34,9 @@ def test_the_radar_page_is_current_and_lists_each_radar_note():
         assert re.search(rf'<li data-region="{region}" data-status="{status}"[^>]*>.*?href="/notes/{name}"', page, re.S), name
 
 
-def test_the_timeline_shows_only_dates_still_ahead_newest_last():
+def test_the_deadlines_are_in_date_order():
     page = RADAR.read_text(encoding="utf-8")
-    timeline = re.search(r'<ol class="radar-timeline">(.*?)</ol>', page, re.S).group(1)
-    dates = re.findall(r'<time datetime="(\d{4}-\d{2}-\d{2})"', timeline)
+    dates = re.findall(r'<li class="deadline-card" data-date="(\d{4}-\d{2}-\d{2})"', page)
     assert dates == sorted(dates) and "2027-01-01" in dates and "2027-12-02" in dates
 
 

@@ -28,6 +28,9 @@ def notes():
         region = re.search(r'<meta name="actaseal:region" content="(India|EU|US|Global)">', s)
         status = re.search(r'<meta name="actaseal:status" content="(In force|Coming|Draft|Guidance|Signal)">', s)
         deadline = re.search(r'<meta name="actaseal:deadline" content="([0-9]{4}-[0-9]{2}-[0-9]{2})">', s)
+        means = re.search(r'<meta name="actaseal:means" content="(.*?)">', s)
+        if region and not means:
+            raise SystemExit(f"{p.name}: a radar note needs actaseal:means")
         if bool(region) != bool(status):
             raise SystemExit(f"{p.name}: a radar note needs both actaseal:region and actaseal:status")
         if not (date and title):
@@ -42,6 +45,7 @@ def notes():
             "region": region.group(1) if region else None,
             "status": status.group(1) if status else None,
             "deadline": deadline.group(1) if deadline else None,
+            "means": html.unescape(means.group(1)) if means else None,
             "reviewed": reviewed.group(1) if reviewed else date.group(1),
             "title": html.unescape(re.sub(r"\s+", " ", title.group(1)).strip()),
             "summary": html.unescape(re.sub(r"\s+", " ", desc.group(1)).strip()) if desc else "",
@@ -161,9 +165,13 @@ RADAR_SCRIPT = """<script>
       document.querySelector(".radar-empty").hidden = shown > 0;
     });
   });
-  var today = new Date().toISOString().slice(0, 10);
-  document.querySelectorAll(".radar-timeline li").forEach(function (li) {
-    if (li.dataset.date < today) li.classList.add("passed");
+  var now = Date.now();
+  document.querySelectorAll(".deadline-card").forEach(function (card) {
+    var days = Math.ceil((Date.parse(card.dataset.date + "T00:00:00Z") - now) / 864e5);
+    var out = card.querySelector(".deadline-days");
+    if (days < 0) { card.classList.add("passed"); out.textContent = "Passed"; }
+    else { out.textContent = days === 0 ? "Today" : "In " + days + " day" + (days === 1 ? "" : "s"); }
+    out.hidden = false;
   });
 })();
 </script>"""
@@ -178,25 +186,45 @@ def _bar(kind: str, label: str, values) -> str:
     return f'<div class="radar-filter note-filter" role="group" aria-label="{label}" hidden>\n{buttons}\n</div>'
 
 
+def _status(st: str) -> str:
+    return f'<span class="radar-tag status-{st.lower().replace(" ", "-")}">{st}</span>'
+
+
+def _long_date(d: str) -> str:
+    import datetime
+    return datetime.date.fromisoformat(d).strftime("%-d %B %Y")
+
+
 def build_radar() -> str:
     on = [n for n in notes() if n["region"]]
-    timeline = "\n".join(
-        f'  <li data-date="{n["deadline"]}"><time datetime="{n["deadline"]}">{n["deadline"]}</time> '
-        f'<span class="radar-tag">{n["region"]}</span> <a href="/notes/{n["file"]}">{html.escape(n["title"])}</a></li>'
+    updated = max(max(n["date"], n["reviewed"]) for n in on)
+    cards = "\n".join(
+        f'  <li class="deadline-card" data-date="{n["deadline"]}">\n'
+        f'    <p class="deadline-date"><time datetime="{n["deadline"]}">{_long_date(n["deadline"])}</time>'
+        f' <span class="deadline-days" hidden></span></p>\n'
+        f'    <p><span class="radar-tag">{n["region"]}</span> {_status(n["status"])}</p>\n'
+        f'    <a href="/notes/{n["file"]}">{html.escape(n["title"])}</a>\n'
+        f'  </li>'
         for n in sorted((n for n in on if n["deadline"]), key=lambda n: n["deadline"])
+    )
+    urgent = "\n".join(
+        f'  <p><a href="/notes/{n["file"]}">{html.escape(n["title"])}</a> '
+        f'<span class="radar-tag">{n["region"]}</span> {_status(n["status"])}</p>\n'
+        f'  <p class="radar-means">If your agent moves money: {html.escape(n["means"])}</p>'
+        for n in on if n["criticality"] == 3
     )
     items = "\n".join(
         f'  <li data-region="{n["region"]}" data-status="{n["status"]}" data-criticality="{n["criticality"]}">\n'
-        f'    <span class="radar-tag">{n["region"]}</span> <span class="radar-tag radar-status">{n["status"]}</span>'
-        f'{_badge(n["criticality"])}\n'
+        f'    <span class="radar-tag">{n["region"]}</span> {_status(n["status"])}{_badge(n["criticality"])}\n'
         f'    <a href="/notes/{n["file"]}">{html.escape(n["title"])}</a>\n'
         f'    <p>{html.escape(n["summary"])}</p>\n'
+        f'    <p class="radar-means">If your agent moves money: {html.escape(n["means"])}</p>\n'
         f'    <p class="note-meta">Source published: <time class="source" datetime="{n["source_date"]}">{n["source_date"]}</time></p>\n'
         f'  </li>'
         for n in on
     )
-    desc = ("What regulators, supervisors and payment networks are saying and doing about AI agents that "
-            "act on people's money, by region and status, newest source first.")
+    desc = ("What regulators, supervisors, banks and payment networks are saying and doing about AI agents "
+            "that act on people's money, by region and status, newest source first.")
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -220,13 +248,23 @@ def build_radar() -> str:
 <meta name="description" content="{desc}">
 </head>
 <body>
-<main class="wrap">
+<main class="wrap radar">
+<p class="radar-kicker">Radar &middot; Last updated: <time datetime="{updated}">{updated}</time> &middot; {len(on)} items</p>
 <h1>AI agents and money: the radar</h1>
-<p class="lede">{desc} Each entry links to a short note with its source. Updated when something happens.</p>
+<p class="lede">{desc}</p>
+<p class="radar-method">Only public sources that can be cited. Each item links to a short note and its source.
+Added when something material happens, not on a schedule.</p>
+
+<section class="act-now-box">
+  <h2>Needs attention now</h2>
+{urgent}
+</section>
+
 <h2>Dates to know</h2>
-<ol class="radar-timeline">
-{timeline}
+<ol class="deadline-cards">
+{cards}
 </ol>
+
 <h2>Everything on the radar</h2>
 {_bar("region", "Filter by region", REGIONS)}
 {_bar("status", "Filter by status", STATUSES)}
@@ -235,7 +273,17 @@ def build_radar() -> str:
 {items}
 </ul>
 <p class="radar-empty" hidden>Nothing on the radar for that combination yet.</p>
-<p>This is a reading of public sources, not legal advice. <a href="/notes/">All notes</a> &middot; <a href="/">actaseal.com</a></p>
+
+<section class="radar-bridge">
+  <p>Across all of these, the question is the same: when your agent moved money, can you show what it did,
+  in a form someone outside your company can check?</p>
+  <div class="cta-row">
+    <a class="cta-secondary" href="/refunds/">Start with a refund audit</a>
+    <a class="cta-secondary" href="https://cal.com/actaseal/20min">Book a 20-min call</a>
+  </div>
+</section>
+
+<p class="note-meta">A reading of public sources, not legal advice. <a href="/notes/">All notes</a> &middot; <a href="/">actaseal.com</a></p>
 </main>
 {RADAR_SCRIPT}
 </body>

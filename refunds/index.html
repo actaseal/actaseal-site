@@ -58,6 +58,18 @@
     <li>Customers who received refunds again and again.</li>
   </ul>
   <p>Each finding names the refunds involved and the money at issue.</p>
+  <h3>What the report looks like</h3>
+  <p class="example-label">Example with made-up figures, for a month of AI-issued refunds.</p>
+  <table class="example-report">
+    <thead><tr><th>Finding</th><th>Refunds</th><th>Money at issue, in your currency</th></tr></thead>
+    <tbody>
+    <tr><td>Above the agent's own limit, no approval recorded</td><td>14</td><td>38,450</td></tr>
+    <tr><td>Above the hard limit</td><td>2</td><td>21,900</td></tr>
+    <tr><td>More than one refund on the same order</td><td>9</td><td>6,120</td></tr>
+    <tr><td>Refunded more than the order was worth</td><td>3</td><td>4,375</td></tr>
+    <tr><td>Same customer, refunded again and again</td><td>5 customers</td><td>17,800</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <section id="refunds-how">
@@ -67,8 +79,13 @@
     <li>Nothing connects to your systems, and no one needs access to them.</li>
     <li>You get a report within five working days, sealed so that any later change to it shows.</li>
   </ul>
-  <p>Scope and terms are agreed on a call. <a href="/pilot/">After the audit, a paid pilot</a> checks
-  refunds before the money moves.</p>
+  <h3>What comes after</h3>
+  <ol class="ladder">
+    <li><strong>Refund audit</strong>: five working days, on an export. Shows what already went out.</li>
+    <li><strong>Paid pilot</strong>: three weeks, in your test environment. <a href="/pilot/">Each refund is checked before the money moves.</a></li>
+    <li><strong>In production</strong>: the same checks on every refund your agent issues.</li>
+  </ol>
+  <p>Scope and terms are agreed on a call.</p>
   <div class="cta-row">
     <a class="cta-line" href="https://cal.com/actaseal/20min">Book a 20-min call</a>
   </div>
