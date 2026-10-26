@@ -37,6 +37,28 @@ NOTES = {
         ],
         "links": ["https://www.ansa.it/sito/notizie/economia/business_wire/2026/09/01/emvco-requests-feedback-on-framework-for-secure-interoperable-and-scalable-card_d1aa8cc6-6678-4d51-9daf-a56be16355bb.html"],
     },
+    "us-banks-block-ai-agents.html": {
+        "level": "2", "source_date": "2026-10-22",
+        "required": [
+            "US banks are blocking AI agents. What would let one back in?",
+            "On 22 October 2026 Axios reported, citing people familiar with the matter, that Morgan Stanley, "
+            "JPMorgan Chase, Bank of America and Citi are restricting third-party AI agents from customer accounts",
+            "Morgan Stanley said it had blocked third-party agents despite not having seen rogue AI agents.",
+            "This is a reading of public reporting, not legal advice.",
+        ],
+        "links": ["https://paymentexpert.com/2026/10/23/ai-agents-blocked-by-banks/"],
+    },
+    "us-bank-regulators-ask-about-ai-agents.html": {
+        "level": "2", "source_date": "2026-10-13",
+        "required": [
+            "US bank supervisors are asking about AI agents. Could you answer?",
+            "On 13 October 2026 Reuters reported, citing people familiar with the matter, that supervisors at the "
+            "Federal Reserve, the OCC and the FDIC have been asking banks about the AI agents they use.",
+            "The agencies declined to comment. Nothing has been published",
+            "This is a reading of public reporting, not legal advice.",
+        ],
+        "links": ["https://complexdiscovery.com/us-bank-regulators-ask-whether-lenders-can-stop-their-ai-agents/"],
+    },
 }
 
 
