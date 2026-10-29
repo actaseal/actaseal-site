@@ -25,7 +25,7 @@ def test_each_homepage_benefit_ends_in_an_outcome():
 
 def test_the_homepage_names_a_use_for_each_buyer():
     t = text(page("index.html"))
-    for use in ("refunds and credits", "agent-initiated payouts", "testing AI agents that move money"):
+    for use in ("D2C and e-commerce brands", "quick commerce", "fintechs", "the companies that build those agents"):
         assert use in t, use
 
 

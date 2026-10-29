@@ -93,9 +93,9 @@ def test_the_homepage_runs_no_script_and_prints_no_regulation_dates():
 
 def test_the_homepage_says_who_it_is_for_and_links_the_regulatory_notes_without_dates():
     main = re.search(r"<main\b.*?</main>", raw(), flags=re.S).group(0)
-    assert "For support teams whose AI agent issues refunds and credits, payment companies running agent-initiated payouts, and fintechs and banks testing AI agents that move money." in text(main)
+    assert "For D2C and e-commerce brands, quick commerce and fintechs whose AI agents issue refunds, credits or payouts, and for the companies that build those agents." in text(main)
     why = re.search(r'<section id="why-now">.*?</section>', main, flags=re.S).group(0)
-    for note in ("cert-in-ai-agents-advisory", "fsb-ai-sound-practices-for-agents", "npci-agents-on-upi", "colorado-sb-26-189"):
+    for note in ("rbi-ai-cyber-threats-advisory", "npci-agents-on-upi", "eu-ai-act-high-risk-deadline-moved"):
         href = f"/notes/{note}.html"
         assert f'href="{href}"' in why and (ROOT / href.lstrip("/")).is_file(), note
 
@@ -112,3 +112,12 @@ def test_the_first_section_points_a_refund_team_at_the_audit():
     assert 'href="/refunds/"' in hero and "refund" in text(hero).lower()
     pilot = re.search(r'<section id="pilot">.*?</section>', raw(), flags=re.S).group(0)
     assert "Start with a refund audit" in pilot and 'href="/refunds/"' in pilot and 'href="/pilot/"' in pilot
+
+
+def test_the_homepage_does_not_lead_with_banks_and_has_a_door_for_agent_builders():
+    hero = re.search(r'<section id="what">.*?</section>', raw(), flags=re.S).group(0)
+    assert "banks" not in text(hero).lower()
+    builders = re.search(r'<section id="builders">.*?</section>', raw(), flags=re.S).group(0)
+    assert "mailto:sales@actaseal.com" in builders
+    why = re.search(r'<section id="why-now">.*?</section>', raw(), flags=re.S).group(0)
+    assert len(re.findall(r"<li>", why)) <= 3

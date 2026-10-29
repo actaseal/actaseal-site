@@ -15,7 +15,7 @@ def page(rel):
 
 def test_homepage_sections_follow_the_buyer_journey():
     ids = re.findall(r'<section id="([\w-]+)"', page("index.html"))
-    assert ids == ["what", "product", "pilot", "check", "why-now", "proof", "book"]
+    assert ids == ["what", "product", "pilot", "check", "builders", "proof", "why-now", "book"]
 
 
 def test_the_check_section_sends_the_reader_to_a_sample_record_and_says_where_data_stays():
