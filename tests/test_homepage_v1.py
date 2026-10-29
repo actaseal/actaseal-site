@@ -87,7 +87,7 @@ def test_no_strategy_roadmap_price_or_customer_language():
 
 
 def test_the_homepage_runs_no_script_and_prints_no_regulation_dates():
-    assert "<script" not in raw().lower()
+    assert "<script" not in re.sub(r'<script type="application/ld\+json">.*?</script>', "", raw(), flags=re.S).lower()
     assert not re.search(r"\b\d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) \d{4}\b", text(raw()))
 
 

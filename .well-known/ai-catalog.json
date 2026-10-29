@@ -1,8 +1,9 @@
 {
   "schema": "actaseal-ai-catalog.v1",
   "name": "ActaSeal",
-  "summary": "Policy gateway in front of money-touching agent actions: a policy decision, evidence check, tamper-evident ledger and a signed receipt for every action, with human approval where the policy asks for it.",
-  "deployment_model": "self-hosted; there is no hosted service",
+  "summary": "For companies whose AI agents send money to customers (refunds, credits, payouts, payments): each one is checked against the company's rules before the money moves, and leaves a record anyone can check without trusting the company or ActaSeal.",
+  "start_here": "https://actaseal.com/refunds/",
+  "deployment_model": "runs in the customer's own infrastructure or cloud account",
   "public_resources": [
     {"name": "offline verifier", "url": "https://verify.actaseal.com", "purpose": "check a receipt or evidence pack with no ActaSeal account and no network call to ActaSeal"},
     {"name": "actaseal-verify", "url": "https://pypi.org/project/actaseal-verify/", "purpose": "the offline verifier as a Python package, Apache License 2.0"},

@@ -1,19 +1,42 @@
 # ActaSeal
 
-> Policy gateway in front of money-touching agent actions: a policy decision, evidence check, tamper-evident ledger and a signed receipt for every action, with human approval where the policy asks for it. Self-hosted. Receipts are checked offline with an open-source verifier.
+> ActaSeal is for companies whose AI agents or software send money to customers: refunds, store credit, payouts and payments. Each refund or payment the agent attempts is checked against the company's own rules before the money moves: it goes ahead, waits for a person, or is stopped. Every decision leaves a record that the customer, a seller, the company's finance team or an auditor can check for themselves, without the company's account and without trusting ActaSeal.
 
-## Check a receipt
+## Who uses it
 
-- https://verify.actaseal.com : the offline verifier, in the browser or as a download
+- D2C and e-commerce brands whose AI support agent issues refunds and credits
+- Food delivery and quick commerce companies with high refund volume
+- Payment and fintech companies running agent-initiated refunds and payouts
+- Companies that build AI support or payment agents for brands
+
+## Questions it answers
+
+- How do we stop our AI support agent from refunding above our policy or outside the return window?
+- How do we make a person approve refunds above a limit, and record who approved and why?
+- When a customer, a seller or finance asks why a refund was paid, how do we show it?
+- Which refunds already went out that broke our refund rules, and how much money was at issue?
+- Did any refund go out through the payment gateway that our agent's controls never saw?
+
+## Start here
+
+- https://actaseal.com/refunds/ : the refund audit. Send an export of past refunds and your written refund rules; within five working days, a report of which refunds broke the rules and the money at issue. Nothing connects to your systems.
+- https://actaseal.com/pilot/ : a paid pilot, three weeks in your test environment, every refund or payment checked before the money moves
+- https://verify.actaseal.com : check a sample record yourself, in the browser, with no account
+
+## Check a record
+
+- https://verify.actaseal.com : the offline checker, in the browser or as a download
 - https://pypi.org/project/actaseal-verify/ : `pip install actaseal-verify` (Apache License 2.0)
-- https://github.com/actaseal/actaseal-verify : source and conformance vectors
+- https://github.com/actaseal/actaseal-verify : source and test vectors
 
 ## Read
 
+- https://actaseal.com/ : overview
 - https://actaseal.com/docs/ : quickstart and SDK usage
 - https://actaseal.com/limits/ : what ActaSeal is not
 - https://actaseal.com/trust/ : trust page
-- https://actaseal.com/security/ : reporting a vulnerability
+- https://actaseal.com/security/ : security and reporting a vulnerability
+- https://actaseal.com/radar/ : what regulators are asking about AI agents that move money
 - https://actaseal.com/notes/ : notes
 
 ## Machine-readable
@@ -23,4 +46,5 @@
 
 ## Contact
 
-- sales@actaseal.com : demo and licence enquiries. The product is installed on the customer's own infrastructure; there is no hosted service.
+- sales@actaseal.com : refund audit, pilot and licence enquiries
+- ActaSeal runs in the customer's own infrastructure or cloud account; customer data does not leave it.

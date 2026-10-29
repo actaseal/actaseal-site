@@ -31,7 +31,7 @@ def test_the_easy_start_is_a_three_step_ladder():
 
 def test_the_homepage_moves_with_css_only_and_respects_reduced_motion():
     src, css = page("index.html"), page("css/base.css")
-    assert "<script" not in src.lower()
+    assert "<script" not in re.sub(r'<script type="application/ld\+json">.*?</script>', "", src, flags=re.S).lower()
     assert "@keyframes" in css and "prefers-reduced-motion: reduce" in css
     assert "animation-timeline: view()" in css and "@supports (animation-timeline: view())" in css
 

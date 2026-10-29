@@ -32,7 +32,7 @@ def test_the_homepage_names_a_use_for_each_buyer():
 def test_a_mobile_bar_points_at_the_refund_audit_without_script():
     src = page("index.html")
     assert re.search(r'<div class="sticky-cta"><a href="/refunds/">Start a refund audit</a></div>', src)
-    assert "<script" not in src.lower()
+    assert "<script" not in re.sub(r'<script type="application/ld\+json">.*?</script>', "", src, flags=re.S).lower()
     css = page("css/base.css")
     assert ".sticky-cta" in css and "position: sticky" in css
 
