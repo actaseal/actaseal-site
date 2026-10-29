@@ -39,8 +39,8 @@ def test_a_mobile_bar_points_at_the_refund_audit_without_script():
 
 def test_the_refund_page_shows_an_example_report_marked_as_made_up():
     src = page("refunds/index.html")
-    report = re.search(r'<table class="example-report">.*?</table>', src, re.S).group(0)
-    assert "Example with made-up figures" in text(src) and report.count("<tr>") >= 4
+    assert "made-up refunds" in text(src)
+    assert re.search(r'<img[^>]+example-report-page-1\.png[^>]+made-up', src, re.S)
 
 
 def test_the_refund_page_shows_what_comes_after():
