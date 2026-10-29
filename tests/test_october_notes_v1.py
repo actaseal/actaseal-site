@@ -59,6 +59,28 @@ NOTES = {
         ],
         "links": ["https://complexdiscovery.com/us-bank-regulators-ask-whether-lenders-can-stop-their-ai-agents/"],
     },
+    "canadian-banks-block-ai-agents.html": {
+        "level": "2", "source_date": "2026-10-28",
+        "required": [
+            "Canada's banks are blocking AI agents too. Who will let one in?",
+            "On 28 October 2026 The Canadian Press reported that RBC, TD and BMO are blocking third-party "
+            "personal AI agents from their online banking, CIBC does not support them opening or accessing "
+            "accounts, and Scotiabank will limit them.",
+            "This is a reading of public reporting, not legal advice.",
+        ],
+        "links": ["https://cp24.com/news/money/2026/10/28/some-canadian-banks-blocking-personal-ai-agents-amid-security-concerns"],
+    },
+    "rbi-ai-cyber-threats-advisory.html": {
+        "level": "3", "source_date": "2026-06-10",
+        "required": [
+            "RBI on AI-accelerated cyber threats: could you show what your AI did?",
+            "In early June 2026 the Reserve Bank of India issued advisories on AI-accelerated cyber threats",
+            "a board-approved gap assessment and a time-bound action plan by the end of June",
+            "This is a reading of public reporting and of a public summary, not legal advice.",
+        ],
+        "links": ["https://www.business-standard.com/industry/banking/rbi-asks-banks-to-assess-ai-risk-gaps-draw-action-plan-by-june-end-126060901145_1.html",
+                  "https://kpmg.com/in/en/insights/2026/06/rbi-advisory-on-ai-accelerated-cyber-threats-and-related-safeguards.html"],
+    },
 }
 
 

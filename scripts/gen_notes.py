@@ -25,7 +25,7 @@ def notes():
         reviewed = re.search(r'<time class="reviewed" datetime="([0-9]{4}-[0-9]{2}-[0-9]{2})"', s)
         level = re.search(r'<meta name="actaseal:criticality" content="([0-3])">', s)
         source = re.search(r'<meta name="actaseal:source-date" content="([0-9]{4}-[0-9]{2}-[0-9]{2})">', s)
-        region = re.search(r'<meta name="actaseal:region" content="(India|EU|US|Global)">', s)
+        region = re.search(r'<meta name="actaseal:region" content="(India|EU|US|Canada|Global)">', s)
         status = re.search(r'<meta name="actaseal:status" content="(In force|Coming|Draft|Guidance|Signal)">', s)
         deadline = re.search(r'<meta name="actaseal:deadline" content="([0-9]{4}-[0-9]{2}-[0-9]{2})">', s)
         means = re.search(r'<meta name="actaseal:means" content="(.*?)">', s)
@@ -152,7 +152,7 @@ def build() -> str:
 """
 
 
-REGIONS = ("India", "EU", "US", "Global")
+REGIONS = ("India", "EU", "US", "Canada", "Global")
 STATUSES = ("In force", "Coming", "Draft", "Guidance", "Signal")
 STATUS_HELP = ("In force: issued and applying now. Coming: law with a date ahead. Draft: open for comment. "
                "Guidance: published, not binding. Signal: statements, supervisory questions, market moves.")
@@ -207,7 +207,7 @@ def _long_date(d: str) -> str:
     return datetime.date.fromisoformat(d).strftime("%-d %B %Y")
 
 
-QUADRANT = {"India": 0, "EU": 1, "US": 2, "Global": 3}  # clockwise from the top right
+QUADRANT = {"India": 0, "EU": 1, "US": 2, "Canada": 2, "Global": 3}  # clockwise from the top right; North America shares a quadrant
 RING = {3: 70, 2: 115, 1: 160, 0: 160}
 
 
@@ -220,10 +220,10 @@ def _legend() -> str:
 def _scope(on) -> str:
     import math
     cx = cy = 200
-    by_q = {q: [n for n in on if n["region"] == q] for q in QUADRANT}
+    by_q = {i: [n for n in on if QUADRANT[n["region"]] == i] for i in sorted(set(QUADRANT.values()))}
     blips = []
-    for q, items in by_q.items():
-        start = -90 + 90 * QUADRANT[q]
+    for i, items in by_q.items():
+        start = -90 + 90 * i
         for i, n in enumerate(items):
             angle = math.radians(start + 90 * (i + 1) / (len(items) + 1))
             r = RING[n["criticality"]]
@@ -236,6 +236,7 @@ def _scope(on) -> str:
     labels = (
         '  <text x="372" y="34" text-anchor="end">India</text>\n'
         '  <text x="28" y="34">EU</text>\n'
+        '  <text x="28" y="360">Canada</text>\n'
         '  <text x="28" y="378">US</text>\n'
         '  <text x="372" y="378" text-anchor="end">Global</text>'
     )

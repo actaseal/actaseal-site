@@ -41,7 +41,7 @@ def test_the_radar_page_draws_a_radar_with_one_linked_blip_per_item():
     svg = re.search(r'<svg class="radar-scope".*?</svg>', src, re.S).group(0)
     blips = re.findall(r'<a href="/notes/([\w-]+\.html)"[^>]*>\s*<circle class="blip status-', svg)
     assert len(blips) == len(re.findall(r"<li data-region=", src))
-    for q in ("India", "EU", "US", "Global"):
+    for q in ("India", "EU", "US", "Canada", "Global"):
         assert f">{q}</text>" in svg
 
 

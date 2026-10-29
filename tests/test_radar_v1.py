@@ -19,6 +19,8 @@ EXPECTED = {
     "emvco-agentic-payments-framework.html": ("Global", "Draft", None),
     "us-banks-block-ai-agents.html": ("US", "Signal", None),
     "us-bank-regulators-ask-about-ai-agents.html": ("US", "Signal", None),
+    "canadian-banks-block-ai-agents.html": ("Canada", "Signal", None),
+    "rbi-ai-cyber-threats-advisory.html": ("India", "In force", None),
 }
 
 
@@ -42,7 +44,7 @@ def test_the_deadlines_are_in_date_order():
 
 def test_filters_for_region_and_status():
     page = RADAR.read_text(encoding="utf-8")
-    assert re.findall(r'data-filter="region" data-value="(\w+)"', page) == ["all", "India", "EU", "US", "Global"]
+    assert re.findall(r'data-filter="region" data-value="(\w+)"', page) == ["all", "India", "EU", "US", "Canada", "Global"]
     assert re.findall(r'data-filter="status" data-value="([\w ]+)"', page) == [
         "all", "In force", "Coming", "Draft", "Guidance", "Signal"]
 
