@@ -28,7 +28,7 @@
     <div class="wordmark"><a href="/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/brand/actaseal-lockup-paper.svg"><img src="/brand/actaseal-lockup-oxblood.svg" alt="ActaSeal" width="148" height="37"></picture></a></div>
     <nav class="site-nav">
       <ul>
-        <li><a href="/notes/">Notes</a></li>
+        <li><a href="/refunds/">Refund audit</a></li>
         <li><a href="https://verify.actaseal.com/browser/">Check a record</a></li>
         <li><a href="/pilot/">Paid pilot</a></li>
         <li><a href="/security/">Security</a></li>
@@ -41,10 +41,10 @@
 <main class="wrap">
 <section id="what">
   <div class="hero-text">
-  <h1>When your AI agent refunds or pays and someone asks why, show proof they can check themselves.</h1>
-  <p class="lede">A seller, a customer or your own finance team asks why the agent refunded that order, or
-  paid that amount. The agent's own log is the agent's own account. ActaSeal gives you a record that they,
-  their bank or their auditor can check for themselves, without taking your word for it.</p>
+  <h1>Every refund your AI agent issues, checked before the money moves.</h1>
+  <p class="lede">Within your rules, it goes ahead. Above your limit, it waits for a person. Paid twice or
+  over the cap, it is stopped. Every decision leaves a record your finance team, a customer or an auditor
+  can check for themselves, without your account and without taking your word for it.</p>
   <p class="for-whom">For D2C and e-commerce brands, quick commerce and fintechs whose AI agents issue
   refunds, credits or payouts, and for the companies that build those agents.</p>
   <div class="cta-row">
@@ -53,16 +53,16 @@
   </div>
   <p class="cta-note">No setup, results in five working days. Or <a href="https://verify.actaseal.com/browser/">check a sample record yourself</a>.</p>
   </div>
-  <figure class="hero-figure" aria-label="Two copies of the same payment record. The original checks out. A copy edited later to show ten times the amount does not match, and anyone can see that it changed.">
+  <figure class="hero-figure" aria-label="Two copies of the same refund record. The original checks out. A copy edited later to show ten times the amount does not match, and anyone can see that it changed.">
     <svg viewBox="0 0 560 560" role="img" aria-hidden="true" class="record-art record-art-d">
       <g transform="translate(14 18)">
         <rect class="card" x="0" y="0" width="320" height="300" rx="12"/>
-        <text class="k" x="22" y="38">Payment record</text>
-        <text class="l" x="22" y="78">Agent</text><text class="v" x="122" y="78">purchasing-agent</text>
-        <text class="l" x="22" y="112">Paid to</text><text class="v" x="122" y="112">Northwind Supplies</text>
-        <text class="l" x="22" y="146">Amount</text><text class="v" x="122" y="146">USD 4,800.00</text>
-        <text class="l" x="22" y="180">Customer limit</text><text class="v" x="122" y="180">USD 5,000.00</text>
-        <text class="l" x="22" y="214">Decision</text><text class="v" x="122" y="214">Allowed before payment</text>
+        <text class="k" x="22" y="38">Refund record</text>
+        <text class="l" x="22" y="78">Agent</text><text class="v" x="122" y="78">support-agent</text>
+        <text class="l" x="22" y="112">Order</text><text class="v" x="122" y="112">#4821</text>
+        <text class="l" x="22" y="146">Amount</text><text class="v" x="122" y="146">INR 2,499.00</text>
+        <text class="l" x="22" y="180">Order value</text><text class="v" x="122" y="180">INR 2,499.00</text>
+        <text class="l" x="22" y="214">Decision</text><text class="v" x="122" y="214">Allowed before refund</text>
         <rect class="ok-bg" x="22" y="240" width="150" height="34" rx="17"/>
         <path class="ok-mark" d="M38 257 l7 7 l13 -14"/>
         <text class="ok-t" x="68" y="262">Checks out</text>
@@ -70,12 +70,12 @@
       <g transform="translate(226 250)">
         <rect class="card card-b" x="0" y="0" width="320" height="300" rx="12"/>
         <text class="k" x="22" y="38">Same record, edited later</text>
-        <text class="l" x="22" y="78">Agent</text><text class="v" x="122" y="78">purchasing-agent</text>
-        <text class="l" x="22" y="112">Paid to</text><text class="v" x="122" y="112">Northwind Supplies</text>
+        <text class="l" x="22" y="78">Agent</text><text class="v" x="122" y="78">support-agent</text>
+        <text class="l" x="22" y="112">Order</text><text class="v" x="122" y="112">#4821</text>
         <rect class="bad-hl" x="116" y="128" width="116" height="26" rx="4"/>
-        <text class="l" x="22" y="146">Amount</text><text class="v bad-v" x="122" y="146">USD 48,000.00</text>
-        <text class="l" x="22" y="180">Customer limit</text><text class="v" x="122" y="180">USD 5,000.00</text>
-        <text class="l" x="22" y="214">Decision</text><text class="v" x="122" y="214">Allowed before payment</text>
+        <text class="l" x="22" y="146">Amount</text><text class="v bad-v" x="122" y="146">INR 24,990.00</text>
+        <text class="l" x="22" y="180">Order value</text><text class="v" x="122" y="180">INR 2,499.00</text>
+        <text class="l" x="22" y="214">Decision</text><text class="v" x="122" y="214">Allowed before refund</text>
         <rect class="bad-bg" x="22" y="240" width="226" height="34" rx="17"/>
         <path class="bad-mark" d="M38 250 l14 14 M52 250 l-14 14"/>
         <text class="bad-t" x="66" y="262">Changed after the fact</text>
@@ -84,12 +84,12 @@
     <svg viewBox="0 0 340 640" role="img" aria-hidden="true" class="record-art record-art-m">
       <g transform="translate(10 10)">
         <rect class="card" x="0" y="0" width="320" height="300" rx="12"/>
-        <text class="k" x="22" y="38">Payment record</text>
-        <text class="l" x="22" y="78">Agent</text><text class="v" x="122" y="78">purchasing-agent</text>
-        <text class="l" x="22" y="112">Paid to</text><text class="v" x="122" y="112">Northwind Supplies</text>
-        <text class="l" x="22" y="146">Amount</text><text class="v" x="122" y="146">USD 4,800.00</text>
-        <text class="l" x="22" y="180">Customer limit</text><text class="v" x="122" y="180">USD 5,000.00</text>
-        <text class="l" x="22" y="214">Decision</text><text class="v" x="122" y="214">Allowed before payment</text>
+        <text class="k" x="22" y="38">Refund record</text>
+        <text class="l" x="22" y="78">Agent</text><text class="v" x="122" y="78">support-agent</text>
+        <text class="l" x="22" y="112">Order</text><text class="v" x="122" y="112">#4821</text>
+        <text class="l" x="22" y="146">Amount</text><text class="v" x="122" y="146">INR 2,499.00</text>
+        <text class="l" x="22" y="180">Order value</text><text class="v" x="122" y="180">INR 2,499.00</text>
+        <text class="l" x="22" y="214">Decision</text><text class="v" x="122" y="214">Allowed before refund</text>
         <rect class="ok-bg" x="22" y="240" width="150" height="34" rx="17"/>
         <path class="ok-mark" d="M38 257 l7 7 l13 -14"/>
         <text class="ok-t" x="68" y="262">Checks out</text>
@@ -97,12 +97,12 @@
       <g transform="translate(10 330)">
         <rect class="card card-b" x="0" y="0" width="320" height="300" rx="12"/>
         <text class="k" x="22" y="38">Same record, edited later</text>
-        <text class="l" x="22" y="78">Agent</text><text class="v" x="122" y="78">purchasing-agent</text>
-        <text class="l" x="22" y="112">Paid to</text><text class="v" x="122" y="112">Northwind Supplies</text>
+        <text class="l" x="22" y="78">Agent</text><text class="v" x="122" y="78">support-agent</text>
+        <text class="l" x="22" y="112">Order</text><text class="v" x="122" y="112">#4821</text>
         <rect class="bad-hl" x="116" y="128" width="116" height="26" rx="4"/>
-        <text class="l" x="22" y="146">Amount</text><text class="v bad-v" x="122" y="146">USD 48,000.00</text>
-        <text class="l" x="22" y="180">Customer limit</text><text class="v" x="122" y="180">USD 5,000.00</text>
-        <text class="l" x="22" y="214">Decision</text><text class="v" x="122" y="214">Allowed before payment</text>
+        <text class="l" x="22" y="146">Amount</text><text class="v bad-v" x="122" y="146">INR 24,990.00</text>
+        <text class="l" x="22" y="180">Order value</text><text class="v" x="122" y="180">INR 2,499.00</text>
+        <text class="l" x="22" y="214">Decision</text><text class="v" x="122" y="214">Allowed before refund</text>
         <rect class="bad-bg" x="22" y="240" width="226" height="34" rx="17"/>
         <path class="bad-mark" d="M38 250 l14 14 M52 250 l-14 14"/>
         <text class="bad-t" x="66" y="262">Changed after the fact</text>
