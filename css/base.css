@@ -291,9 +291,24 @@ dl.outcomes dd { margin: 4px 0 0; max-width: 62ch; }
 .step-icon { width: 40px; height: 40px; fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .proof-strip { padding: 22px 0; }
 .proof-strip ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; font-size: 16px; font-weight: 600; }
-.proof-strip li { background: var(--paper-raised); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; }
-.proof-strip a { text-decoration: none; }
-.proof-strip li::before { content: "\2713"; color: var(--accent); margin-right: 8px; font-weight: 700; }
+.proof-strip li { margin: 0; }
+.proof-strip a { position: relative; display: block; height: 100%; box-sizing: border-box; background: var(--paper-raised); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 44px 14px 16px; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
+.proof-strip a::after { content: "\2192"; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--accent); font-weight: 700; transition: right .15s; }
+.proof-strip a[href^="http"]::after { content: "\2197"; }
+.proof-strip a:hover, .proof-strip a:focus-visible { border-color: var(--accent); transform: translateY(-1px); }
+.proof-strip a:hover::after { right: 12px; }
+.ps-k { display: block; font-family: var(--mono); font-size: 11.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+.why-cards { list-style: none; margin: 8px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.why-card { margin: 0; }
+.why-card a { position: relative; display: flex; flex-direction: column; gap: 8px; height: 100%; box-sizing: border-box; padding: 18px 18px 40px; background: var(--paper-raised); border: 1px solid var(--rule); border-top: 4px solid var(--accent); border-radius: 10px; text-decoration: none; color: inherit; transition: border-color .15s, transform .15s; }
+.why-card a::after { content: "Read \2192"; position: absolute; left: 18px; bottom: 14px; font-size: 14px; font-weight: 600; color: var(--accent); }
+.why-card a:hover, .why-card a:focus-visible { border-color: var(--accent); transform: translateY(-2px); }
+.why-who { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.why-q { font-size: 19px; font-weight: 700; line-height: 1.3; }
+.why-means { font-size: 14.5px; color: var(--muted); }
+.radar-cta { display: inline-block; margin-top: 6px; padding: 10px 16px; border: 1px solid var(--accent); border-radius: 999px; text-decoration: none; }
+.radar-cta::after { content: " \2192"; }
+.radar-cta:hover, .radar-cta:focus-visible { background: var(--accent); color: var(--paper, #fff); }
 @media (max-width: 820px) {
   #what { grid-template-columns: 1fr; }
   .steps { grid-template-columns: 1fr; }
