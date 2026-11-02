@@ -77,7 +77,7 @@ def find_html_files() -> list[Path]:
 
 def resolve_internal(link: str, source: Path) -> bool:
     """Resolve a same-repo link (no scheme) to a file on disk."""
-    path_part = link.split("#", 1)[0]
+    path_part = link.split("#", 1)[0].split("?", 1)[0]
     if not path_part:
         return True  # pure fragment, checked separately
     if path_part.startswith("/"):
