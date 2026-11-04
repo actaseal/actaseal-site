@@ -56,6 +56,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://www.lewissilkin.com/insights/2026/07/27/the-digital-omnibus-on-ai-enters-into-force-today-102nedo",
     "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
     "https://paymentexpert.com/2026/10/23/ai-agents-blocked-by-banks/",
+    "https://www.americanbanker.com/news/banks-are-blocking-external-ai-agents-is-this-sustainable",
     "https://cp24.com/news/money/2026/10/28/some-canadian-banks-blocking-personal-ai-agents-amid-security-concerns",
     "https://www.business-standard.com/industry/banking/rbi-asks-banks-to-assess-ai-risk-gaps-draw-action-plan-by-june-end-126060901145_1.html",
     "https://kpmg.com/in/en/insights/2026/06/rbi-advisory-on-ai-accelerated-cyber-threats-and-related-safeguards.html",

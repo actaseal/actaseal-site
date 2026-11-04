@@ -20,6 +20,7 @@ EXPECTED = {
     "us-banks-block-ai-agents.html": ("US", "Signal", None),
     "us-bank-regulators-ask-about-ai-agents.html": ("US", "Signal", None),
     "canadian-banks-block-ai-agents.html": ("Canada", "Signal", None),
+    "wells-fargo-ai-agent-liability.html": ("US", "Signal", None),
     "rbi-ai-cyber-threats-advisory.html": ("India", "In force", None),
 }
 

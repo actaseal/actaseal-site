@@ -59,6 +59,16 @@ NOTES = {
         ],
         "links": ["https://complexdiscovery.com/us-bank-regulators-ask-whether-lenders-can-stop-their-ai-agents/"],
     },
+    "wells-fargo-ai-agent-liability.html": {
+        "level": "2", "source_date": "2026-10-27",
+        "required": [
+            "Wells Fargo: whatever your AI agent does is yours. Could you show what it did?",
+            "On 27 October 2026 American Banker quoted Wells Fargo's online access agreement",
+            "no obligation\nto investigate the validity or scope of such authority".replace("\n", " "),
+            "This is a reading of public reporting, not legal advice.",
+        ],
+        "links": ["https://www.americanbanker.com/news/banks-are-blocking-external-ai-agents-is-this-sustainable"],
+    },
     "canadian-banks-block-ai-agents.html": {
         "level": "2", "source_date": "2026-10-28",
         "required": [
