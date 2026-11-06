@@ -498,3 +498,5 @@ nav.site-nav a.nav-cta:hover { color: var(--accent-ink); opacity: .92; }
 .legend-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; background: currentColor !important; vertical-align: 0; }
 .example-figure { margin: 8px 0 16px; }
 .example-figure img { width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 8px; background: #fff; }
+
+.sample-shot { display: block; max-width: 100%; height: auto; border: 1px solid var(--rule); margin: 14px 0 6px; }

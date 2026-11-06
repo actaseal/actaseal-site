@@ -51,7 +51,7 @@ from actaseal.file_seal import SIGNATURE_DOMAIN, build_seal, verify_seal
 from actaseal.policy.compiler import compile_policy
 from actaseal.policy.evaluator import evaluate_action_policy
 from actaseal.policy.schema import CompiledPolicy
-from actaseal.reports.refund_leakage import OWED_CODES, refund_findings
+from actaseal.reports.refund_leakage import OWED_CODES, TAX_CODES, refund_findings
 
 _CURRENCY_CODE_LENGTH = 3
 _SYMLINK_TYPE_NIBBLE = 0xA
@@ -658,7 +658,8 @@ def _sha(data: bytes) -> str:
 
 
 def audit(
-    rows: list[dict[str, str]], columns: list[str], rules: Rules, *, inputs: dict | None = None
+    rows: list[dict[str, str]], columns: list[str], rules: Rules, *, inputs: dict | None = None,
+    credited: dict[str, Decimal] | None = None,
 ) -> dict:
     cols = set(columns)
     skipped = sum(1 for r in rows if r.get("_skip"))
@@ -690,6 +691,13 @@ def audit(
                 **decided,
             }
         )
+    if credited is not None and not (
+        (refund_findings(rows, None, None, credited) or {}).get("credit_notes_matched_orders")
+    ):
+        not_evaluated.append(
+            "refunds without a GST credit note: no refunded order appears in the credit notes file; "
+            "check that both files use the same order reference"
+        )
     counts = {v: sum(1 for r in out_rows if r["verdict"] == v) for v in VERDICTS}
     by_rule: dict[str, int] = {}
     for r in out_rows:
@@ -710,7 +718,9 @@ def audit(
         **({"rows_skipped": {"count": skipped, "reason": "no refunded amount on the row"}} if skipped else {}),
         **(
             {"refund_checks": refund}
-            if (refund := refund_findings(rows, rules.refund_window_days, rules.refund_pay_days))
+            if (refund := refund_findings(
+                rows, rules.refund_window_days, rules.refund_pay_days, credited
+            ))
             is not None
             else {}
         ),
@@ -811,6 +821,9 @@ def render_markdown(report: dict) -> str:
                 f"Refunded to customers with {refund['threshold_repeat_claimant']} or more refunds"
             ),
             "REFUND_AFTER_WINDOW": "Refunds after the return window",
+            "REFUND_PAID_LATE": "Owed to customers: paid later than the rules allow",
+            "REFUND_NOT_PAID": "Owed to customers: accepted and still not paid",
+            "REFUND_WITHOUT_CREDIT_NOTE": "Refunded with no GST credit note",
         }
         lines += ["## Refund checks", ""]
         if not refund["findings"]:
@@ -851,7 +864,10 @@ def _summary_lines(report: dict) -> list[str]:
     money = ", ".join(f"{cur} {amt}" for cur, amt in sorted(sums.items())) or "nothing"
     lines = ["## Summary", "", f"- {len(outside)} of {len(rows)} {noun} fell outside the rules: {money}."]
     refund = report.get("refund_checks")
-    leaks = [f for f in (refund or {}).get("findings", []) if f["code"] not in OWED_CODES]
+    leaks = [
+        f for f in (refund or {}).get("findings", []) if f["code"] not in OWED_CODES + TAX_CODES
+    ]
+    uncredited = [f for f in (refund or {}).get("findings", []) if f["code"] in TAX_CODES]
     owed = [f for f in (refund or {}).get("findings", []) if f["code"] in OWED_CODES]
     if leaks:
         at_issue: dict[str, Decimal] = {}
@@ -870,6 +886,17 @@ def _summary_lines(report: dict) -> list[str]:
         lines.append(
             f"- Refunds owed to customers: {total} paid later than the rules allow or not yet paid, "
             f"across {len(owed)} findings."
+        )
+    if uncredited:
+        uncredited_sums: dict[str, Decimal] = {}
+        for f in uncredited:
+            cur = f["currency"]
+            uncredited_sums[cur] = uncredited_sums.get(cur, Decimal(0)) + Decimal(f["amount_at_issue"])
+        money = ", ".join(f"{cur} {amt}" for cur, amt in sorted(uncredited_sums.items()))
+        lines.append(
+            f"- Refunds with no GST credit note: {money} refunded across {len(uncredited)} orders "
+            "without a matching credit note (CGST Act s.34(2): declare by 30 November after the "
+            "year ends)."
         )
     if c := report["counts"][CANNOT_TELL]:
         lines.append(f"- {c} {noun} could not be judged from the file.")
@@ -893,7 +920,7 @@ _README = (
 
 def _build_report(
     actions: bytes, actions_name: str, rules: bytes, rules_name: str,
-    shape: ExportShape | None = None,
+    shape: ExportShape | None = None, *, credit_notes: bytes | None = None,
 ) -> tuple[dict, str, str]:
     columns, rows = load_actions(actions, actions_name, shape=shape)
     loaded = load_rules(rules, rules_name)
@@ -905,6 +932,11 @@ def _build_report(
     ext_r = (
         ".json" if rules_name.lower().endswith(".json") or rules.lstrip()[:1] == b"{" else ".csv"
     )
+    credited = None
+    if credit_notes is not None:
+        from actaseal.reports.credit_notes import load_credit_notes  # noqa: PLC0415
+
+        credited = load_credit_notes(credit_notes)
     report = audit(
         rows,
         columns,
@@ -916,6 +948,7 @@ def _build_report(
             "rules_sha256": _sha(rules),
             **({"shape": shape.to_dict()} if shape is not None else {}),
         },
+        credited=credited,
     )
     return report, ext_a, ext_r
 

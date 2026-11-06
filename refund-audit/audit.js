@@ -82,13 +82,14 @@ from actaseal.reports.browser_audit import run_browser_audit, rules_from_fields,
 def detect(actions, actions_name):
     return json.dumps(currencies_in(bytes(actions), actions_name))
 
-def run(actions, actions_name, payments, fields):
+def run(actions, actions_name, payments, fields, notes):
     try:
         rules = rules_from_fields(**dict(fields))
     except ValueError as exc:
         return json.dumps({"ok": False, "code": "AUDIT_BAD_RULE", "message": str(exc)})
     out = run_browser_audit(bytes(actions), actions_name, rules, "rules.csv",
-                            payments=bytes(payments) if payments else None)
+                            payments=bytes(payments) if payments else None,
+                            credit_notes=bytes(notes) if notes else None)
     return json.dumps(out)
 `);
   runAudit = pyodide.globals.get("run");
@@ -120,6 +121,7 @@ const CHECK_TITLES = {
   REFUND_AFTER_WINDOW: "Refunded after the return window",
   REFUND_PAID_LATE: "Owed to a customer: paid later than your rules allow",
   REFUND_NOT_PAID: "Owed to a customer: accepted and still not paid",
+  REFUND_WITHOUT_CREDIT_NOTE: "Refunded with no GST credit note",
 };
 
 function render(out) {
@@ -167,8 +169,10 @@ async function run(actionsBytes, name) {
   const pyodide = await pyodideReady;
   const pay = $("payments-file").files[0];
   const payments = pay ? await bytesOf(pay) : null;
+  const cn = $("notes-file").files[0];
+  const notes = cn ? await bytesOf(cn) : null;
   const out = JSON.parse(runAudit(pyodide.toPy(actionsBytes), name, payments && pyodide.toPy(payments),
-    pyodide.toPy(fields())));
+    pyodide.toPy(fields()), notes && pyodide.toPy(notes)));
   if (!out.ok) { showError(`${out.code}: ${out.message}`); return; }
   last = out;
   render(out);

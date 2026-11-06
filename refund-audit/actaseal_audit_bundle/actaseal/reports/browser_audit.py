@@ -19,6 +19,7 @@ from actaseal.reports.action_audit import (
     render_csv,
     render_markdown,
 )
+from actaseal.reports.credit_notes import load_credit_notes  # noqa: F401 -- bundled for the page
 from actaseal.reports.razorpay_join import join_refunds_with_payments
 
 _CURRENCY_LEN = 3
@@ -69,13 +70,16 @@ def rules_from_fields(
 
 def run_browser_audit(
     actions: bytes, actions_name: str, rules: bytes, rules_name: str, payments: bytes | None = None,
+    *, credit_notes: bytes | None = None,
 ) -> dict[str, Any]:
     try:
         joined = None
         if payments is not None:
             actions, joined = join_refunds_with_payments(actions, payments)
             actions_name = "refunds_with_orders.csv"
-        report, _ext_a, _ext_r = _build_report(actions, actions_name, rules, rules_name)
+        report, _ext_a, _ext_r = _build_report(
+            actions, actions_name, rules, rules_name, credit_notes=credit_notes
+        )
         return {
             "ok": True,
             "report": report,

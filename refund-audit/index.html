@@ -7,7 +7,7 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="../css/base.css?v=20261106">
+<link rel="stylesheet" href="../css/base.css?v=20261106b">
 <link rel="stylesheet" href="audit.css">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ActaSeal">
@@ -48,6 +48,11 @@
     <label class="file">Payments export (CSV), optional: adds the order value and date, so
       "refunded more than the order was worth" and "after the return window" can be checked
       <input id="payments-file" type="file" accept=".csv,text/csv">
+    </label>
+    <label class="file">Credit notes (CSV), optional: your GSTR-1 export or Tally/Shopify credit note
+      register, to find refunds with no GST credit note. A credit note for last year's sales must be
+      declared by 30 November.
+      <input id="notes-file" type="file" accept=".csv,text/csv">
     </label>
     <button id="sample-btn" type="button" class="secondary">Use made-up sample data</button>
   </section>

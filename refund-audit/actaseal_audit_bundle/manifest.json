@@ -24,6 +24,7 @@
     "actaseal/reports/__init__.py",
     "actaseal/reports/action_audit.py",
     "actaseal/reports/browser_audit.py",
+    "actaseal/reports/credit_notes.py",
     "actaseal/reports/razorpay_join.py",
     "actaseal/reports/refund_leakage.py"
   ]

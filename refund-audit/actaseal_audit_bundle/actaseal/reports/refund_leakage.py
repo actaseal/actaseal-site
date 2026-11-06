@@ -40,8 +40,14 @@ CODES = (
     "REFUND_AFTER_WINDOW",
     "REFUND_PAID_LATE",
     "REFUND_NOT_PAID",
+    "REFUND_WITHOUT_CREDIT_NOTE",
 )
 OWED_CODES = ("REFUND_PAID_LATE", "REFUND_NOT_PAID")
+TAX_CODES = ("REFUND_WITHOUT_CREDIT_NOTE",)
+_DEADLINE = (
+    "a credit note for a year's sales must be declared by 30 November after that year ends "
+    "(CGST Act s.34(2))"
+)
 _UNPAID = {"pending", "failed", "created", "initiated"}
 _PAID = {"", "processed", "paid", "success", "successful", "completed", "refunded"}
 
@@ -137,9 +143,40 @@ def _owed(rows: list[dict[str, str]], pay_days: dict[str, int]) -> list[dict[str
     return owed
 
 
+def _uncredited(
+    rows: list[dict[str, str]], credited: dict[str, Decimal]
+) -> tuple[list[dict[str, Any]], int]:
+    """(findings, orders that appear in both files). Paid refunds only; one currency per order."""
+    refunded: dict[str, list[dict[str, str]]] = {}
+    for row in rows:
+        if (row.get("refund_status") or "").strip().lower() not in _PAID:
+            continue
+        if _amount(row.get("amount", "")) is None or not (row.get("order_id") or "").strip():
+            continue
+        refunded.setdefault(row["order_id"].strip(), []).append(row)
+    matched = sum(1 for order in refunded if order in credited)
+    if not matched:
+        return [], 0
+    found = []
+    for order, group in sorted(refunded.items()):
+        currency = _single_currency(group)
+        if currency is None:
+            continue
+        paid = sum((_amount(r["amount"]) or Decimal(0) for r in group), Decimal(0))
+        noted = credited.get(order, Decimal(0))
+        if paid > noted:
+            said = f"credit notes {noted}" if order in credited else "no credit note"
+            found.append({
+                "code": "REFUND_WITHOUT_CREDIT_NOTE", "order_id": order,
+                "action_ids": [r["action_id"] for r in group], "amount_at_issue": str(paid - noted),
+                "currency": currency, "why": f"{paid} refunded, {said}; {_DEADLINE}",
+            })
+    return found, matched
+
+
 def refund_findings(
     rows: list[dict[str, str]], window_days: dict[str, int] | None = None,
-    pay_days: dict[str, int] | None = None,
+    pay_days: dict[str, int] | None = None, credited: dict[str, Decimal] | None = None,
 ) -> dict[str, Any] | None:
     has_order = any((r.get("order_id") or "").strip() for r in rows)
     has_customer = any((r.get("customer_id") or "").strip() for r in rows)
@@ -182,6 +219,8 @@ def refund_findings(
 
     findings.extend(_late_refunds(rows, window_days or {}))
     findings.extend(owed)
+    uncredited, matched = _uncredited(rows, credited) if credited is not None else ([], 0)
+    findings.extend(uncredited)
 
     totals: dict[str, dict[str, str]] = {}
     for code in CODES:
@@ -196,4 +235,5 @@ def refund_findings(
         "threshold_repeat_claimant": REPEAT_CLAIMANT_THRESHOLD,
         "findings": findings,
         "totals": totals,
+        **({"credit_notes_matched_orders": matched} if credited is not None else {}),
     }
