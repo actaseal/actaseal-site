@@ -1,4 +1,7 @@
-"""A credit notes file (GSTR-1 export, Tally or Shopify register), read as order -> amount credited.
+"""A credit note register (Tally, Zoho Books, Shopify or Unicommerce), read as order -> amount.
+
+Not GSTR-1: small intra-state B2C credit notes are netted into its B2CS totals, so it does not list
+them note by note; the register the books keep does.
 
 Only two columns matter: the order reference and the credit note's value, whatever the export calls
 them (headers are compared lower-cased, with spaces and hyphens read as underscores). Several credit

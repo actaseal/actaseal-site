@@ -947,6 +947,11 @@ def _build_report(
             "rules_file": f"inputs/rules{ext_r}",
             "rules_sha256": _sha(rules),
             **({"shape": shape.to_dict()} if shape is not None else {}),
+            **(
+                {"credit_notes_file": "inputs/credit_notes.csv",
+                 "credit_notes_sha256": _sha(credit_notes)}
+                if credit_notes is not None else {}
+            ),
         },
         credited=credited,
     )
@@ -963,12 +968,15 @@ def build_audit_pack(
     output_path: str | Path,
     generated_at: str,
     shape: ExportShape | None = None,
+    credit_notes: bytes | None = None,
 ) -> Path:
     try:
         datetime.fromisoformat(generated_at)
     except ValueError as exc:
         raise AuditError("AUDIT_BAD_TIME", "generated_at must be an ISO 8601 time") from exc
-    report, ext_a, ext_r = _build_report(actions, actions_name, rules, rules_name, shape)
+    report, ext_a, ext_r = _build_report(
+        actions, actions_name, rules, rules_name, shape, credit_notes=credit_notes
+    )
     with tempfile.TemporaryDirectory() as tmp:
         base = Path(tmp)
         (base / "inputs").mkdir()
@@ -983,6 +991,8 @@ def build_audit_pack(
             f"inputs/rules{ext_r}": rules,
             "README.txt": _README.encode(),
         }
+        if credit_notes is not None:
+            files["inputs/credit_notes.csv"] = credit_notes
         for name, data in files.items():
             (base / name).write_bytes(data)
         seal = build_seal(
@@ -1077,7 +1087,12 @@ def _recompute(base: Path, failures: list[str], result: dict) -> None:
         actions = (base / names["actions_file"]).read_bytes()
         rules = (base / names["rules_file"]).read_bytes()
         shape = ExportShape.from_dict(names["shape"]) if "shape" in names else None
-        fresh, _, _ = _build_report(actions, names["actions_file"], rules, names["rules_file"], shape)
+        notes = (
+            (base / names["credit_notes_file"]).read_bytes() if "credit_notes_file" in names else None
+        )
+        fresh, _, _ = _build_report(
+            actions, names["actions_file"], rules, names["rules_file"], shape, credit_notes=notes
+        )
     except (OSError, ValueError, KeyError, TypeError, AuditError) as exc:
         failures.append(f"RECOMPUTE_IMPOSSIBLE: {type(exc).__name__}")
         return
@@ -1113,7 +1128,7 @@ def build_audit_report_pdf(report: dict, *, generated_at: str) -> bytes:
 
 def run_cli(
     actions_path: str, rules_path: str, out_path: str, *, signing_key_file: str | None, key_id: str,
-    shape: ExportShape | None = None,
+    shape: ExportShape | None = None, credit_notes_path: str | None = None,
 ) -> tuple[int, str]:
     """(exit code, message): 0 written, 2 refused (nothing written)."""
     from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey  # noqa: PLC0415
@@ -1123,6 +1138,7 @@ def run_cli(
     try:
         actions = Path(actions_path).read_bytes()
         rules = Path(rules_path).read_bytes()
+        notes = Path(credit_notes_path).read_bytes() if credit_notes_path else None
         signer = None
         if signing_key_file:
             key = Ed25519PrivateKey.from_private_bytes(
@@ -1138,6 +1154,7 @@ def run_cli(
             output_path=out_path,
             generated_at=datetime.now(UTC).isoformat(),
             shape=shape,
+            credit_notes=notes,
         )
     except AuditError as exc:
         _remove(out_path)
