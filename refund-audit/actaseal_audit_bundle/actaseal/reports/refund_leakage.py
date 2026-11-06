@@ -13,7 +13,16 @@ Three leaks, each stated with the money at issue:
   rules' ``refund_window_days`` for its action type allow. The money at issue is the
   refund. Runs only when the simple rules give a window.
 
-They run only when the file has an ``order_id`` or ``customer_id`` column, read
+Two more are owed to customers, not leaked, and run when the rules give
+``refund_pay_within_days`` (Consumer Protection (E-Commerce) Rules 2020, rule 4(10):
+accepted refunds paid within a reasonable period):
+
+- REFUND_PAID_LATE: paid more days after ``requested_at`` than that period.
+- REFUND_NOT_PAID: ``refund_status`` still pending or failed more days after it was
+  requested (or, without a request date, accepted) than that period, counted to the latest
+  date in the file, never the clock. An unknown status is not called unpaid.
+
+The leak checks run only when the file has an ``order_id`` or ``customer_id`` column, read
 rows exactly as ``action_audit.load_actions`` gives them, and decide nothing about
 a row's own verdict. A row whose amount is not a number is left out of the sums.
 """
@@ -29,7 +38,12 @@ CODES = (
     "REFUND_EXCEEDS_ORDER",
     "REPEAT_CLAIMANT",
     "REFUND_AFTER_WINDOW",
+    "REFUND_PAID_LATE",
+    "REFUND_NOT_PAID",
 )
+OWED_CODES = ("REFUND_PAID_LATE", "REFUND_NOT_PAID")
+_UNPAID = {"pending", "failed", "created", "initiated"}
+_PAID = {"", "processed", "paid", "success", "successful", "completed", "refunded"}
 
 
 def _amount(text: str) -> Decimal | None:
@@ -87,12 +101,50 @@ def _late_refunds(rows: list[dict[str, str]], window_days: dict[str, int]) -> li
     return late
 
 
+def _owed(rows: list[dict[str, str]], pay_days: dict[str, int]) -> list[dict[str, Any]]:
+    if not pay_days:
+        return []
+    seen = [
+        d
+        for r in rows
+        for d in (_day(r.get("occurred_at", "")), _day(r.get("requested_at", "")))
+        if d
+    ]
+    as_of = max(seen) if seen else None
+    owed = []
+    for row in rows:
+        days = pay_days.get(row.get("action_type", ""))
+        amount = _amount(row.get("amount", ""))
+        if days is None or amount is None:
+            continue
+        status = (row.get("refund_status") or "").strip().lower()
+        requested, paid = _day(row.get("requested_at", "")), _day(row.get("occurred_at", ""))
+        base = {"order_id": (row.get("order_id") or "").strip(), "action_ids": [row["action_id"]],
+                "amount_at_issue": str(amount), "currency": _currency(row)}
+        if status in _UNPAID:
+            start = requested or paid
+            if start is not None and as_of is not None and (as_of - start).days > days:
+                since = "requested" if requested else "accepted"
+                owed.append({"code": "REFUND_NOT_PAID", **base,
+                             "why": f"still {status} {(as_of - start).days} days after it was "
+                             f"{since}, as of {as_of.isoformat()} "
+                             f"(the latest date in the file); the rules allow {days} days"})
+        elif status in _PAID and requested is not None and paid is not None:
+            if (paid - requested).days > days:
+                owed.append({"code": "REFUND_PAID_LATE", **base,
+                             "why": f"paid {(paid - requested).days} days after it was requested; "
+                             f"the rules allow {days} days"})
+    return owed
+
+
 def refund_findings(
-    rows: list[dict[str, str]], window_days: dict[str, int] | None = None
+    rows: list[dict[str, str]], window_days: dict[str, int] | None = None,
+    pay_days: dict[str, int] | None = None,
 ) -> dict[str, Any] | None:
     has_order = any((r.get("order_id") or "").strip() for r in rows)
     has_customer = any((r.get("customer_id") or "").strip() for r in rows)
-    if not has_order and not has_customer:
+    owed = _owed(rows, pay_days or {})
+    if not has_order and not has_customer and not owed:
         return None
 
     findings: list[dict[str, Any]] = []
@@ -129,6 +181,7 @@ def refund_findings(
             })
 
     findings.extend(_late_refunds(rows, window_days or {}))
+    findings.extend(owed)
 
     totals: dict[str, dict[str, str]] = {}
     for code in CODES:

@@ -51,7 +51,7 @@ from actaseal.file_seal import SIGNATURE_DOMAIN, build_seal, verify_seal
 from actaseal.policy.compiler import compile_policy
 from actaseal.policy.evaluator import evaluate_action_policy
 from actaseal.policy.schema import CompiledPolicy
-from actaseal.reports.refund_leakage import refund_findings
+from actaseal.reports.refund_leakage import OWED_CODES, refund_findings
 
 _CURRENCY_CODE_LENGTH = 3
 _SYMLINK_TYPE_NIBBLE = 0xA
@@ -93,6 +93,8 @@ _COLUMNS = {
     "order_amount": ("order_amount", "order_value", "order_total"),
     "customer_id": ("customer_id", "customer", "customer_ref"),
     "order_date": ("order_date", "ordered_at", "order_placed_at", "delivered_at", "delivery_date"),
+    "requested_at": ("requested_at", "refund_requested_at", "request_date", "return_requested_at"),
+    "refund_status": ("refund_status",),
 }
 _ALIAS = {alias: canon for canon, aliases in _COLUMNS.items() for alias in aliases}
 # "action" is ambiguous (an id in some exports, a type in others): it is only an id if there is no action_id
@@ -224,7 +226,7 @@ RAZORPAY_REFUNDS = ExportShape(
         "amount": "amount",
         "currency": "currency",
         "occurred_at": "created_at",
-        "customer_id": "email",
+        "customer_id": "email", "refund_status": "status",
     },
     action_type="refund",
     date_format="%d/%m/%Y %H:%M:%S",
@@ -353,6 +355,8 @@ class Rules:
     csv_rows: dict[str, int] = field(default_factory=dict)  # action type -> row of the rules file
     # action type -> days after the order date within which a refund is allowed (simple rules only)
     refund_window_days: dict[str, int] = field(default_factory=dict)
+    # action type -> days after the refund was requested (or accepted) within which it must be paid
+    refund_pay_days: dict[str, int] = field(default_factory=dict)
 
 
 def _dec(text: str, what: str) -> Decimal | None:
@@ -411,6 +415,7 @@ def load_rules(data: bytes, filename: str) -> Rules:
     policies: dict[str, Any] = {}
     positions: dict[str, int] = {}
     windows: dict[str, int] = {}
+    pays: dict[str, int] = {}
     for number, row in enumerate(rows, start=1):
         atype = row.get("action_type", "")
         if not atype:
@@ -450,6 +455,14 @@ def load_rules(data: bytes, filename: str) -> Rules:
                     f"rules row {number} refund_window_days is not a whole number of days",
                 )
             windows[atype] = int(window)
+        pay = row.get("refund_pay_within_days", "")
+        if pay:
+            if not pay.isdigit():
+                raise AuditError(
+                    "AUDIT_RULES_UNREADABLE",
+                    f"rules row {number} refund_pay_within_days is not a whole number of days",
+                )
+            pays[atype] = int(pay)
     try:
         policy = compile_policy(
             {
@@ -463,7 +476,7 @@ def load_rules(data: bytes, filename: str) -> Rules:
         raise AuditError(
             "AUDIT_RULES_UNREADABLE", f"the simple rules do not compile: {exc}"
         ) from exc
-    return Rules(policy, "the rules file", positions, windows)
+    return Rules(policy, "the rules file", positions, windows, pays)
 
 
 # ---------------------------------------------------------------- deciding
@@ -655,6 +668,11 @@ def audit(
         not_evaluated.append(
             "refunds after the return window: the file has no refund date to compare with the order date"
         )
+    if rules.refund_pay_days and not cols & {"requested_at", "refund_status"}:
+        not_evaluated.append(
+            "refunds owed to customers (paid late or not paid): the file has no refund request date "
+            "and no refund status"
+        )
     out_rows = []
     seen: dict[str, int] = {}
     for row in rows:
@@ -692,7 +710,8 @@ def audit(
         **({"rows_skipped": {"count": skipped, "reason": "no refunded amount on the row"}} if skipped else {}),
         **(
             {"refund_checks": refund}
-            if (refund := refund_findings(rows, rules.refund_window_days)) is not None
+            if (refund := refund_findings(rows, rules.refund_window_days, rules.refund_pay_days))
+            is not None
             else {}
         ),
     }
@@ -832,14 +851,25 @@ def _summary_lines(report: dict) -> list[str]:
     money = ", ".join(f"{cur} {amt}" for cur, amt in sorted(sums.items())) or "nothing"
     lines = ["## Summary", "", f"- {len(outside)} of {len(rows)} {noun} fell outside the rules: {money}."]
     refund = report.get("refund_checks")
-    if refund is not None and refund["findings"]:
+    leaks = [f for f in (refund or {}).get("findings", []) if f["code"] not in OWED_CODES]
+    owed = [f for f in (refund or {}).get("findings", []) if f["code"] in OWED_CODES]
+    if leaks:
         at_issue: dict[str, Decimal] = {}
-        for f in refund["findings"]:
+        for f in leaks:
             at_issue[f["currency"]] = at_issue.get(f["currency"], Decimal(0)) + Decimal(f["amount_at_issue"])
         found = ", ".join(f"{cur} {amt}" for cur, amt in sorted(at_issue.items()))
         lines.append(
-            f"- Refund checks found {found} at issue across {len(refund['findings'])} findings "
+            f"- Refund checks found {found} at issue across {len(leaks)} findings "
             "(a refund can appear in more than one finding and in the rows above)."
+        )
+    if owed:
+        due: dict[str, Decimal] = {}
+        for f in owed:
+            due[f["currency"]] = due.get(f["currency"], Decimal(0)) + Decimal(f["amount_at_issue"])
+        total = ", ".join(f"{cur} {amt}" for cur, amt in sorted(due.items()))
+        lines.append(
+            f"- Refunds owed to customers: {total} paid later than the rules allow or not yet paid, "
+            f"across {len(owed)} findings."
         )
     if c := report["counts"][CANNOT_TELL]:
         lines.append(f"- {c} {noun} could not be judged from the file.")

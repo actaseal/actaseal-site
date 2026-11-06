@@ -118,6 +118,8 @@ const CHECK_TITLES = {
   REFUND_EXCEEDS_ORDER: "Refunded more than the order was worth",
   REPEAT_CLAIMANT: "Same customer, refunded again and again",
   REFUND_AFTER_WINDOW: "Refunded after the return window",
+  REFUND_PAID_LATE: "Owed to a customer: paid later than your rules allow",
+  REFUND_NOT_PAID: "Owed to a customer: accepted and still not paid",
 };
 
 function render(out) {
@@ -153,6 +155,7 @@ function fields() {
     currency: $("f-currency").value, auto_allow_max: $("f-auto").value,
     approval_required_above: $("f-approval").value, hard_block_above: $("f-hard").value,
     approver_role: $("f-role").value, refund_window_days: $("f-days").value,
+    refund_pay_within_days: $("f-pay").value,
   };
 }
 

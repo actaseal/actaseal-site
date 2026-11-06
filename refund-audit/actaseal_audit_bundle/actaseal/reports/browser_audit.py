@@ -24,7 +24,7 @@ from actaseal.reports.razorpay_join import join_refunds_with_payments
 _CURRENCY_LEN = 3
 _RULE_HEADERS = (
     "action_type", "currency", "auto_allow_max", "approval_required_above",
-    "hard_block_above", "approver_role", "refund_window_days",
+    "hard_block_above", "approver_role", "refund_window_days", "refund_pay_within_days",
 )
 
 
@@ -40,7 +40,7 @@ def _amount(name: str, text: str) -> str:
 
 def rules_from_fields(
     *, currency: str, auto_allow_max: str, approval_required_above: str, hard_block_above: str,
-    approver_role: str, refund_window_days: str,
+    approver_role: str, refund_window_days: str, refund_pay_within_days: str = "",
 ) -> bytes:
     """The one-row refund rules file the audit reads; a bad form field is refused."""
     cur = str(currency).strip().upper()
@@ -52,10 +52,13 @@ def rules_from_fields(
     days = str(refund_window_days).strip()
     if days and not days.isdigit():
         raise ValueError("refund_window_days must be a whole number of days")
+    pay = str(refund_pay_within_days).strip()
+    if pay and not pay.isdigit():
+        raise ValueError("refund_pay_within_days must be a whole number of days")
     row = [
         "refund", cur, _amount("auto_allow_max", auto_allow_max),
         _amount("approval_required_above", approval_required_above),
-        _amount("hard_block_above", hard_block_above), role, days,
+        _amount("hard_block_above", hard_block_above), role, days, pay,
     ]
     buf = io.StringIO(newline="")
     writer = csv.writer(buf, lineterminator="\n")
