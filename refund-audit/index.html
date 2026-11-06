@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Check your refunds against your rules &middot; ActaSeal</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="../css/base.css?v=20261102">
+<link rel="stylesheet" href="audit.css">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="Check your refunds against your rules">
+<meta property="og:description" content="Drop a Razorpay or Shopify refunds export and see which refunds broke your rules and how much money that is. Your file is read in your browser and never uploaded.">
+<meta property="og:url" content="https://actaseal.com/refund-audit/">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="Drop a Razorpay or Shopify refunds export and see which refunds broke your rules and how much money that is. Your file is read in your browser and never uploaded.">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <div class="wordmark"><a href="/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/brand/actaseal-lockup-paper.svg"><img src="/brand/actaseal-lockup-oxblood.svg" alt="ActaSeal" width="148" height="37"></picture></a></div>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="/refunds/">Refund audit</a></li>
+        <li><a href="https://verify.actaseal.com/browser/">Check a record</a></li>
+        <li><a href="/pilot/">Paid pilot</a></li>
+        <li><a href="/security/">Security</a></li>
+        <li><a href="https://cal.com/actaseal/20min" class="nav-cta">Book a call</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap ra">
+  <h1>Check your refunds against your rules</h1>
+  <p class="lede">
+    Drop your Razorpay or Shopify refunds export, say what your refund rule is, and see which refunds
+    broke it and how much money that is. Your file is read inside this tab. It is not uploaded anywhere.
+  </p>
+
+  <section>
+    <h2>1. Your refunds file</h2>
+    <label class="file">Refunds export (CSV)
+      <input id="refunds-file" type="file" accept=".csv,.json,text/csv,application/json">
+    </label>
+    <label class="file">Payments export (CSV), optional: adds the order value and date, so
+      "refunded more than the order was worth" and "after the return window" can be checked
+      <input id="payments-file" type="file" accept=".csv,text/csv">
+    </label>
+    <button id="sample-btn" type="button" class="secondary">Use made-up sample data</button>
+  </section>
+
+  <section>
+    <h2>2. Your refund rule</h2>
+    <div class="fields">
+      <label>Currency <select id="f-currency"></select></label>
+      <label>Refunds up to this go through <input id="f-auto" value="2500" inputmode="decimal"></label>
+      <label>Above this a person must approve <input id="f-approval" value="2500" inputmode="decimal"></label>
+      <label>Above this, never refunded <input id="f-hard" value="10000" inputmode="decimal"></label>
+      <label>Who can approve <select id="f-role"></select></label>
+      <label>Return window, days <input id="f-days" value="7" inputmode="numeric"></label>
+    </div>
+    <p class="note">A role must be written in your file exactly as chosen here. Roles found in your file are listed first.</p>
+  </section>
+
+  <div class="buttons">
+    <button id="run-btn" type="button" disabled>Loading...</button>
+    <span id="status" role="status">Loading the audit engine into this tab...</span>
+  </div>
+
+  <div id="result" hidden>
+    <h2>Result</h2>
+    <ul id="summary"></ul>
+    <h3 id="outside-title"></h3>
+    <div class="scroll"><table id="outside"></table></div>
+    <h3 id="cross-title"></h3>
+    <div class="scroll"><table id="cross"></table></div>
+    <div class="buttons">
+      <button id="dl-csv" type="button" class="secondary">Download rows (CSV)</button>
+      <button id="dl-md" type="button" class="secondary">Download report (Markdown)</button>
+    </div>
+    <p id="notice" class="note"></p>
+  </div>
+  <p id="error" class="error" role="alert" hidden></p>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <a href="/">ActaSeal</a> &middot; <a href="/pilot/">Paid pilot</a> &middot; <a href="/security/">Security</a> &middot;
+    <a href="/legal/terms.html">Terms</a> &middot; <a href="/legal/privacy.html">Privacy</a>
+    <br><span class="copy">&copy; 2026 ActaSeal. All rights reserved.</span>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script src="audit.js"></script>
+</body>
+</html>

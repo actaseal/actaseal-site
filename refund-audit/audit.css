@@ -1,0 +1,21 @@
+.ra section { margin: 26px 0; }
+.ra h2 { margin: 0 0 8px; }
+.ra h3 { margin: 22px 0 6px; font-size: 17px; }
+.ra label { display: block; margin: 10px 0; color: var(--muted); font-size: 15px; }
+.ra label.file input { display: block; margin-top: 4px; color: var(--ink); }
+.ra .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 4px 16px; }
+.ra .fields input, .ra .fields select { display: block; width: 100%; margin-top: 4px; padding: 9px 10px;
+  font: inherit; color: var(--ink); background: var(--paper-raised); border: 1px solid var(--rule); }
+.ra .buttons { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 18px 0; }
+.ra button { font: inherit; cursor: pointer; padding: 10px 16px; border: 2px solid var(--accent);
+  background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.ra button.secondary { background: transparent; color: var(--accent); }
+.ra button:disabled { opacity: .55; cursor: default; }
+.ra #status { color: var(--muted); font-size: 15px; }
+.ra .scroll { overflow-x: auto; }
+.ra table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.ra th, .ra td { text-align: left; padding: 7px 9px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.ra th { color: var(--muted); font-weight: 600; }
+.ra .note { color: var(--muted); font-size: 14px; }
+.ra .error { color: var(--accent); border: 1px solid var(--accent); padding: 10px 12px; }
+.ra [hidden] { display: none; }
