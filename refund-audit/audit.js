@@ -163,14 +163,14 @@ function fields() {
 
 async function bytesOf(file) { return new Uint8Array(await file.arrayBuffer()); }
 
-async function run(actionsBytes, name) {
+async function run(actionsBytes, name, sampleNotes) {
   showError("");
   $("result").hidden = true;
   const pyodide = await pyodideReady;
   const pay = $("payments-file").files[0];
   const payments = pay ? await bytesOf(pay) : null;
   const cn = $("notes-file").files[0];
-  const notes = cn ? await bytesOf(cn) : null;
+  const notes = sampleNotes || (cn ? await bytesOf(cn) : null);
   const out = JSON.parse(runAudit(pyodide.toPy(actionsBytes), name, payments && pyodide.toPy(payments),
     pyodide.toPy(fields()), notes && pyodide.toPy(notes)));
   if (!out.ok) { showError(`${out.code}: ${out.message}`); return; }
@@ -196,10 +196,11 @@ $("run-btn").addEventListener("click", async () => {
 });
 $("sample-btn").addEventListener("click", async () => {
   const text = await (await fetch("sample/refunds.csv")).arrayBuffer();
+  const notes = await (await fetch("sample/credit_notes.csv")).arrayBuffer();
   setStatus("Showing made-up sample data, not a real company.");
   const bytes = new Uint8Array(text);
   await pickCurrencyFrom(bytes, "refunds.csv");
-  await run(bytes, "refunds.csv");
+  await run(bytes, "refunds.csv", new Uint8Array(notes));
 });
 $("dl-csv").addEventListener("click", () => last && download("refund_audit_rows.csv", last.csv, "text/csv"));
 $("dl-md").addEventListener("click", () => last && download("refund_audit_report.md", last.markdown, "text/markdown"));
