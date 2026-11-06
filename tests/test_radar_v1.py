@@ -11,7 +11,7 @@ import gen_notes  # noqa: E402
 
 RADAR = ROOT / "radar" / "index.html"
 EXPECTED = {
-    "cert-in-ai-agents-advisory.html": ("India", "In force", None),
+    "cert-in-ai-agents-advisory.html": ("India", "Guidance", None),
     "npci-agents-on-upi.html": ("India", "Signal", None),
     "colorado-sb-26-189.html": ("US", "Coming", "2027-01-01"),
     "eu-ai-act-high-risk-deadline-moved.html": ("EU", "Coming", "2027-12-02"),
@@ -21,7 +21,7 @@ EXPECTED = {
     "us-bank-regulators-ask-about-ai-agents.html": ("US", "Signal", None),
     "canadian-banks-block-ai-agents.html": ("Canada", "Signal", None),
     "wells-fargo-ai-agent-liability.html": ("US", "Signal", None),
-    "rbi-ai-cyber-threats-advisory.html": ("India", "In force", None),
+    "rbi-ai-cyber-threats-advisory.html": ("India", "Guidance", None),
 }
 
 

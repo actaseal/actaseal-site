@@ -7,7 +7,7 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="../css/base.css?v=20261102">
+<link rel="stylesheet" href="../css/base.css?v=20261106">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ActaSeal">
 <meta property="og:title" content="ActaSeal privacy notice">
@@ -28,7 +28,7 @@
       <ul>
         <li><a href="/refunds/">Refund audit</a></li>
         <li><a href="https://verify.actaseal.com/browser/">Check a record</a></li>
-        <li><a href="/pilot/">Paid pilot</a></li>
+        <li><a href="/refund-audit/">Check refunds</a></li>
         <li><a href="/security/">Security</a></li>
         <li><a href="https://cal.com/actaseal/20min" class="nav-cta">Book a call</a></li>
       </ul>
@@ -46,7 +46,10 @@ nothing and is off by default.</p>
 
 <section>
 <h2>This website</h2>
-<p>This site loads no third-party assets. No analytics, no tag manager,
+<p>This site loads no third-party assets, with one exception: the in-browser refund check at
+<a href="/refund-audit/">/refund-audit/</a> loads the Pyodide runtime from cdn.jsdelivr.net, which sees your
+IP address as any website you visit would. The refunds file you choose there is read in your browser and is
+not sent to jsDelivr or to us. No analytics, no tag manager,
 no font CDN, no embedded media. It sets no cookies. The only external
 addresses linked from it are github.com and verify.actaseal.com, and
 those are links you choose to follow, not resources the page loads.</p>

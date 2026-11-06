@@ -24,6 +24,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 ALLOWED_EXTERNAL_PREFIXES = (
+    # /refund-audit/ only; disclosed on legal/privacy.html (tests/test_site_claims_are_true.py)
+    "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js",
     "https://orcid.org/0009-0006-0583-6968",
     "https://github.com/actaseal",
     "https://www.linkedin.com/company/actaseal/",

@@ -10,9 +10,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "index.html"
-HEADLINE = "Every refund your AI agent issues, checked before the money moves."
-NAV = ["Refund audit", "Check a record", "Paid pilot", "Security", "Book a call"]
-NAV_HREFS = ["/refunds/", "https://verify.actaseal.com/browser/", "/pilot/", "/security/", "https://cal.com/actaseal/20min"]
+HEADLINE = "Find the refunds that broke your rules, and the money they cost."
+NAV = ["Refund audit", "Check a record", "Check refunds", "Security", "Book a call"]
+NAV_HREFS = ["/refunds/", "https://verify.actaseal.com/browser/", "/refund-audit/", "/security/", "https://cal.com/actaseal/20min"]
 ALLOWED_PHRASES = ("Verify a receipt",)
 BUYER_ZONE_BANNED = ("receipt", "signed", "verif", "ledger", "offline", "policy version", "gateway", "tamper",
                      "hash", "ed25519", "docker", "self-hosted", "air-gapped", "open-source", "apache", "api key")
@@ -41,10 +41,10 @@ def test_there_is_no_banner_and_no_deadline_on_the_homepage():
 
 def test_one_primary_and_one_secondary_call_in_the_first_section():
     hero = re.search(r'<section id="what">.*?</section>', raw(), flags=re.S).group(0)
-    primary = re.search(r'<a class="cta-line" href="/refunds/">\s*Start a refund audit\s*</a>', hero)
-    secondary = re.search(r'<a class="cta-secondary" href="(https://cal\.com/actaseal/20min)">\s*Book a 20-min call\s*</a>', hero)
+    primary = re.search(r'<a class="cta-line" href="/refund-audit/">\s*Check your refunds now\s*</a>', hero)
+    secondary = re.search(r'<a class="cta-secondary" href="/refunds/">\s*Have us run the audit\s*</a>', hero)
     assert primary and secondary
-    assert hero.index("Start a refund audit") < hero.index("Book a 20-min call")
+    assert hero.index("Check your refunds now") < hero.index("Have us run the audit")
     assert 'href="https://verify.actaseal.com/browser/"' in hero
     assert len(re.findall(r'class="cta-line"', raw())) == 1
 
@@ -93,7 +93,7 @@ def test_the_homepage_runs_no_script_and_prints_no_regulation_dates():
 
 def test_the_homepage_says_who_it_is_for_and_links_the_regulatory_notes_without_dates():
     main = re.search(r"<main\b.*?</main>", raw(), flags=re.S).group(0)
-    assert "For D2C and e-commerce brands, quick commerce and fintechs whose AI agents issue refunds, credits or payouts, and for the companies that build those agents." in text(main)
+    assert "For D2C and e-commerce brands, quick commerce and fintechs that issue refunds, by people or by AI agents." in text(main)
     why = re.search(r'<section id="why-now">.*?</section>', main, flags=re.S).group(0)
     for note in ("rbi-ai-cyber-threats-advisory", "npci-agents-on-upi", "eu-ai-act-high-risk-deadline-moved"):
         href = f"/notes/{note}.html"

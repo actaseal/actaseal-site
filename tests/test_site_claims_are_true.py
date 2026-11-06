@@ -211,8 +211,15 @@ def test_no_third_party_assets_loaded():
             if not url.lower().startswith(("http://", "https://", "//")):
                 continue
             host = re.sub(r"^(?:https?:)?//", "", url).split("/")[0].lower()
+            if host == "cdn.jsdelivr.net" and str(page).replace("\\", "/").endswith("refund-audit/index.html"):
+                continue  # the one exception, which privacy.html names (next test)
             assert any(host == a or host.endswith("." + a) for a in allowed), \
                 f"{page}: loads a third-party asset from {host}, contradicting privacy.html"
+
+
+def test_privacy_page_names_the_one_third_party_asset():
+    t = (REPO_ROOT / "legal" / "privacy.html").read_text(encoding="utf-8")
+    assert "cdn.jsdelivr.net" in t and "/refund-audit/" in t
 
 
 def test_subprocessor_list_claims_to_be_complete_and_no_others_appear():

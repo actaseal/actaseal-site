@@ -120,7 +120,7 @@ def build() -> str:
 <link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Notes &middot; ActaSeal</title>
-<link rel="stylesheet" href="../css/base.css?v=20261102">
+<link rel="stylesheet" href="../css/base.css?v=20261106">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ActaSeal">
 <meta property="og:title" content="ActaSeal notes">
@@ -290,7 +290,7 @@ def build_radar() -> str:
 <link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>AI agents and money: the radar &middot; ActaSeal</title>
-<link rel="stylesheet" href="../css/base.css?v=20261102">
+<link rel="stylesheet" href="../css/base.css?v=20261106">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ActaSeal">
 <meta property="og:title" content="AI agents and money: the radar">

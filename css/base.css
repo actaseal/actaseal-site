@@ -341,7 +341,7 @@ dl.outcomes dd { margin: 4px 0 0; max-width: 62ch; }
   nav.site-nav ul { gap: 4px 6px; font-size: 12.5px; flex-wrap: nowrap; justify-content: space-between; }
   nav.site-nav a { white-space: nowrap; }
 }
-@media (max-width: 345px) {
+@media (max-width: 375px) {
   nav.site-nav ul { flex-wrap: wrap; justify-content: flex-start; }
 }
 .founder { display: block; gap: 24px; align-items: start; margin: 8px 0 24px; }
