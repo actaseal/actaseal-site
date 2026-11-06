@@ -19,3 +19,7 @@
 .ra .note { color: var(--muted); font-size: 14px; }
 .ra .error { color: var(--accent); border: 1px solid var(--accent); padding: 10px 12px; }
 .ra [hidden] { display: none; }
+
+.ra .how { margin: 10px 0 14px; }
+.ra .how summary { cursor: pointer; }
+.ra .how ul { margin: 6px 0 0; padding-left: 18px; }

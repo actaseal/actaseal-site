@@ -7,7 +7,7 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="../css/base.css?v=20261106b">
+<link rel="stylesheet" href="../css/base.css?v=20261106c">
 <link rel="stylesheet" href="audit.css">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ActaSeal">
@@ -23,9 +23,9 @@
     <div class="wordmark"><a href="/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/brand/actaseal-lockup-paper.svg"><img src="/brand/actaseal-lockup-oxblood.svg" alt="ActaSeal" width="148" height="37"></picture></a></div>
     <nav class="site-nav">
       <ul>
-        <li><a href="/refunds/">Refund audit</a></li>
-        <li><a href="https://verify.actaseal.com/browser/">Check a record</a></li>
         <li><a href="/refund-audit/">Check refunds</a></li>
+        <li><a href="/gst-credit-notes/">GST credit notes</a></li>
+        <li><a href="/refunds/">Full audit</a></li>
         <li><a href="/security/">Security</a></li>
         <li><a href="https://cal.com/actaseal/20min" class="nav-cta">Book a call</a></li>
       </ul>
@@ -54,6 +54,16 @@
       declared by 30 November.
       <input id="notes-file" type="file" accept=".csv,text/csv">
     </label>
+    <details class="how">
+      <summary>How to export these files</summary>
+      <ul>
+        <li>Razorpay: Dashboard, Transactions, Refunds, Download, pick the dates and CSV. The Payments
+          export comes from the same place under Payments.</li>
+        <li>Shopify: Orders, Export, all orders in the date range, CSV.</li>
+        <li>Credit notes: your accounting tool's credit note register (Tally, Zoho Books, Shopify or
+          Unicommerce), exported as CSV with the order number and the value.</li>
+      </ul>
+    </details>
     <button id="sample-btn" type="button" class="secondary">Use made-up sample data</button>
     <p class="note">The sample also includes made-up credit notes, so every kind of finding shows.</p>
   </section>
@@ -74,7 +84,7 @@
 
   <div class="buttons">
     <button id="run-btn" type="button" disabled>Loading...</button>
-    <span id="status" role="status">Loading the audit engine into this tab...</span>
+    <span id="status" role="status">Loading the checker into this tab. The first time takes about a minute.</span>
   </div>
 
   <div id="result" hidden>

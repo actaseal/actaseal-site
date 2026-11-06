@@ -500,3 +500,14 @@ nav.site-nav a.nav-cta:hover { color: var(--accent-ink); opacity: .92; }
 .example-figure img { width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 8px; background: #fff; }
 
 .sample-shot { display: block; max-width: 100%; height: auto; border: 1px solid var(--rule); margin: 14px 0 6px; }
+
+.result-card { background: var(--paper-raised); border: 1px solid var(--rule); border-radius: 12px; padding: 22px 24px; align-self: start; }
+.result-card .rc-label { margin: 0 0 6px; font-size: 13px; color: var(--muted); }
+.result-card .rc-big { margin: 0; font-size: 22px; font-weight: 700; line-height: 1.25; }
+.result-card .rc-money { margin: 4px 0 14px; font-size: 30px; font-weight: 700; color: var(--accent); }
+.result-card .rc-list { list-style: none; margin: 0 0 14px; padding: 0; }
+.result-card .rc-list li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-top: 1px solid var(--rule); font-size: 15px; }
+.result-card .rc-list b { white-space: nowrap; }
+.result-card .rc-link { font-weight: 600; }
+.product-art { margin: 0 0 22px; max-width: 560px; }
+.gst-line { margin-top: 10px; font-weight: 600; }

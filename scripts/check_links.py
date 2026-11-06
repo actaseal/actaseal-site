@@ -26,6 +26,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 ALLOWED_EXTERNAL_PREFIXES = (
     # /refund-audit/ only; disclosed on legal/privacy.html (tests/test_site_claims_are_true.py)
     "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js",
+    # sources cited by notes/ecommerce-rules-accepted-refunds.html and notes/gst-credit-notes-30-november.html
+    "https://www.taxclue.in/blog/rule-4-8-11-consumer-protection-e-commerce-rules-2020-",
+    "https://www.storyboard18.com/how-it-works/consumer-affairs-dept-facilitates-rs-45-cr-refunds-",
+    "https://taxinformation.cbic.gov.in/content/html/tax_repository/gst/acts/2017_CGST_act/",
+    "https://community.getswipe.in/t/why-are-b2c-credit-notes-not-displaying-on-cdnur-in-gstr1-report/",
     "https://orcid.org/0009-0006-0583-6968",
     "https://github.com/actaseal",
     "https://www.linkedin.com/company/actaseal/",

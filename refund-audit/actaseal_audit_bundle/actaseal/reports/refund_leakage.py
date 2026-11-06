@@ -44,10 +44,7 @@ CODES = (
 )
 OWED_CODES = ("REFUND_PAID_LATE", "REFUND_NOT_PAID")
 TAX_CODES = ("REFUND_WITHOUT_CREDIT_NOTE",)
-_DEADLINE = (
-    "a credit note for a year's sales must be declared by 30 November after that year ends "
-    "(CGST Act s.34(2))"
-)
+
 _UNPAID = {"pending", "failed", "created", "initiated"}
 _PAID = {"", "processed", "paid", "success", "successful", "completed", "refunded"}
 
@@ -151,9 +148,10 @@ def _uncredited(
     for row in rows:
         if (row.get("refund_status") or "").strip().lower() not in _PAID:
             continue
-        if _amount(row.get("amount", "")) is None or not (row.get("order_id") or "").strip():
+        order = (row.get("merchant_order") or "").strip() or (row.get("order_id") or "").strip()
+        if _amount(row.get("amount", "")) is None or not order:
             continue
-        refunded.setdefault(row["order_id"].strip(), []).append(row)
+        refunded.setdefault(order, []).append(row)
     matched = sum(1 for order in refunded if order in credited)
     if not matched:
         return [], 0
@@ -169,7 +167,7 @@ def _uncredited(
             found.append({
                 "code": "REFUND_WITHOUT_CREDIT_NOTE", "order_id": order,
                 "action_ids": [r["action_id"] for r in group], "amount_at_issue": str(paid - noted),
-                "currency": currency, "why": f"{paid} refunded, {said}; {_DEADLINE}",
+                "currency": currency, "why": f"{paid} refunded, {said}",
             })
     return found, matched
 

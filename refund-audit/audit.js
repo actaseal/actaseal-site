@@ -56,6 +56,13 @@ async function pickCurrencyFrom(bytes, name) {
 
 function setStatus(text) { $("status").textContent = text; }
 
+// "INR 25598" -> "INR 25,598" (Indian grouping for INR), for display only.
+function money(text) {
+  return String(text).replace(/\b([A-Z]{3}) (-?\d+(?:\.\d+)?)\b/g, (m, code, n) =>
+    `${code} ${Number(n).toLocaleString(code === "INR" ? "en-IN" : "en-US", { maximumFractionDigits: 2 })}`);
+}
+let engineReady = false;
+
 function showError(text) {
   const el = $("error");
   el.textContent = text;
@@ -63,7 +70,7 @@ function showError(text) {
 }
 
 async function initPyodide() {
-  setStatus("Loading the audit engine into this tab...");
+  setStatus("Loading the checker into this tab. The first time takes about a minute.");
   const pyodide = await loadPyodide();
   await pyodide.loadPackage("cryptography");
   const manifest = await (await fetch(BUNDLE + "manifest.json")).json();
@@ -130,7 +137,7 @@ function render(out) {
   summary.replaceChildren();
   for (const line of out.summary_lines.filter((l) => l.startsWith("- "))) {
     const li = document.createElement("li");
-    li.textContent = line.slice(2);
+    li.textContent = money(line.slice(2));
     summary.appendChild(li);
   }
   if (out.joined) {
@@ -142,12 +149,12 @@ function render(out) {
   const outside = report.rows.filter((r) => r.verdict === "OUTSIDE_AUTHORITY");
   $("outside-title").textContent = `Broke the refund rule (${outside.length})`;
   table($("outside"), ["Row", "Refund", "Amount", "Reason", "Why"],
-    outside.map((r) => [r.row, r.action_id, `${r.amount} ${r.currency}`, REASONS[r.reason_code] || r.reason_code, r.explanation]));
+    outside.map((r) => [r.row, r.action_id, money(`${r.currency} ${r.amount}`), REASONS[r.reason_code] || r.reason_code, r.explanation]));
   const found = (report.refund_checks && report.refund_checks.findings) || [];
   $("cross-title").textContent = `Problems across orders and customers (${found.length})`;
   table($("cross"), ["Problem", "Order or customer", "Refunds", "Money at issue", "Why"],
     found.map((f) => [CHECK_TITLES[f.code] || f.code, f.order_id || f.customer_id || "",
-      f.action_ids.slice(0, 20).join(", "), `${f.currency} ${f.amount_at_issue}`, f.why]));
+      f.action_ids.slice(0, 20).join(", "), money(`${f.currency} ${f.amount_at_issue}`), f.why]));
   $("notice").textContent = report.notice;
   $("result").hidden = false;
 }
@@ -166,6 +173,7 @@ async function bytesOf(file) { return new Uint8Array(await file.arrayBuffer()); 
 async function run(actionsBytes, name, sampleNotes) {
   showError("");
   $("result").hidden = true;
+  if (!engineReady) setStatus("Still loading the checker; your result will show in a moment.");
   const pyodide = await pyodideReady;
   const pay = $("payments-file").files[0];
   const payments = pay ? await bytesOf(pay) : null;
@@ -206,6 +214,7 @@ $("dl-csv").addEventListener("click", () => last && download("refund_audit_rows.
 $("dl-md").addEventListener("click", () => last && download("refund_audit_report.md", last.markdown, "text/markdown"));
 
 pyodideReady = initPyodide().then((p) => {
+  engineReady = true;
   setStatus("Ready. Your file stays in this tab.");
   $("run-btn").disabled = false;
   $("run-btn").textContent = "Run audit";

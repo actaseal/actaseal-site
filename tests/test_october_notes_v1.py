@@ -127,5 +127,7 @@ def test_no_product_vocabulary_and_no_call_to_action(name):
     assert "mailto:" not in raw and "book a" not in raw.lower()
 
 
-def test_the_homepage_lists_the_eu_note():
-    assert 'href="/notes/eu-ai-act-high-risk-deadline-moved.html"' in (ROOT / "index.html").read_text(encoding="utf-8")
+def test_the_radar_lists_the_eu_note():
+    # The homepage's three cards are the rules a refund team answers to (2026-11-06); the EU note
+    # stays one click away on the radar.
+    assert 'href="/notes/eu-ai-act-high-risk-deadline-moved.html"' in (ROOT / "radar" / "index.html").read_text(encoding="utf-8")

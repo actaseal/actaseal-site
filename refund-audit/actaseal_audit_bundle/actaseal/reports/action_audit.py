@@ -95,6 +95,9 @@ _COLUMNS = {
     "order_date": ("order_date", "ordered_at", "order_placed_at", "delivered_at", "delivery_date"),
     "requested_at": ("requested_at", "refund_requested_at", "request_date", "return_requested_at"),
     "refund_status": ("refund_status",),
+    # The merchant's own order number when the export names something else as the order (Razorpay's
+    # `receipt`); read only to match a credit note register.
+    "merchant_order": ("merchant_order", "merchant_order_id", "order_number"),
 }
 _ALIAS = {alias: canon for canon, aliases in _COLUMNS.items() for alias in aliases}
 # "action" is ambiguous (an id in some exports, a type in others): it is only an id if there is no action_id
@@ -226,7 +229,7 @@ RAZORPAY_REFUNDS = ExportShape(
         "amount": "amount",
         "currency": "currency",
         "occurred_at": "created_at",
-        "customer_id": "email", "refund_status": "status",
+        "customer_id": "email", "refund_status": "status", "merchant_order": "receipt",
     },
     action_type="refund",
     date_format="%d/%m/%Y %H:%M:%S",

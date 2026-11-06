@@ -11,8 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "index.html"
 HEADLINE = "Find the refunds that broke your rules, and the money they cost."
-NAV = ["Refund audit", "Check a record", "Check refunds", "Security", "Book a call"]
-NAV_HREFS = ["/refunds/", "https://verify.actaseal.com/browser/", "/refund-audit/", "/security/", "https://cal.com/actaseal/20min"]
+NAV = ["Check refunds", "GST credit notes", "Full audit", "Security", "Book a call"]
+NAV_HREFS = ["/refund-audit/", "/gst-credit-notes/", "/refunds/", "/security/", "https://cal.com/actaseal/20min"]
 ALLOWED_PHRASES = ("Verify a receipt",)
 BUYER_ZONE_BANNED = ("receipt", "signed", "verif", "ledger", "offline", "policy version", "gateway", "tamper",
                      "hash", "ed25519", "docker", "self-hosted", "air-gapped", "open-source", "apache", "api key")
@@ -95,7 +95,7 @@ def test_the_homepage_says_who_it_is_for_and_links_the_regulatory_notes_without_
     main = re.search(r"<main\b.*?</main>", raw(), flags=re.S).group(0)
     assert "For D2C and e-commerce brands, quick commerce and fintechs that issue refunds, by people or by AI agents." in text(main)
     why = re.search(r'<section id="why-now">.*?</section>', main, flags=re.S).group(0)
-    for note in ("rbi-ai-cyber-threats-advisory", "npci-agents-on-upi", "eu-ai-act-high-risk-deadline-moved"):
+    for note in ("rbi-ai-cyber-threats-advisory", "ecommerce-rules-accepted-refunds", "gst-credit-notes-30-november"):
         href = f"/notes/{note}.html"
         assert f'href="{href}"' in why and (ROOT / href.lstrip("/")).is_file(), note
 

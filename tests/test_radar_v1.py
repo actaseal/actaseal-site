@@ -22,6 +22,8 @@ EXPECTED = {
     "canadian-banks-block-ai-agents.html": ("Canada", "Signal", None),
     "wells-fargo-ai-agent-liability.html": ("US", "Signal", None),
     "rbi-ai-cyber-threats-advisory.html": ("India", "Guidance", None),
+    "ecommerce-rules-accepted-refunds.html": ("India", "In force", None),
+    "gst-credit-notes-30-november.html": ("India", "In force", "2026-11-30"),
 }
 
 
