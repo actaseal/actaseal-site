@@ -234,10 +234,28 @@ RAZORPAY_REFUNDS = ExportShape(
     action_type="refund",
     date_format="%d/%m/%Y %H:%M:%S",
 )
-EXPORT_PRESETS = {"shopify": SHOPIFY_ORDERS, "razorpay_refunds": RAZORPAY_REFUNDS}
+# Cashfree dashboard > Reports > Refunds (columns as Cashfree's docs list them). Order ID is the
+# merchant's own order id; Transaction Amount is the payment the refund came from.
+CASHFREE_REFUNDS = ExportShape(
+    columns={
+        "action_id": "Refund ID",
+        "order_id": "Order ID",
+        "amount": "Refund Amount",
+        "currency": "Currency",
+        "order_amount": "Transaction Amount",
+        "occurred_at": "Initiated On",
+        "refund_status": "Status",
+    },
+    action_type="refund",
+)
+EXPORT_PRESETS = {
+    "shopify": SHOPIFY_ORDERS, "razorpay_refunds": RAZORPAY_REFUNDS,
+    "cashfree_refunds": CASHFREE_REFUNDS,
+}
 _PRESET_SIGNATURES = {
     "shopify": {"Name", "Refunded Amount", "Financial Status", "Lineitem name"},
     "razorpay_refunds": {"id", "payment_id", "ARN", "status", "created_at", "amount"},
+    "cashfree_refunds": {"Refund ID", "Order ID", "Refund Amount", "Initiated On", "Status"},
 }
 
 

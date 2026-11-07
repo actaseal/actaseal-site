@@ -16,7 +16,12 @@ from decimal import Decimal, InvalidOperation
 
 from actaseal.reports.action_audit import MAX_BYTES, AuditError
 
-ORDER_HEADERS = ("order_id", "order", "order_ref", "order_number", "order_no")
+# An order column wins; failing that, the reference column Zoho Books (ReferenceNumber, Reference#)
+# and Tally's register (Reference No.) keep the order number in.
+ORDER_HEADERS = (
+    "order_id", "order", "order_ref", "order_number", "order_no",
+    "referencenumber", "reference_number", "reference#", "reference_no.", "reference_no",
+)
 AMOUNT_HEADERS = (
     "amount", "credit_note_value", "credit_note_amount", "credit_amount", "note_value", "value",
     "total",
