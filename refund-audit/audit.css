@@ -23,3 +23,12 @@
 .ra .how { margin: 10px 0 14px; }
 .ra .how summary { cursor: pointer; }
 .ra .how ul { margin: 6px 0 0; padding-left: 18px; }
+
+/* "Save as PDF" prints the result only. */
+@media print {
+  header, footer, .site-head, .site-foot, main > section, .lede, .buttons, #status, #error, .how { display: none !important; }
+  .scroll { overflow: visible !important; }
+  table { font-size: 10px; page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  a { color: inherit; }
+}

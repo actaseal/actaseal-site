@@ -69,15 +69,61 @@ function showError(text) {
   el.hidden = !text;
 }
 
-async function initPyodide() {
-  setStatus("Loading the checker into this tab. The first time takes about a minute.");
-  const pyodide = await loadPyodide();
-  await pyodide.loadPackage("cryptography");
+// Pyodide comes from a copy next to this page when one is there (pyodide/, for a deployment that
+// must not call a CDN), otherwise from jsDelivr. The runtime, the cryptography package and the
+// checker's own files all download at the same time instead of one after another.
+const PYODIDE_LOCAL = "pyodide/";
+const PYODIDE_CDN = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/";
+
+// Returns [base URL, loader file]. A local copy may be the classic pyodide.js or, from newer
+// Pyodide releases, only the ES module pyodide.mjs; both are tried before the CDN.
+async function pyodideSource() {
+  for (const file of ["pyodide.js", "pyodide.mjs"]) {
+    try {
+      const r = await fetch(PYODIDE_LOCAL + file, { method: "HEAD" });
+      if (r.ok) return [PYODIDE_LOCAL, file];
+    } catch (_) { /* no local copy */ }
+  }
+  return [PYODIDE_CDN, "pyodide.js"];
+}
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = src;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error("could not load " + src));
+    document.head.appendChild(s);
+  });
+}
+
+async function loadRuntime(base, file) {
+  if (typeof loadPyodide !== "undefined") return loadPyodide;
+  if (file.endsWith(".mjs")) return (await import(new URL(base + file, location.href).href)).loadPyodide;
+  await loadScript(base + file);
+  return loadPyodide;
+}
+
+async function fetchBundle() {
   const manifest = await (await fetch(BUNDLE + "manifest.json")).json();
-  for (const rel of manifest.files) {
-    const source = await (await fetch(BUNDLE + rel)).text();
-    const dir = "/bundle/" + rel.split("/").slice(0, -1).join("/");
-    pyodide.FS.mkdirTree(dir);
+  return Promise.all(manifest.files.map(async (rel) => {
+    const r = await fetch(BUNDLE + rel);
+    if (!r.ok) throw new Error("could not load " + rel);
+    return [rel, await r.text()];
+  }));
+}
+
+async function initPyodide() {
+  setStatus("Loading the checker into this tab (step 1 of 3). The first time takes under a minute; after that it is cached.");
+  const bundle = fetchBundle();
+  const [base, file] = await pyodideSource();
+  const load = await loadRuntime(base, file);
+  const pyodide = await load({ indexURL: new URL(base, location.href).href });
+  setStatus("Loading the checker into this tab (step 2 of 3): signature library.");
+  const [files] = await Promise.all([bundle, pyodide.loadPackage("cryptography")]);
+  setStatus("Loading the checker into this tab (step 3 of 3).");
+  for (const [rel, source] of files) {
+    pyodide.FS.mkdirTree("/bundle/" + rel.split("/").slice(0, -1).join("/"));
     pyodide.FS.writeFile("/bundle/" + rel, source);
   }
   pyodide.runPython(`
@@ -212,6 +258,8 @@ $("sample-btn").addEventListener("click", async () => {
 });
 $("dl-csv").addEventListener("click", () => last && download("refund_audit_rows.csv", last.csv, "text/csv"));
 $("dl-md").addEventListener("click", () => last && download("refund_audit_report.md", last.markdown, "text/markdown"));
+// The browser's own print dialog saves the result as a PDF; print CSS hides everything but the result.
+$("dl-pdf").addEventListener("click", () => last && window.print());
 
 pyodideReady = initPyodide().then((p) => {
   engineReady = true;

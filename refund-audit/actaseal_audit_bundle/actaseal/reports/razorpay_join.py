@@ -2,7 +2,9 @@
 
 The Refunds export carries neither the order value nor the order date; the Payments export has both
 (``amount``, ``created_at``) under the refund's ``payment_id``. The join fills ``order_amount`` and
-``order_date`` so the audit can check refunds above the order value and after the return window.
+``order_date`` so the audit can check refunds above the order value and after the return window,
+and keeps the refund's status and the order number in its ``receipt`` for the unpaid and credit-note
+checks.
 A refund whose payment is not in the file, or is in another currency, gets blanks: the audit then
 cannot tell, it does not guess. The summary says how many.
 """
@@ -20,7 +22,7 @@ PAYMENTS_HEADERS = {
 }
 OUT_COLUMNS = (
     "action_id", "action_type", "amount", "currency", "order_id", "order_amount",
-    "order_date", "customer_id", "occurred_at",
+    "order_date", "customer_id", "occurred_at", "refund_status", "merchant_order",
 )
 
 
