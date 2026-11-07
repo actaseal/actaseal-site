@@ -136,13 +136,15 @@ def detect(actions, actions_name):
     return json.dumps(currencies_in(bytes(actions), actions_name))
 
 def run(actions, actions_name, payments, fields, notes):
+    fields = dict(fields)
+    gst_rate = fields.pop("gst_rate", "")
     try:
-        rules = rules_from_fields(**dict(fields))
+        rules = rules_from_fields(**fields)
     except ValueError as exc:
         return json.dumps({"ok": False, "code": "AUDIT_BAD_RULE", "message": str(exc)})
     out = run_browser_audit(bytes(actions), actions_name, rules, "rules.csv",
                             payments=bytes(payments) if payments else None,
-                            credit_notes=bytes(notes) if notes else None)
+                            credit_notes=bytes(notes) if notes else None, gst_rate=gst_rate)
     return json.dumps(out)
 `);
   runAudit = pyodide.globals.get("run");
@@ -201,6 +203,7 @@ function render(out) {
   table($("cross"), ["Problem", "Order or customer", "Refunds", "Money at issue", "Why"],
     found.map((f) => [CHECK_TITLES[f.code] || f.code, f.order_id || f.customer_id || "",
       f.action_ids.slice(0, 20).join(", "), money(`${f.currency} ${f.amount_at_issue}`), f.why]));
+  $("dl-cn").hidden = !out.credit_note_drafts;
   $("notice").textContent = report.notice;
   $("result").hidden = false;
 }
@@ -210,7 +213,7 @@ function fields() {
     currency: $("f-currency").value, auto_allow_max: $("f-auto").value,
     approval_required_above: $("f-approval").value, hard_block_above: $("f-hard").value,
     approver_role: $("f-role").value, refund_window_days: $("f-days").value,
-    refund_pay_within_days: $("f-pay").value,
+    refund_pay_within_days: $("f-pay").value, gst_rate: $("f-gst").value,
   };
 }
 
@@ -258,6 +261,8 @@ $("sample-btn").addEventListener("click", async () => {
 });
 $("dl-csv").addEventListener("click", () => last && download("refund_audit_rows.csv", last.csv, "text/csv"));
 $("dl-md").addEventListener("click", () => last && download("refund_audit_report.md", last.markdown, "text/markdown"));
+$("dl-cn").addEventListener("click", () => last && last.credit_note_drafts &&
+  download("draft_credit_notes.csv", last.credit_note_drafts, "text/csv"));
 // The browser's own print dialog saves the result as a PDF; print CSS hides everything but the result.
 $("dl-pdf").addEventListener("click", () => last && window.print());
 

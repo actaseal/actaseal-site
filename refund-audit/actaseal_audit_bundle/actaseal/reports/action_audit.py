@@ -98,6 +98,8 @@ _COLUMNS = {
     # The merchant's own order number when the export names something else as the order (Razorpay's
     # `receipt`); read only to match a credit note register.
     "merchant_order": ("merchant_order", "merchant_order_id", "order_number"),
+    # The GST rate (%) on the order, read only to draft credit notes (credit_note_draft.py).
+    "gst_rate": ("gst_rate", "tax_rate", "gst_percent", "gst_%"),
 }
 _ALIAS = {alias: canon for canon, aliases in _COLUMNS.items() for alias in aliases}
 # "action" is ambiguous (an id in some exports, a type in others): it is only an id if there is no action_id

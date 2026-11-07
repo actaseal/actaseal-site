@@ -164,10 +164,15 @@ def _uncredited(
         noted = credited.get(order, Decimal(0))
         if paid > noted:
             said = f"credit notes {noted}" if order in credited else "no credit note"
+            rates = {(r.get("gst_rate") or "").strip().rstrip("%").strip() for r in group}
             found.append({
                 "code": "REFUND_WITHOUT_CREDIT_NOTE", "order_id": order,
                 "action_ids": [r["action_id"] for r in group], "amount_at_issue": str(paid - noted),
                 "currency": currency, "why": f"{paid} refunded, {said}",
+                # for drafting the missing credit note (credit_note_draft.py)
+                "refund_date": max((r.get("occurred_at") or "")[:10] for r in group),
+                "customer_id": next((r["customer_id"] for r in group if r.get("customer_id")), ""),
+                "gst_rate": rates.pop() if len(rates) == 1 else "",
             })
     return found, matched
 

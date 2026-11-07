@@ -19,6 +19,7 @@ from actaseal.reports.action_audit import (
     render_csv,
     render_markdown,
 )
+from actaseal.reports.credit_note_draft import draft_credit_notes
 from actaseal.reports.credit_notes import load_credit_notes  # noqa: F401 -- bundled for the page
 from actaseal.reports.razorpay_join import join_refunds_with_payments
 
@@ -70,8 +71,12 @@ def rules_from_fields(
 
 def run_browser_audit(
     actions: bytes, actions_name: str, rules: bytes, rules_name: str, payments: bytes | None = None,
-    *, credit_notes: bytes | None = None,
+    *, credit_notes: bytes | None = None, gst_rate: str = "",
 ) -> dict[str, Any]:
+    try:
+        draft_credit_notes([], default_rate=gst_rate)
+    except ValueError as exc:
+        return {"ok": False, "code": "AUDIT_BAD_RULE", "message": str(exc)}
     try:
         joined = None
         if payments is not None:
@@ -80,6 +85,8 @@ def run_browser_audit(
         report, _ext_a, _ext_r = _build_report(
             actions, actions_name, rules, rules_name, credit_notes=credit_notes
         )
+        findings = (report.get("refund_checks") or {}).get("findings", [])
+        drafts, _counts = draft_credit_notes(findings, default_rate=gst_rate)
         return {
             "ok": True,
             "report": report,
@@ -87,6 +94,7 @@ def run_browser_audit(
             "markdown": render_markdown(report),
             "csv": render_csv(report),
             "joined": joined,
+            "credit_note_drafts": drafts,
         }
     except AuditError as exc:
         return {"ok": False, "code": exc.code, "message": str(exc)}

@@ -79,6 +79,10 @@
       <label>Who can approve <select id="f-role"></select></label>
       <label>Return window, days <input id="f-days" value="7" inputmode="numeric"></label>
       <label>Pay accepted refunds within, days <input id="f-pay" value="7" inputmode="numeric"></label>
+      <label>GST rate on refunded orders, % <select id="f-gst">
+        <option value="">From my file, or leave blank</option>
+        <option>5</option><option>12</option><option>18</option><option>28</option><option>40</option><option>0</option>
+      </select></label>
     </div>
     <p class="note">A role must be written in your file exactly as chosen here. Roles found in your file are listed first.</p>
   </section>
@@ -99,6 +103,7 @@
       <button id="dl-csv" type="button" class="secondary">Download rows (CSV)</button>
       <button id="dl-md" type="button" class="secondary">Download report (Markdown)</button>
       <button id="dl-pdf" type="button" class="secondary">Save as PDF</button>
+      <button id="dl-cn" type="button" class="secondary" hidden>Download draft credit notes (CSV)</button>
     </div>
     <p class="note">Want us to go through this with you, or run the full audit on all your refunds?
       Write to <a href="mailto:sales@actaseal.com?subject=Refund%20check">sales@actaseal.com</a>.</p>
