@@ -134,6 +134,24 @@ carry an amount and currency. The proxy is built for tools that move money or co
 customer.</p>
 </section>
 
+<section id="claude-connector">
+<h2>Claude connector</h2>
+<p>A remote MCP server that lets Claude check a refunds export you share in a conversation. Two
+tools, both read-only:</p>
+<ul>
+<li><code>check_refunds</code>: refunds that broke your refund rule (when you give the limits),
+duplicate and excessive refunds, repeat claimants, refunds still owed to customers, and refunds
+with no GST credit note (when you share the credit-note register).</li>
+<li><code>draft_credit_notes</code>: draft GST credit notes, one per order, for refunds that have
+none in the register. Without a GST rate the tax is left blank, never guessed.</li>
+</ul>
+<p>It is the same check as <a href="/refund-audit/">/refund-audit/</a>. It stores nothing, needs
+no sign-in and never moves money; see <a href="/legal/privacy.html#claude-connector">privacy</a>.
+Each file is capped at 2,000,000 characters.</p>
+<p>It is not in the Claude Connectors Directory yet. For early access, or questions:
+<a href="mailto:sales@actaseal.com">sales@actaseal.com</a>.</p>
+</section>
+
 <h2 id="draft">Standards work</h2>
 <p><a href="https://datatracker.ietf.org/doc/draft-xg-payment-dispute-profile/">draft-xg-payment-dispute-profile</a> -- see the <a href="/#proof">proof section</a> on the
 landing page for the full list of public standards work and links.</p>

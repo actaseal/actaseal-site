@@ -38,7 +38,7 @@
 <main class="wrap">
 <section>
 <h1>Privacy</h1>
-<p class="lede">Last updated 29 September 2026. This policy covers this
+<p class="lede">Last updated 9 November 2026. This policy covers this
 website, our sales correspondence and our billing. It also states
 exactly what the self-hosted software can send to us, which is close to
 nothing and is off by default.</p>
@@ -105,6 +105,21 @@ asserts the payload's keys are a subset of an allowed list and that no
 value anywhere in it is a ledger event. The summary is signed by your
 own signing key before it leaves, and uploading it is a deliberate act,
 never automatic.</p>
+</section>
+
+<section id="claude-connector">
+<h2>The Claude connector</h2>
+<p>The ActaSeal refund-check connector lets Claude check a refunds export you share in a
+conversation. When Claude calls it, the file's text and any limits you gave are sent to the
+connector, the check runs, and the result goes back to Claude. The connector keeps nothing: it
+has no database and no disk, it does not write the files or the results to its logs, and it
+answers each request on its own. It needs no account and asks for no sign-in.</p>
+<p>It runs on Google Cloud Run in the United States. As with any web host, Google receives the
+IP address of each request and records the request in its platform logs; the body of the
+request, where your file is, is not in those logs. Anthropic's own handling of your
+conversation is covered by Anthropic's privacy policy, not this one.</p>
+<p>The connector reads files; it never moves money, never contacts your payment provider and
+never sends anything to anyone else.</p>
 </section>
 
 <section>
