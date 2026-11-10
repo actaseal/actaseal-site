@@ -94,16 +94,19 @@
 
   <div id="result" hidden>
     <h2>Result</h2>
+    <p id="prepared" class="note" hidden></p>
     <ul id="summary"></ul>
     <h3 id="outside-title"></h3>
     <div class="scroll"><table id="outside"></table></div>
     <h3 id="cross-title"></h3>
     <div class="scroll"><table id="cross"></table></div>
+    <div class="fields"><label>Prepared by, for a CA firm's report (optional) <input id="f-firm" autocomplete="organization"></label></div>
     <div class="buttons">
       <button id="dl-csv" type="button" class="secondary">Download rows (CSV)</button>
       <button id="dl-md" type="button" class="secondary">Download report (Markdown)</button>
       <button id="dl-pdf" type="button" class="secondary">Save as PDF</button>
       <button id="dl-cn" type="button" class="secondary" hidden>Download draft credit notes (CSV)</button>
+      <button id="send-ca" type="button" class="secondary">Email this summary to my CA</button>
     </div>
     <p class="note">Want us to go through this with you, or run the full audit on all your refunds?
       Write to <a href="mailto:sales@actaseal.com?subject=Refund%20check">sales@actaseal.com</a>.</p>

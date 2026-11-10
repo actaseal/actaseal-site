@@ -260,7 +260,21 @@ $("sample-btn").addEventListener("click", async () => {
   await run(bytes, "refunds.csv", new Uint8Array(notes));
 });
 $("dl-csv").addEventListener("click", () => last && download("refund_audit_rows.csv", last.csv, "text/csv"));
-$("dl-md").addEventListener("click", () => last && download("refund_audit_report.md", last.markdown, "text/markdown"));
+function firm() { return $("f-firm").value.trim(); }
+function withFirm(markdown) { return firm() ? `Prepared by ${firm()}.\n\n${markdown}` : markdown; }
+$("f-firm").addEventListener("input", () => {
+  $("prepared").textContent = firm() ? `Prepared by ${firm()}.` : "";
+  $("prepared").hidden = !firm();
+});
+$("dl-md").addEventListener("click", () => last && download("refund_audit_report.md", withFirm(last.markdown), "text/markdown"));
+// Only the summary lines go into the email, written by the person's own mail app; no file leaves this tab.
+$("send-ca").addEventListener("click", () => {
+  if (!last) return;
+  const lines = [...$("summary").querySelectorAll("li")].map((li) => `- ${li.textContent}`);
+  const body = ["Refund check summary (run in my browser, nothing uploaded):", "", ...lines, "",
+    "The full report and rows are with me. The check: https://actaseal.com/refund-audit/"].join("\n");
+  window.location.href = `mailto:?subject=${encodeURIComponent("Refund check: what it found")}&body=${encodeURIComponent(body)}`;
+});
 $("dl-cn").addEventListener("click", () => last && last.credit_note_drafts &&
   download("draft_credit_notes.csv", last.credit_note_drafts, "text/csv"));
 // The browser's own print dialog saves the result as a PDF; print CSS hides everything but the result.
