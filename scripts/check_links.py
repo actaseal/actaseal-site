@@ -52,6 +52,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://pypi.org/project/actaseal-verify/",
     "https://github.com/legal-context-protocol/legal-context-protocol/pull/4",
     "https://github.com/shunhe-wang/agentic-resolution-interop/pull/22",
+    "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/one-chain",
     "https://pcaobus.org/oversight/standards/auditing-standards/",
     "https://pcaobus.org/oversight/enforcement/",
     "https://pcaobus.org/news-events/news-releases/",
