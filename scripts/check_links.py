@@ -52,6 +52,8 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://pypi.org/project/actaseal-verify/",
     "https://github.com/legal-context-protocol/legal-context-protocol/pull/4",
     "https://github.com/shunhe-wang/agentic-resolution-interop/pull/22",
+    "https://ddnews.gov.in/en/national-consumer-helpline-facilitates-over-rs-105-crore-in-refunds-to-consumers/",
+    "https://taxguru.in/wp-content/uploads/2020/07/Consumer-Protection-E-Commerce-Rules-2020.pdf",
     "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/one-chain",
     "https://pcaobus.org/oversight/standards/auditing-standards/",
     "https://pcaobus.org/oversight/enforcement/",
