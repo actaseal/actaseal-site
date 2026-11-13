@@ -24,6 +24,7 @@ EXPECTED = {
     "rbi-ai-cyber-threats-advisory.html": ("India", "Guidance", None),
     "ecommerce-rules-accepted-refunds.html": ("India", "In force", None),
     "gst-credit-notes-30-november.html": ("India", "In force", "2026-11-30"),
+    "ai-agent-refunds-audit-trail.html": ("India", "In force", None),
 }
 
 

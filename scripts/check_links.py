@@ -54,6 +54,8 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://github.com/shunhe-wang/agentic-resolution-interop/pull/22",
     "https://ddnews.gov.in/en/national-consumer-helpline-facilitates-over-rs-105-crore-in-refunds-to-consumers/",
     "https://taxguru.in/wp-content/uploads/2020/07/Consumer-Protection-E-Commerce-Rules-2020.pdf",
+    "https://cajournal.icai.org/article-details/audit-trail-requirements-responsibilities",
+    "https://taxguru.in/company-law/audit-trail-compliance-rule-3-1-rule-11-practitioners-guide.html",
     "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/one-chain",
     "https://pcaobus.org/oversight/standards/auditing-standards/",
     "https://pcaobus.org/oversight/enforcement/",

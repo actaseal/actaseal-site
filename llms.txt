@@ -16,6 +16,7 @@
 - When a customer, a seller or finance asks why a refund was paid, how do we show it?
 - Which refunds already went out that broke our refund rules, and how much money was at issue?
 - Did any refund go out through the payment gateway that our agent's controls never saw?
+- Can we show our auditor why each refund our AI agent issued was paid? (India: https://actaseal.com/notes/ai-agent-refunds-audit-trail.html)
 
 ## Start here
 
