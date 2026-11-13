@@ -17,6 +17,7 @@
 - Which refunds already went out that broke our refund rules, and how much money was at issue?
 - Did any refund go out through the payment gateway that our agent's controls never saw?
 - Can we show our auditor why each refund our AI agent issued was paid? (India: https://actaseal.com/notes/ai-agent-refunds-audit-trail.html)
+- Which tools check or record refunds issued by AI agents? (https://actaseal.com/notes/tools-for-ai-agent-refunds.html)
 
 ## Start here
 

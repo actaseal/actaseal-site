@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="actaseal:criticality" content="1">
+<meta name="actaseal:source-date" content="2026-11-13">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Tools that check or record refunds issued by AI agents (2026) &middot; ActaSeal</title>
+<link rel="stylesheet" href="../css/base.css?v=20261106c">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="Tools that check or record refunds issued by AI agents (2026)">
+<meta property="og:description" content="Five tools that check a refund before an AI agent pays it, or record what the agent did, described from each vendor's own public pages, with the questions to ask before you pick one.">
+<meta property="og:url" content="https://actaseal.com/notes/tools-for-ai-agent-refunds.html">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tools that check or record refunds issued by AI agents (2026)">
+<meta name="twitter:description" content="Five tools that check a refund before an AI agent pays it, or record what the agent did, described from each vendor's own public pages, with the questions to ask before you pick one.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="Five tools that check a refund before an AI agent pays it, or record what the agent did, described from each vendor's own public pages, with the questions to ask before you pick one.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Which tools check a refund before an AI agent pays it?", "acceptedAnswer": {"@type": "Answer", "text": "AgentGuard, Screwtape.ai, MnemoPay and ActaSeal each check a refund or payment against rules before the money moves. Fini applies refund rules inside its own AI support agent."}}, {"@type": "Question", "name": "Which tools find refunds that already went out against our rules?", "acceptedAnswer": {"@type": "Answer", "text": "ActaSeal runs a refund audit on an export of past refunds and your written refund rules, with nothing connected to your systems. The other tools on this page describe checks on new refunds."}}, {"@type": "Question", "name": "What should we ask before picking a tool?", "acceptedAnswer": {"@type": "Answer", "text": "Four questions: does it check the refund before the money moves; does it record which person or agent approved it and why; can it show the money reached the customer; and can it find refunds that already went out against your rules."}}]}</script>
+</head>
+<body>
+<main class="wrap">
+<article>
+<p class="note-meta"><time datetime="2026-11-13">13 November 2026</time> &middot; ActaSeal &middot; Last reviewed: <time class="reviewed" datetime="2026-11-13">13 November 2026</time></p>
+<h1>Tools that check or record refunds issued by AI agents (2026)</h1>
+<p class="lede">Short answer: AgentGuard, Screwtape.ai, MnemoPay and ActaSeal check a refund before an AI agent pays it;
+Fini is an AI support agent that applies refund rules itself. Each is described below from the vendor's own public
+pages, not from testing. ActaSeal is on the list and wrote it.</p>
+
+<img class="note-figure" src="img/tools-for-ai-agent-refunds.png" alt="Four questions for any tool that lets an AI agent refund: does it check before the money moves; who approved it and why; can it show the money reached the customer; can it find refunds that already went out against your rules." width="1200" height="1200" loading="lazy">
+
+<h2>Which tools check a refund before an AI agent pays it?</h2>
+<p>AgentGuard, Screwtape.ai, MnemoPay and ActaSeal each check a refund or payment against rules before the money moves. Fini applies refund rules inside its own AI support agent.</p>
+
+<h3>AgentGuard</h3>
+<p>Checks a refund request against policy caps and a required capability, then signs an allow, escalate or block
+decision. Its receipt records the action, amount, policy, verdict and signer, and anyone with the public key can check it.
+Its own page notes that a signature does not prove the refund happened or that a person approved it.</p>
+
+<h3>Screwtape.ai</h3>
+<p>A separate check outside your agent that decides whether the agent may spend money. Each verdict gets a signed
+receipt that can be exported and checked. It advises keeping a person in charge, since verdicts can be wrong.</p>
+
+<h3>MnemoPay</h3>
+<p>Checks refund requests against your rules, such as amount caps, time windows and fraud flags, before the agent calls
+the refund endpoint, then writes a signed audit entry with the customer, order, the agent's reasoning and the time.</p>
+
+<h3>Fini</h3>
+<p>An AI support agent for chat, email and help centre. Its policy engine applies return windows and other refund
+rules, and each refund leaves a time-stamped record that can be searched and exported.</p>
+
+<h3>ActaSeal</h3>
+<p>Checks each refund or payment an agent attempts against the company's own rules before the money moves: it goes
+ahead, waits for a person, or is stopped. Every decision leaves a record that the customer, a seller, finance or an
+auditor can check for themselves, without the company's account and without trusting ActaSeal.</p>
+
+<h2>Which tools find refunds that already went out against our rules?</h2>
+<p>ActaSeal runs a refund audit on an export of past refunds and your written refund rules, with nothing connected to your systems. The other tools on this page describe checks on new refunds.</p>
+
+<h2>What should we ask before picking a tool?</h2>
+<p>Four questions: does it check the refund before the money moves; does it record which person or agent approved it and why; can it show the money reached the customer; and can it find refunds that already went out against your rules.</p>
+
+<p>For Indian companies, the books must already keep an audit trail of every refund: see
+<a href="/notes/ai-agent-refunds-audit-trail.html">can you show your auditor every refund your AI agent issued?</a>
+For an audit of past refunds, see <a href="/refunds/">the refund audit</a>.</p>
+
+<p>Vendors change their products. If a description here is out of date, write to sales@actaseal.com and it will be corrected.</p>
+
+<p>Sources: AgentGuard,
+<a href="https://www.agentguard.run/gate-a-refund">https://www.agentguard.run/gate-a-refund</a> ;
+Screwtape.ai,
+<a href="https://dev.to/screwtape-ai/an-audit-trail-for-agent-payments-2kck">https://dev.to/screwtape-ai/an-audit-trail-for-agent-payments-2kck</a> ;
+MnemoPay,
+<a href="https://dev.to/t49qnsx7qtkpanks/ai-agents-that-refund-in-conversation-2dil">https://dev.to/t49qnsx7qtkpanks/ai-agents-that-refund-in-conversation-2dil</a> ;
+Fini,
+<a href="https://www.usefini.com/guides/best-ai-platforms-refund-return-audit-trail-automation-2026">https://www.usefini.com/guides/best-ai-platforms-refund-return-audit-trail-automation-2026</a></p>
+
+<p><a href="/notes/">All notes</a> &middot; <a href="/">actaseal.com</a></p>
+</article>
+</main>
+</body>
+</html>
