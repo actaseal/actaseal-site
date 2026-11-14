@@ -28,6 +28,7 @@ a row's own verdict. A row whose amount is not a number is left out of the sums.
 """
 from __future__ import annotations
 
+import re
 from datetime import date, datetime
 from decimal import Decimal, InvalidOperation
 from typing import Any
@@ -75,6 +76,9 @@ def _single_currency(rows: list[dict[str, str]]) -> str | None:
     return currencies.pop() if len(currencies) == 1 else None
 
 
+_DAY_FIRST = re.compile(r"(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})(?:[ T,].*)?")
+
+
 def _day(text: str) -> date | None:
     text = (text or "").strip()
     if not text:
@@ -82,13 +86,32 @@ def _day(text: str) -> date | None:
     try:
         return datetime.fromisoformat(text).date()
     except ValueError:
+        pass
+    # Indian exports write dates day first (25/10/2026, 25-10-2026 11:00:00). A date that is
+    # neither ISO nor day-first is not guessed at: the check that needs it says it was skipped.
+    if (m := _DAY_FIRST.fullmatch(text)) is None:
+        return None
+    try:
+        return date(int(m[3]), int(m[2]), int(m[1]))
+    except ValueError:
         return None
 
 
-def _late_refunds(rows: list[dict[str, str]], window_days: dict[str, int]) -> list[dict[str, Any]]:
-    late = []
+def _unread(text: str) -> bool:
+    """A date is in the cell but could not be read."""
+    return bool((text or "").strip()) and _day(text) is None
+
+
+def _late_refunds(
+    rows: list[dict[str, str]], window_days: dict[str, int]
+) -> tuple[list[dict[str, Any]], int]:
+    """(late refunds, refunds whose window could not be checked because a date was unreadable)."""
+    late, unchecked = [], 0
     for row in rows:
         days = window_days.get(row.get("action_type", ""))
+        if days is not None and (_unread(row.get("order_date", "")) or _unread(row.get("occurred_at", ""))):
+            unchecked += 1
+            continue
         ordered, refunded = _day(row.get("order_date", "")), _day(row.get("occurred_at", ""))
         amount = _amount(row.get("amount", ""))
         if days is None or ordered is None or refunded is None or amount is None:
@@ -101,7 +124,7 @@ def _late_refunds(rows: list[dict[str, str]], window_days: dict[str, int]) -> li
                 "why": f"refunded {(refunded - ordered).days} days after the order; "
                 f"the window is {days} days",
             })
-    return late
+    return late, unchecked
 
 
 def _owed(rows: list[dict[str, str]], pay_days: dict[str, int]) -> list[dict[str, Any]]:
@@ -220,7 +243,8 @@ def refund_findings(
                 f"(flagged at {REPEAT_CLAIMANT_THRESHOLD} or more)",
             })
 
-    findings.extend(_late_refunds(rows, window_days or {}))
+    late, window_unchecked = _late_refunds(rows, window_days or {})
+    findings.extend(late)
     findings.extend(owed)
     uncredited, matched = _uncredited(rows, credited) if credited is not None else ([], 0)
     findings.extend(uncredited)
@@ -239,4 +263,5 @@ def refund_findings(
         "findings": findings,
         "totals": totals,
         **({"credit_notes_matched_orders": matched} if credited is not None else {}),
+        **({"window_unchecked": window_unchecked} if window_unchecked else {}),
     }

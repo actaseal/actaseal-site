@@ -7,6 +7,15 @@ let pyodideReady = null;
 let runAudit = null;
 let detectCurrencies = null;
 let last = null;
+// The visitor's own choice of which of their columns is which, when the file does not say.
+let mapping = null;
+
+const MAP_LABELS = [
+  ["amount", "Refund amount (needed)"], ["action_id", "Refund id"], ["order_id", "Order id or payment id"],
+  ["order_amount", "Order value"], ["currency", "Currency"], ["occurred_at", "Refund date"],
+  ["order_date", "Order date"], ["customer_id", "Customer"], ["refund_status", "Refund status"],
+  ["approved_by", "Approved by"], ["approver_role", "Approver's role"],
+];
 
 const COMMON = ["INR", "USD", "EUR", "GBP", "AED", "SGD", "AUD", "CAD"];
 
@@ -42,9 +51,46 @@ function setRoles(found) {
 }
 setRoles([]);
 
+function showMapping(headers) {
+  const box = $("mapping-fields");
+  box.replaceChildren();
+  for (const [column, label] of MAP_LABELS) {
+    const field = document.createElement("label");
+    field.textContent = label + " ";
+    const select = document.createElement("select");
+    select.dataset.column = column;
+    const none = document.createElement("option");
+    none.value = "";
+    none.textContent = "Not in my file";
+    select.appendChild(none);
+    for (const header of headers) {
+      const option = document.createElement("option");
+      option.value = header;
+      option.textContent = header;
+      select.appendChild(option);
+    }
+    if (mapping && mapping[column]) select.value = mapping[column];
+    field.appendChild(select);
+    box.appendChild(field);
+  }
+  $("mapping").hidden = false;
+}
+
+function chosenMapping() {
+  const out = {};
+  for (const select of $("mapping-fields").querySelectorAll("select")) {
+    if (select.value) out[select.dataset.column] = select.value;
+  }
+  return out;
+}
+
 async function pickCurrencyFrom(bytes, name) {
   const pyodide = await pyodideReady;
-  const out = JSON.parse(detectCurrencies(pyodide.toPy(bytes), name));
+  const out = JSON.parse(detectCurrencies(pyodide.toPy(bytes), name, mapping && pyodide.toPy(mapping)));
+  if (!out.ok && out.headers) {
+    showMapping(out.headers);
+    setStatus("Your file uses its own column names: pick which column is the refund amount below.");
+  }
   if (out.ok) {
     setCurrencies(out.currencies);
     setRoles(out.approver_roles);
@@ -132,10 +178,10 @@ if "/bundle" not in sys.path:
     sys.path.insert(0, "/bundle")
 from actaseal.reports.browser_audit import run_browser_audit, rules_from_fields, currencies_in
 
-def detect(actions, actions_name):
-    return json.dumps(currencies_in(bytes(actions), actions_name))
+def detect(actions, actions_name, mapping=None):
+    return json.dumps(currencies_in(bytes(actions), actions_name, dict(mapping) if mapping else None))
 
-def run(actions, actions_name, payments, fields, notes):
+def run(actions, actions_name, payments, fields, notes, mapping=None):
     fields = dict(fields)
     gst_rate = fields.pop("gst_rate", "")
     try:
@@ -144,7 +190,8 @@ def run(actions, actions_name, payments, fields, notes):
         return json.dumps({"ok": False, "code": "AUDIT_BAD_RULE", "message": str(exc)})
     out = run_browser_audit(bytes(actions), actions_name, rules, "rules.csv",
                             payments=bytes(payments) if payments else None,
-                            credit_notes=bytes(notes) if notes else None, gst_rate=gst_rate)
+                            credit_notes=bytes(notes) if notes else None, gst_rate=gst_rate,
+                            mapping=dict(mapping) if mapping else None)
     return json.dumps(out)
 `);
   runAudit = pyodide.globals.get("run");
@@ -229,8 +276,13 @@ async function run(actionsBytes, name, sampleNotes) {
   const cn = $("notes-file").files[0];
   const notes = sampleNotes || (cn ? await bytesOf(cn) : null);
   const out = JSON.parse(runAudit(pyodide.toPy(actionsBytes), name, payments && pyodide.toPy(payments),
-    pyodide.toPy(fields()), notes && pyodide.toPy(notes)));
-  if (!out.ok) { showError(`${out.code}: ${out.message}`); return; }
+    pyodide.toPy(fields()), notes && pyodide.toPy(notes), mapping && pyodide.toPy(mapping)));
+  if (!out.ok) {
+    showError(out.message);
+    if (out.headers) showMapping(out.headers);
+    return;
+  }
+  $("mapping").hidden = !mapping;
   last = out;
   render(out);
 }
@@ -244,7 +296,19 @@ function download(name, text, type) {
 
 $("refunds-file").addEventListener("change", async () => {
   const file = $("refunds-file").files[0];
+  mapping = null;
+  $("mapping").hidden = true;
+  showError("");
   if (file) await pickCurrencyFrom(await bytesOf(file), file.name);
+});
+$("map-btn").addEventListener("click", async () => {
+  const file = $("refunds-file").files[0];
+  if (!file) { showError("Choose your refunds file first."); return; }
+  mapping = chosenMapping();
+  if (!mapping.amount) { showError("Pick the column that holds the refund amount."); return; }
+  const bytes = await bytesOf(file);
+  await pickCurrencyFrom(bytes, file.name);
+  await run(bytes, file.name);
 });
 $("run-btn").addEventListener("click", async () => {
   const file = $("refunds-file").files[0];
@@ -256,6 +320,8 @@ $("sample-btn").addEventListener("click", async () => {
   const notes = await (await fetch("sample/credit_notes.csv")).arrayBuffer();
   setStatus("Showing made-up sample data, not a real company.");
   const bytes = new Uint8Array(text);
+  mapping = null;
+  $("mapping").hidden = true;
   await pickCurrencyFrom(bytes, "refunds.csv");
   await run(bytes, "refunds.csv", new Uint8Array(notes));
 });

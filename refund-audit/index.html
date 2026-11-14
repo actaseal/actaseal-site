@@ -37,7 +37,7 @@
 <main class="wrap ra">
   <h1>Check your refunds against your rules</h1>
   <p class="lede">
-    Drop your Razorpay, Cashfree or Shopify refunds export, say what your refund rule is, and see which refunds
+    Drop your Razorpay, Cashfree or Shopify refunds export (or any refunds CSV: you pick which column is which), say what your refund rule is, and see which refunds
     broke it and how much money that is. Your file is read inside this tab. It is not uploaded anywhere.
   </p>
 
@@ -113,6 +113,13 @@
     <p id="notice" class="note"></p>
   </div>
   <p id="error" class="error" role="alert" hidden></p>
+  <section id="mapping" hidden>
+    <h2>Which column is which?</h2>
+    <p class="note">Your file keeps its own column names. Pick the refund amount column; add the others
+      you have, and the checks that need them run too. Leave the rest as "Not in my file".</p>
+    <div id="mapping-fields" class="fields"></div>
+    <div class="buttons"><button id="map-btn" type="button">Run with these columns</button></div>
+  </section>
 </main>
 
 <footer class="site-foot">

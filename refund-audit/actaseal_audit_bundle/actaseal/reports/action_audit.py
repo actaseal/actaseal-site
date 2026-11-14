@@ -36,6 +36,7 @@ import csv
 import hashlib
 import io
 import json
+import re
 import tempfile
 import zipfile
 from dataclasses import dataclass, field
@@ -107,9 +108,11 @@ _ALIAS["action"] = "action_id"
 
 
 class AuditError(ValueError):
-    def __init__(self, code: str, message: str) -> None:
+    def __init__(self, code: str, message: str, *, headers: list[str] | None = None) -> None:
         super().__init__(message)
         self.code = code
+        # the file's own headers, when the error is about which column is which
+        self.headers = headers
 
 
 # ISO 4217 minor-unit exponents, for exports that give amounts in paise, cents or fils.
@@ -275,11 +278,51 @@ def _text(data: Any, what: str) -> str:
     if not isinstance(data, (bytes, bytearray)):
         raise AuditError("AUDIT_NOT_TEXT", f"{what} must be a file's bytes")
     if len(data) > MAX_BYTES:
-        raise AuditError("AUDIT_TOO_LARGE", f"{what} is over {MAX_BYTES} bytes")
+        raise AuditError(
+            "AUDIT_TOO_LARGE", f"{what} is over {MAX_BYTES // (1024 * 1024)} MB; split it by month and check each part"
+        )
+    raw = bytes(data)
+    if raw[:4] == b"PK\x03\x04":
+        raise AuditError(
+            "AUDIT_SPREADSHEET", f"{what} is an Excel (or zip) file; open it and save it as CSV, then check that"
+        )
+    # Excel's "Unicode Text" and some exports write UTF-16 with a byte-order mark
+    if raw[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        try:
+            return raw.decode("utf-16")
+        except UnicodeDecodeError as exc:
+            raise AuditError("AUDIT_NOT_TEXT", f"{what} is not readable text") from exc
     try:
-        return bytes(data).decode("utf-8-sig")
-    except UnicodeDecodeError as exc:
-        raise AuditError("AUDIT_NOT_TEXT", f"{what} is not UTF-8 text") from exc
+        return raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        pass
+    # Excel's plain "CSV" on Windows writes Windows-1252; a file with NUL bytes is not text at all
+    if b"\x00" not in raw:
+        try:
+            return raw.decode("cp1252")
+        except UnicodeDecodeError:
+            pass
+    raise AuditError("AUDIT_NOT_TEXT", f"{what} is not readable text; save it as CSV (UTF-8)")
+
+
+# An amount as finance exports write it: an optional rupee sign or "Rs."/"INR", then digits grouped
+# by commas the Western (1,499 / 1,000,000) or Indian (1,49,999) way. Anything else ("1.499,00",
+# "1,49") is left as written and the row is reported as unreadable, never guessed at.
+_WRITTEN_AMOUNT = re.compile(
+    r"(?i)\s*(?:\u20b9|rs\.?|inr)?\s*((?:\d+|\d{1,3}(?:,\d{2,3})*,\d{3})(?:\.\d+)?)\s*"
+)
+
+
+def _plain_amount(text: str) -> str:
+    match = _WRITTEN_AMOUNT.fullmatch(text or "")
+    return match[1].replace(",", "") if match else text
+
+
+def _delimiter(text: str) -> str:
+    first = text.split("\n", 1)[0]
+    counts = {d: first.count(d) for d in (",", ";", "\t")}
+    best = max(counts, key=lambda d: counts[d])
+    return best if counts[best] and counts[","] < counts[best] else ","
 
 
 def _no_amount(text: str) -> bool:
@@ -320,7 +363,7 @@ def load_actions(
         raw_rows = doc
     else:
         try:
-            reader = csv.DictReader(io.StringIO(text, newline=""))
+            reader = csv.DictReader(io.StringIO(text, newline=""), delimiter=_delimiter(text))
             raw_rows = [dict(r) for r in reader]
         except csv.Error as exc:
             raise AuditError("AUDIT_BAD_CSV", "the actions file is not valid CSV") from exc
@@ -349,6 +392,7 @@ def load_actions(
             "AUDIT_MISSING_COLUMNS",
             "the actions file needs an action_type and an amount column; it has: "
             f"{found}. Name them with an export shape (--map amount=<header>, --action-type <type>)",
+            headers=sorted(headers),
         )
     rows = []
     for number, raw in enumerate(raw_rows, start=1):
@@ -364,6 +408,8 @@ def load_actions(
             row["order_date"] = shape.date(row["order_date"])
             if shape.skip_rows_without_amount and _no_amount(row["amount"]):
                 row["_skip"] = "1"
+        row["amount"] = _plain_amount(row["amount"])
+        row["order_amount"] = _plain_amount(row["order_amount"])
         if not row["action_id"]:
             row["action_id"] = f"row-{number}"
         rows.append(row)
@@ -885,7 +931,9 @@ def _summary_lines(report: dict) -> list[str]:
         with contextlib.suppress(InvalidOperation, ValueError):
             sums[r["currency"] or "?"] = sums.get(r["currency"] or "?", Decimal(0)) + Decimal(r["amount"])
     money = ", ".join(f"{cur} {amt}" for cur, amt in sorted(sums.items())) or "nothing"
-    lines = ["## Summary", "", f"- {len(outside)} of {len(rows)} {noun} fell outside the rules: {money}."]
+    unjudged = report["counts"][CANNOT_TELL]
+    tail = f"; {unjudged} could not be judged from the file" if unjudged else ""
+    lines = ["## Summary", "", f"- {len(outside)} of {len(rows)} {noun} fell outside the rules: {money}{tail}."]
     refund = report.get("refund_checks")
     leaks = [
         f for f in (refund or {}).get("findings", []) if f["code"] not in OWED_CODES + TAX_CODES
@@ -893,13 +941,11 @@ def _summary_lines(report: dict) -> list[str]:
     uncredited = [f for f in (refund or {}).get("findings", []) if f["code"] in TAX_CODES]
     owed = [f for f in (refund or {}).get("findings", []) if f["code"] in OWED_CODES]
     if leaks:
-        at_issue: dict[str, Decimal] = {}
-        for f in leaks:
-            at_issue[f["currency"]] = at_issue.get(f["currency"], Decimal(0)) + Decimal(f["amount_at_issue"])
+        at_issue = _at_issue_once(leaks, rows)
         found = ", ".join(f"{cur} {amt}" for cur, amt in sorted(at_issue.items()))
         lines.append(
             f"- Refund checks found {found} at issue across {len(leaks)} findings "
-            "(a refund can appear in more than one finding and in the rows above)."
+            "(each refund counted once, though one refund can appear in several findings)."
         )
     if owed:
         due: dict[str, Decimal] = {}
@@ -921,9 +967,53 @@ def _summary_lines(report: dict) -> list[str]:
             "without a matching credit note (CGST Act s.34(2): declare by 30 November after the "
             "year ends)."
         )
-    if c := report["counts"][CANNOT_TELL]:
-        lines.append(f"- {c} {noun} could not be judged from the file.")
+    if unchecked := (refund or {}).get("window_unchecked"):
+        lines.append(
+            f"- The return window could not be checked for {unchecked} {noun}: a date in the file "
+            "could not be read (dates are read as YYYY-MM-DD or DD/MM/YYYY)."
+        )
     return [*lines, ""]
+
+
+def _at_issue_once(findings: list[dict], rows: list[dict]) -> dict[str, Decimal]:
+    """Money at issue per currency with each refund counted once.
+
+    Findings overlap: two refunds on one order are both a duplicate and more than the order was
+    worth. Per order the larger finding stands (late refunds on it are added up first), capped at
+    what was refunded on that order; a customer-level finding adds only refunds no order finding
+    already counted."""
+    paid: dict[str, Decimal] = {}
+    for r in rows:
+        with contextlib.suppress(InvalidOperation, ValueError, KeyError):
+            paid[r["action_id"]] = Decimal(r["amount"])
+    totals: dict[str, Decimal] = {}
+    counted: set[str] = set()
+    by_order: dict[tuple[str, str], list[dict]] = {}
+    loose = []
+    for f in findings:
+        if f.get("order_id"):
+            by_order.setdefault((f["currency"], f["order_id"]), []).append(f)
+        else:
+            loose.append(f)
+    for (cur, _order), group in by_order.items():
+        late = sum(
+            (Decimal(f["amount_at_issue"]) for f in group if f["code"] == "REFUND_AFTER_WINDOW"), Decimal(0)
+        )
+        value = max([late, *(Decimal(f["amount_at_issue"]) for f in group if f["code"] != "REFUND_AFTER_WINDOW")])
+        ids = {a for f in group for a in f["action_ids"]}
+        if all(a in paid for a in ids):
+            value = min(value, sum((paid[a] for a in ids), Decimal(0)))
+        counted |= ids
+        totals[cur] = totals.get(cur, Decimal(0)) + value
+    for f in loose:
+        fresh = [a for a in f["action_ids"] if a not in counted]
+        value = (
+            sum((paid[a] for a in fresh), Decimal(0)) if all(a in paid for a in fresh)
+            else Decimal(f["amount_at_issue"])
+        )
+        counted |= set(fresh)
+        totals[f["currency"]] = totals.get(f["currency"], Decimal(0)) + value
+    return totals
 
 
 def _md(value: Any) -> str:

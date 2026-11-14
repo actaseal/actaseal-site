@@ -12,7 +12,9 @@ from decimal import Decimal, InvalidOperation
 from typing import Any
 
 from actaseal.reports.action_audit import (
+    _COLUMNS,
     AuditError,
+    ExportShape,
     _build_report,
     _summary_lines,
     load_actions,
@@ -69,9 +71,54 @@ def rules_from_fields(
     return buf.getvalue().encode()
 
 
+# The page is a refunds page: a file that names no action type is a file of refunds.
+_REFUNDS = ExportShape(action_type="refund")
+_MAP_MESSAGE = (
+    "we could not tell which column is the refund amount. Your columns are listed below: pick the "
+    "amount column (and the others if you have them), then run again."
+)
+
+
+def _shape(mapping: dict[str, str] | None) -> ExportShape | None:
+    """The visitor's own column choices, as an export shape; a refund type when they name none."""
+    if not mapping:
+        return None
+    columns = {k: v for k, v in dict(mapping).items() if v}
+    unknown = sorted(set(columns) - set(_COLUMNS))
+    if unknown:
+        raise AuditError("AUDIT_BAD_SHAPE", f"not a column the check reads: {', '.join(unknown)}")
+    return ExportShape(columns=columns, action_type=None if "action_type" in columns else "refund")
+
+
+def _read_as_refunds(read: Any, mapping: dict[str, str] | None) -> Any:
+    """Run `read(shape)` as the file comes, then, if it names no action type, as a file of refunds."""
+    shape = _shape(mapping)
+    if shape is not None:
+        return read(shape)
+    try:
+        return read(None)
+    except AuditError as exc:
+        if exc.code != "AUDIT_MISSING_COLUMNS":
+            raise
+    try:
+        return read(_REFUNDS)
+    except AuditError as exc:
+        if exc.code == "AUDIT_MISSING_COLUMNS":
+            raise AuditError(exc.code, _MAP_MESSAGE, headers=exc.headers) from None
+        raise
+
+
+def _refused(exc: AuditError) -> dict[str, Any]:
+    out: dict[str, Any] = {"ok": False, "code": exc.code, "message": str(exc)}
+    if exc.headers is not None:
+        out["headers"] = exc.headers
+        out["columns"] = list(_COLUMNS)
+    return out
+
+
 def run_browser_audit(
     actions: bytes, actions_name: str, rules: bytes, rules_name: str, payments: bytes | None = None,
-    *, credit_notes: bytes | None = None, gst_rate: str = "",
+    *, credit_notes: bytes | None = None, gst_rate: str = "", mapping: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     try:
         draft_credit_notes([], default_rate=gst_rate)
@@ -82,8 +129,11 @@ def run_browser_audit(
         if payments is not None:
             actions, joined = join_refunds_with_payments(actions, payments)
             actions_name = "refunds_with_orders.csv"
-        report, _ext_a, _ext_r = _build_report(
-            actions, actions_name, rules, rules_name, credit_notes=credit_notes
+        report, _ext_a, _ext_r = _read_as_refunds(
+            lambda shape: _build_report(
+                actions, actions_name, rules, rules_name, shape, credit_notes=credit_notes
+            ),
+            mapping,
         )
         findings = (report.get("refund_checks") or {}).get("findings", [])
         drafts, _counts = draft_credit_notes(findings, default_rate=gst_rate)
@@ -97,17 +147,21 @@ def run_browser_audit(
             "credit_note_drafts": drafts,
         }
     except AuditError as exc:
-        return {"ok": False, "code": exc.code, "message": str(exc)}
+        return _refused(exc)
     except Exception as exc:  # noqa: BLE001 -- the page must always get a reason
         return {"ok": False, "code": "AUDIT_FAILED", "message": f"{type(exc).__name__}: {exc}"}
 
 
-def currencies_in(actions: bytes, actions_name: str) -> dict[str, Any]:
+def currencies_in(
+    actions: bytes, actions_name: str, mapping: dict[str, str] | None = None
+) -> dict[str, Any]:
     """The currencies and approver roles a file's rows carry, so the page offers real choices."""
     try:
-        _columns, rows = load_actions(actions, actions_name)
+        _columns, rows = _read_as_refunds(
+            lambda shape: load_actions(actions, actions_name, shape=shape), mapping
+        )
     except AuditError as exc:
-        return {"ok": False, "code": exc.code, "message": str(exc)}
+        return _refused(exc)
     except Exception as exc:  # noqa: BLE001 -- the page must always get a reason
         return {"ok": False, "code": "AUDIT_FAILED", "message": f"{type(exc).__name__}: {exc}"}
     found = {

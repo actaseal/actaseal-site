@@ -114,9 +114,8 @@ conversation. When Claude calls it, the file's text and any limits you gave are 
 connector, the check runs, and the result goes back to Claude. The connector keeps nothing: it
 has no database and no disk, it does not write the files or the results to its logs, and it
 answers each request on its own. It needs no account and asks for no sign-in.</p>
-<p>It runs on Google Cloud Run in the United States. As with any web host, Google receives the
-IP address of each request and records the request in its platform logs; the body of the
-request, where your file is, is not in those logs. Anthropic's own handling of your
+<p>The connector is not publicly hosted at present. Before it is, its host will be added to the
+<a href="/legal/subprocessors.html">sub-processors page</a>. Anthropic's own handling of your
 conversation is covered by Anthropic's privacy policy, not this one.</p>
 <p>The connector reads files; it never moves money, never contacts your payment provider and
 never sends anything to anyone else.</p>

@@ -38,10 +38,12 @@
 <main class="wrap">
 <section>
 <h1>Sub-processors</h1>
-<p class="lede">Last updated 29 September 2026. This is the complete
+<p class="lede">Last updated 15 November 2026. This is the complete
 list. None of these parties receives customer evidence, ledgers,
 receipts or policies, because in a self-hosted deployment none of that
-is transmitted to us in the first place.</p>
+is transmitted to us in the first place. The one exception is a refund
+export you email us for a refund audit: it passes through our email
+provider, Zoho.</p>
 </section>
 
 <section>
@@ -57,7 +59,8 @@ is transmitted to us in the first place.</p>
 <tr>
   <td>Zoho</td>
   <td>Email</td>
-  <td>The content of correspondence you send to or receive from us</td>
+  <td>The content of correspondence you send to or receive from us, including a refund export
+  you send for a refund audit (under NDA, deleted within 30 days of the report)</td>
   <td>India</td>
 </tr>
 <tr>
@@ -67,11 +70,12 @@ is transmitted to us in the first place.</p>
   <td>United States</td>
 </tr>
 <tr>
-  <td>Google Cloud (Cloud Run)</td>
-  <td>Hosting for the Claude refund-check connector</td>
-  <td>Web request logs: IP address and requested path. The refunds file a request carries is
-  processed in memory and not stored.</td>
-  <td>United States</td>
+  <td>jsDelivr</td>
+  <td>Serves the Python runtime (Pyodide) that the free refund check at /refund-audit/ loads into
+  your browser tab</td>
+  <td>Ordinary web request logs: IP address, user agent, requested file. Never your refunds file,
+  which is read inside your tab and not sent anywhere.</td>
+  <td>Global</td>
 </tr>
 <tr>
   <td>Spaceship</td>
@@ -95,7 +99,8 @@ term.</p>
 <p>There is no cloud provider holding your data, because we do not hold
 your data. There is no analytics provider, no customer data platform, no
 AI vendor processing your support material, and no CDN serving this
-site's assets. If any of those change, this page changes first.</p>
+site's own pages (jsDelivr, above, serves only the refund check's
+Python runtime). If any of those change, this page changes first.</p>
 </section>
 </main>
 <footer class="site-foot"><div class="wrap">
