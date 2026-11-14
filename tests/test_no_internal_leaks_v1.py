@@ -82,6 +82,8 @@ LEGAL_WORDING_EXCEPTIONS = {
     # The privacy notice names three settings that control outbound
     # connections. Also legal text; listed for a decision, not edited here.
     "legal/privacy.html": {"product setting name"},
+    # The price page is the one place prices are published (decided 2026-11-15).
+    "price/index.html": {"price"},
 }
 
 

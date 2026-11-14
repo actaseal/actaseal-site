@@ -84,6 +84,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "mailto:sales@actaseal.com",
     # canonical URLs and "Ask an AI about this page" links (scripts/add_ask_ai.py)
     "https://actaseal.com/notes/",
+    "https://actaseal.com/price/",
     "https://chatgpt.com/?q=Read%20https%3A%2F%2Factaseal.com%2Fnotes%2F",
     "https://claude.ai/new?q=Read%20https%3A%2F%2Factaseal.com%2Fnotes%2F",
     "https://www.perplexity.ai/search?q=Read%20https%3A%2F%2Factaseal.com%2Fnotes%2F",

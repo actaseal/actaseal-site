@@ -11,8 +11,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 PAGE = ROOT / "index.html"
 HEADLINE = "Find the refunds that broke your rules, and the money they cost."
-NAV = ["Check refunds", "GST credit notes", "Full audit", "Security", "Book a call"]
-NAV_HREFS = ["/refund-audit/", "/gst-credit-notes/", "/refunds/", "/security/", "https://cal.com/actaseal/20min"]
+NAV = ["Check refunds", "GST credit notes", "Full audit", "Price", "Security", "Book a call"]
+NAV_HREFS = ["/refund-audit/", "/gst-credit-notes/", "/refunds/", "/price/", "/security/", "https://cal.com/actaseal/20min"]
 ALLOWED_PHRASES = ("Verify a receipt",)
 BUYER_ZONE_BANNED = ("receipt", "signed", "verif", "ledger", "offline", "policy version", "gateway", "tamper",
                      "hash", "ed25519", "docker", "self-hosted", "air-gapped", "open-source", "apache", "api key")
