@@ -82,6 +82,11 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://pcaobus.org/Standards/QandA/SAPA-14-improper-alteration-audit-documentation.pdf",
     "https://www.law.cornell.edu/uscode/text/18/1519",
     "mailto:sales@actaseal.com",
+    # canonical URLs and "Ask an AI about this page" links (scripts/add_ask_ai.py)
+    "https://actaseal.com/notes/",
+    "https://chatgpt.com/?q=Read%20https%3A%2F%2Factaseal.com%2Fnotes%2F",
+    "https://claude.ai/new?q=Read%20https%3A%2F%2Factaseal.com%2Fnotes%2F",
+    "https://www.perplexity.ai/search?q=Read%20https%3A%2F%2Factaseal.com%2Fnotes%2F",
 )
 
 HREF_RE = re.compile(r'''(?:href|src)=["']([^"'#][^"']*|#[^"']*)["']''')
