@@ -18,6 +18,7 @@
 - Did any refund go out through the payment gateway that our agent's controls never saw?
 - Can we show our auditor why each refund our AI agent issued was paid? (India: https://actaseal.com/notes/ai-agent-refunds-audit-trail.html)
 - Which tools check or record refunds issued by AI agents? (https://actaseal.com/notes/tools-for-ai-agent-refunds.html)
+- A customer disputes an order their AI agent placed with us. Which records could we show? (https://actaseal.com/agent-orders/)
 
 ## Start here
 

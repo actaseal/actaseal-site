@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Can you answer a dispute on an order an AI agent placed? &middot; ActaSeal</title>
+<link rel="stylesheet" href="../css/base.css?v=20261106c">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="Can you answer a dispute on an order an AI agent placed?">
+<meta property="og:description" content="Tick the records you keep for orders placed by AI agents. See which customer disputes you could not answer today.">
+<meta property="og:url" content="https://actaseal.com/agent-orders/">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Can you answer a dispute on an order an AI agent placed?">
+<meta name="twitter:description" content="Tick the records you keep for orders placed by AI agents. See which customer disputes you could not answer today.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="Tick the records you keep for orders placed by AI agents. See which customer disputes you could not answer today.">
+<link rel="canonical" href="https://actaseal.com/agent-orders/">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <div class="wordmark"><a href="/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/brand/actaseal-lockup-paper.svg"><img src="/brand/actaseal-lockup-oxblood.svg" alt="ActaSeal" width="148" height="37"></picture></a></div>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="/refund-audit/">Check refunds</a></li>
+        <li><a href="/gst-credit-notes/">GST credit notes</a></li>
+        <li><a href="/refunds/">Full audit</a></li>
+        <li><a href="/price/">Price</a></li>
+        <li><a href="/security/">Security</a></li>
+        <li><a href="https://cal.com/actaseal/20min" class="nav-cta">Book a call</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+<section id="agent-orders">
+  <h1>Can you answer a dispute on an order an AI agent placed?</h1>
+  <p class="lede">A customer lets an AI agent shop for them. The agent places an order with you. Later the
+  customer tells their bank they never agreed to it. What can you show?</p>
+
+  <p>Tick what you keep today for an order placed by an agent. The check runs in your browser. Nothing you
+  tick is sent anywhere, and there is no signup.</p>
+
+  <form id="agent-check">
+    <fieldset>
+      <legend>For an order an agent placed, we keep</legend>
+      <p><label><input type="checkbox" name="r" value="allowed"> What the customer allowed the agent to buy</label></p>
+      <p><label><input type="checkbox" name="r" value="limit"> The spending limit the customer set</label></p>
+      <p><label><input type="checkbox" name="r" value="window"> When the customer gave that permission, and until when</label></p>
+      <p><label><input type="checkbox" name="r" value="agent"> Which agent placed the order</label></p>
+      <p><label><input type="checkbox" name="r" value="order"> The exact order the agent sent: items, amount and time</label></p>
+      <p><label><input type="checkbox" name="r" value="confirm"> A confirmation sent to the customer, not only to the agent</label></p>
+      <p><label><input type="checkbox" name="r" value="delivery"> Proof of delivery</label></p>
+      <p><label><input type="checkbox" name="r" value="fixed"> A copy of the above saved at the time of the order, that cannot be changed afterwards</label></p>
+    </fieldset>
+    <p><button type="submit">Show what we could not answer</button></p>
+  </form>
+
+  <div id="agent-result" aria-live="polite"></div>
+  <noscript><p>This check needs JavaScript. Without it, read the four claims below and ask which records you could produce for each.</p></noscript>
+
+  <h2>The four claims</h2>
+  <ul>
+    <li>&ldquo;I did not agree to this purchase.&rdquo;</li>
+    <li>&ldquo;The agent spent more than I allowed.&rdquo;</li>
+    <li>&ldquo;This is not what I asked for.&rdquo;</li>
+    <li>&ldquo;It never arrived.&rdquo;</li>
+  </ul>
+
+  <h2>What this check is</h2>
+  <p>It is a starting list of questions, written by ActaSeal. It is not a card network rule and not legal advice.
+  Your payment provider and the card networks decide what they accept in a dispute.</p>
+
+  <p>If the check shows gaps, write to <a href="mailto:sales@actaseal.com">sales@actaseal.com</a> and say which ones.</p>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <a href="/">ActaSeal</a> &middot; <a href="/refund-audit/">Check refunds</a> &middot; <a href="/gst-credit-notes/">GST credit notes</a> &middot; <a href="/pilot/">Paid pilot</a> &middot; <a href="/price/">Price</a> &middot; <a href="/security/">Security</a> &middot; <a href="/about/">About</a> &middot; <a href="/limits/">Limits</a> &middot;
+    <a href="/legal/terms.html">Terms</a> &middot; <a href="/legal/privacy.html">Privacy</a>
+    <br><span class="copy">&copy; 2026 ActaSeal. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var NAMES = {
+    allowed: "what the customer allowed the agent to buy",
+    limit: "the spending limit the customer set",
+    window: "when the permission was given, and until when",
+    agent: "which agent placed the order",
+    order: "the exact order the agent sent",
+    confirm: "a confirmation sent to the customer",
+    delivery: "proof of delivery",
+    fixed: "a copy saved at the time of the order that cannot be changed"
+  };
+  var CLAIMS = [
+    ["I did not agree to this purchase.", ["allowed", "window", "agent", "confirm", "fixed"]],
+    ["The agent spent more than I allowed.", ["limit", "order", "fixed"]],
+    ["This is not what I asked for.", ["allowed", "order"]],
+    ["It never arrived.", ["delivery", "confirm"]]
+  ];
+  function check(kept) {
+    return CLAIMS.map(function (c) {
+      return { claim: c[0], missing: c[1].filter(function (k) { return kept.indexOf(k) === -1; }) };
+    });
+  }
+  window.actasealAgentCheck = check;
+  var form = document.getElementById("agent-check");
+  var out = document.getElementById("agent-result");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var kept = Array.prototype.map.call(form.querySelectorAll("input[name=r]:checked"), function (i) { return i.value; });
+    var rows = check(kept);
+    var open = rows.filter(function (r) { return r.missing.length; }).length;
+    out.textContent = "";
+    var h = document.createElement("h2");
+    h.textContent = open === 0
+      ? "You hold a record for each of the four claims."
+      : "You could not fully answer " + open + " of the 4 claims.";
+    out.appendChild(h);
+    rows.forEach(function (r) {
+      var p = document.createElement("p");
+      var s = document.createElement("strong");
+      s.textContent = "“" + r.claim + "” ";
+      p.appendChild(s);
+      p.appendChild(document.createTextNode(r.missing.length
+        ? "Missing: " + r.missing.map(function (k) { return NAMES[k]; }).join("; ") + "."
+        : "You hold the records on this list."));
+      out.appendChild(p);
+    });
+    out.scrollIntoView({ block: "nearest" });
+  });
+})();
+</script>
+</body>
+</html>
