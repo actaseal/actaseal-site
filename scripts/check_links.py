@@ -61,6 +61,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://dev.to/t49qnsx7qtkpanks/ai-agents-that-refund-in-conversation-2dil",
     "https://www.usefini.com/guides/best-ai-platforms-refund-return-audit-trail-automation-2026",
     "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/tree/main/interop/one-chain",
+    "https://github.com/Laurent-Lemonnier/dps-scitt-decision-layer/commit/0f9ade4",
     "https://pcaobus.org/oversight/standards/auditing-standards/",
     "https://pcaobus.org/oversight/enforcement/",
     "https://pcaobus.org/news-events/news-releases/",
