@@ -87,6 +87,7 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://actaseal.com/notes/",
     "https://actaseal.com/price/",
     "https://actaseal.com/agent-orders/",
+    "https://actaseal.com/reserve-rescue/",
     "https://chatgpt.com/?q=Read%20https%3A%2F%2Factaseal.com%2Fnotes%2F",
     "https://claude.ai/new?q=Read%20https%3A%2F%2Factaseal.com%2Fnotes%2F",
     "https://www.perplexity.ai/search?q=Read%20https%3A%2F%2Factaseal.com%2Fnotes%2F",

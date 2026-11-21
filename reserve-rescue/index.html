@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/brand/actaseal-favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Shopify Payments is holding your payouts. Build the appeal. &middot; ActaSeal</title>
+<link rel="stylesheet" href="../css/base.css?v=20261106c">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ActaSeal">
+<meta property="og:title" content="Shopify Payments is holding your payouts. Build the appeal.">
+<meta property="og:description" content="Type the facts from your reserve or hold email. Get a ready appeal letter, a one-page record, the files to attach and the dates to follow up. Runs in your browser, sends nothing.">
+<meta property="og:url" content="https://actaseal.com/reserve-rescue/">
+<meta property="og:image" content="https://actaseal.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Shopify Payments is holding your payouts. Build the appeal.">
+<meta name="twitter:description" content="Type the facts from your reserve or hold email. Get a ready appeal letter, a one-page record, the files to attach and the dates to follow up.">
+<meta name="twitter:image" content="https://actaseal.com/og-image.png">
+<meta name="description" content="Type the facts from your reserve or hold email. Get a ready appeal letter, a one-page record, the files to attach and the dates to follow up. Runs in your browser, sends nothing.">
+<link rel="canonical" href="https://actaseal.com/reserve-rescue/">
+<style>
+#rr-form label { display: block; margin: .6rem 0 .2rem; font-weight: 600; }
+#rr-form input[type=text], #rr-form input[type=number], #rr-form input[type=date], #rr-form select, #rr-form textarea { width: 100%; max-width: 32rem; box-sizing: border-box; padding: .4rem; font: inherit; }
+#rr-form .row { display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+#rr-form .row > div { flex: 1 1 12rem; }
+#rr-form .checks label { font-weight: 400; display: block; margin: .2rem 0; }
+#rr-result textarea { width: 100%; min-height: 24rem; box-sizing: border-box; font: inherit; padding: .6rem; }
+#rr-result ul { margin-top: .3rem; }
+</style>
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap">
+    <div class="wordmark"><a href="/" class="logo-link"><picture><source media="(prefers-color-scheme: dark)" srcset="/brand/actaseal-lockup-paper.svg"><img src="/brand/actaseal-lockup-oxblood.svg" alt="ActaSeal" width="148" height="37"></picture></a></div>
+    <nav class="site-nav">
+      <ul>
+        <li><a href="/refund-audit/">Check refunds</a></li>
+        <li><a href="/gst-credit-notes/">GST credit notes</a></li>
+        <li><a href="/refunds/">Full audit</a></li>
+        <li><a href="/price/">Price</a></li>
+        <li><a href="/security/">Security</a></li>
+        <li><a href="https://cal.com/actaseal/20min" class="nav-cta">Book a call</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+<section id="reserve-rescue">
+  <h1>Shopify Payments is holding your payouts. Build the appeal.</h1>
+  <p class="lede">A reserve, a payout hold or a disabled account, and the money you need for suppliers and staff is stuck.
+  Type the facts from the email you got and from your own store. You get a ready appeal letter, a one-page record,
+  the files to attach and the dates to follow up.</p>
+
+  <p>Everything runs in your browser. Nothing you type is sent anywhere, and there is no signup.
+  Leave a box empty if you do not know it; the letter leaves that line out.</p>
+
+  <form id="rr-form">
+    <fieldset>
+      <legend>What happened</legend>
+      <label for="rr-store">Store name</label>
+      <input type="text" id="rr-store" name="store" autocomplete="organization">
+      <div class="row">
+        <div>
+          <label for="rr-kind">What Shopify did</label>
+          <select id="rr-kind" name="kind">
+            <option value="reserve">Put a reserve on part of my payouts</option>
+            <option value="hold">Paused all my payouts</option>
+            <option value="disabled">Disabled Shopify Payments</option>
+          </select>
+        </div>
+        <div>
+          <label for="rr-started">Date it started</label>
+          <input type="date" id="rr-started" name="started">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="rr-amount">Amount held now</label>
+          <input type="number" id="rr-amount" name="amount" min="0" step="any" inputmode="decimal">
+        </div>
+        <div>
+          <label for="rr-currency">Currency</label>
+          <select id="rr-currency" name="currency">
+            <option>USD</option><option>GBP</option><option>EUR</option><option>AUD</option><option>CAD</option><option>NZD</option><option>INR</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="rr-pct">Reserve share of each payout, if the email names one</label>
+          <input type="number" id="rr-pct" name="reservePct" min="0" max="100" step="any">
+        </div>
+        <div>
+          <label for="rr-days">Hold period in days, if the email names one</label>
+          <input type="number" id="rr-days" name="holdDays" min="1" step="1">
+        </div>
+      </div>
+      <label for="rr-condition">Release condition, copied from the email</label>
+      <input type="text" id="rr-condition" name="condition">
+      <label for="rr-met">Date you met that condition, if you have</label>
+      <input type="date" id="rr-met" name="conditionMet">
+    </fieldset>
+
+    <fieldset>
+      <legend>Your record for the last 90 days</legend>
+      <div class="row">
+        <div><label for="rr-orders">Orders</label><input type="number" id="rr-orders" name="orders" min="0" step="1"></div>
+        <div><label for="rr-cb">Chargebacks</label><input type="number" id="rr-cb" name="chargebacks" min="0" step="1"></div>
+        <div><label for="rr-won">Chargebacks you won</label><input type="number" id="rr-won" name="won" min="0" step="1"></div>
+        <div><label for="rr-tracked">Orders shipped with tracking</label><input type="number" id="rr-tracked" name="tracked" min="0" step="1"></div>
+      </div>
+      <div class="checks">
+        <p><strong>Main dispute reasons</strong></p>
+        <label><input type="checkbox" name="reasons" value="fraud"> Fraud or &ldquo;I did not make this purchase&rdquo;</label>
+        <label><input type="checkbox" name="reasons" value="not_received"> Item not received</label>
+        <label><input type="checkbox" name="reasons" value="not_described"> Not as described</label>
+        <label><input type="checkbox" name="reasons" value="credit"> Refund not processed</label>
+        <label><input type="checkbox" name="reasons" value="subscription"> Subscription cancelled or not recognised</label>
+      </div>
+      <label for="rr-cause">What caused the chargebacks</label>
+      <select id="rr-cause" name="cause">
+        <option value="">Not sure, or leave out</option>
+        <option value="card_testing">A card-testing attack (bots trying stolen cards)</option>
+        <option value="shipping">A shipping delay from a supplier or carrier</option>
+        <option value="batch">One faulty batch of product</option>
+        <option value="sale">A sales spike from a promotion or a viral post</option>
+        <option value="other">Something else</option>
+      </select>
+      <label for="rr-cause-note">In one or two sentences, what happened</label>
+      <textarea id="rr-cause-note" name="causeNote" rows="2"></textarea>
+      <label for="rr-fix">What you changed so it does not happen again</label>
+      <textarea id="rr-fix" name="fix" rows="2"></textarea>
+    </fieldset>
+    <p><button type="button" id="rr-build">Build my appeal</button></p>
+  </form>
+
+  <div id="rr-result" aria-live="polite"></div>
+  <noscript><p>This tool needs JavaScript. Without it: reply to the email that set out the reserve, give your order and chargeback counts for the period, the cause and the fix, attach tracking and delivery proof, and ask for the release conditions in writing.</p></noscript>
+
+  <h2>What this tool is</h2>
+  <p>A letter and a checklist written by ActaSeal from the facts you type. ActaSeal is not affiliated with Shopify,
+  and this is not legal advice. Shopify decides whether and when held funds are released; Shopify's help pages say a
+  reserve is appealed by replying to the email that set out its terms.</p>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <a href="/">ActaSeal</a> &middot; <a href="/refund-audit/">Check refunds</a> &middot; <a href="/gst-credit-notes/">GST credit notes</a> &middot; <a href="/pilot/">Paid pilot</a> &middot; <a href="/price/">Price</a> &middot; <a href="/security/">Security</a> &middot; <a href="/about/">About</a> &middot; <a href="/limits/">Limits</a> &middot;
+    <a href="/legal/terms.html">Terms</a> &middot; <a href="/legal/privacy.html">Privacy</a>
+    <br><span class="copy">&copy; 2026 ActaSeal. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var DAY = 86400000;
+  var KIND = {
+    reserve: ["the reserve placed on", "reserve"],
+    hold: ["the hold on payouts for", "hold"],
+    disabled: ["the disabling of Shopify Payments for", "account review"]
+  };
+  var CAUSE = {
+    card_testing: "a card-testing attack, where bots ran stolen card numbers through our checkout",
+    shipping: "a shipping delay from our supplier or carrier, which led customers to dispute before their orders arrived",
+    batch: "one faulty batch of product",
+    sale: "a sudden sales spike from a promotion, which raised volume and disputes together"
+  };
+  var REASON = {
+    fraud: "fraud or unrecognised purchase",
+    not_received: "item not received",
+    not_described: "not as described",
+    credit: "refund not processed",
+    subscription: "subscription cancelled or not recognised"
+  };
+  var ATTACH = {
+    fraud: "For fraud disputes: what blocks card testing and bots at checkout now, and any 3-D Secure or address-check results you hold",
+    not_received: "For not-received disputes: carrier delivery confirmations for the disputed orders",
+    not_described: "For not-as-described disputes: the product pages and photos as customers saw them",
+    credit: "For refund disputes: the refund records with dates and amounts",
+    subscription: "For subscription disputes: the renewal consent and the cancellation records"
+  };
+
+  function str(v) { return (typeof v === "string" ? v : "").replace(/\s+/g, " ").trim(); }
+  function num(v) {
+    var s = str(v);
+    if (!/^\d+(\.\d+)?$/.test(s)) return null;
+    var n = parseFloat(s);
+    return isFinite(n) && n <= 1e12 ? n : null;
+  }
+  function count(v) { var n = num(v); return n !== null && Math.floor(n) === n ? n : null; }
+  function date(v) {
+    var s = str(v), m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+    if (!m) return null;
+    var t = Date.UTC(+m[1], +m[2] - 1, +m[3]), d = new Date(t);
+    if (d.getUTCFullYear() !== +m[1] || d.getUTCMonth() !== +m[2] - 1 || d.getUTCDate() !== +m[3]) return null;
+    return t;
+  }
+  function iso(t) { return new Date(t).toISOString().slice(0, 10); }
+  function localToday() {
+    var d = new Date();
+    return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+  }
+  function days(n) { return n === 1 ? "1 day" : n + " days"; }
+  function group(n) {
+    var parts = (Math.round(n * 100) / 100).toString().split(".");
+    return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + (parts[1] + "0").slice(0, 2) : "");
+  }
+
+  function compute(f, today) {
+    f = f || {};
+    var now = date(today) || localToday();
+    var orders = count(f.orders), cb = count(f.chargebacks), won = count(f.won), tracked = count(f.tracked);
+    var started = date(f.started), met = date(f.conditionMet), days = count(f.holdDays), amount = num(f.amount);
+    var out = { rate: null, tracked: null, daysHeld: null, daysSinceMet: null, holdEnds: null, amount: null, won: null,
+      orders: orders, chargebacks: (cb !== null && (orders === null || cb <= orders)) ? cb : null, trackedCount: (tracked !== null && (orders === null || tracked <= orders)) ? tracked : null };
+    if (orders && orders > 0 && cb !== null && cb <= orders) out.rate = (cb / orders * 100).toFixed(2);
+    if (orders && orders > 0 && tracked !== null && tracked <= orders) out.tracked = (tracked / orders * 100).toFixed(1);
+    if (cb !== null && won !== null && won <= cb) out.won = won;
+    if (started !== null && started <= now) out.daysHeld = Math.round((now - started) / DAY);
+    if (met !== null && met <= now) out.daysSinceMet = Math.round((now - met) / DAY);
+    if (started !== null && days && days >= 1 && days <= 3650 && Math.floor(days) === days) out.holdEnds = iso(started + days * DAY);
+    if (amount !== null && amount > 0) out.amount = (str(f.currency) || "USD").slice(0, 3).toUpperCase() + " " + group(amount);
+    return out;
+  }
+
+  function letter(f, today) {
+    f = f || {};
+    var c = compute(f, today), k = KIND[f.kind] || KIND.reserve;
+    var store = str(f.store), reasons = (f.reasons || []).filter(function (r) { return REASON[r]; });
+    var L = [];
+    L.push("Subject: Request to release held funds" + (store ? " for " + store : ""));
+    L.push("");
+    L.push("Hello Shopify Payments team,");
+    L.push("");
+    var first = "I am writing about " + k[0] + " " + (store || "our store") + (date(f.started) !== null ? ", which started on " + str(f.started) : "") + ".";
+    if (c.amount) first += " The amount held now is " + c.amount + ".";
+    if (num(f.reservePct) > 0 && num(f.reservePct) <= 100 && f.kind !== "hold" && f.kind !== "disabled") first += " The reserve takes " + num(f.reservePct) + " percent of each payout.";
+    L.push(first);
+    var cond = str(f.condition);
+    if (cond) {
+      L.push("");
+      var s = "Your email said the " + k[1] + " could be released when: \"" + cond + "\".";
+      if (c.daysSinceMet !== null) s += " By our records we have met that condition since " + str(f.conditionMet) + (c.daysSinceMet ? ", which is " + days(c.daysSinceMet) + " ago." : ", today.");
+      L.push(s);
+    }
+    if (c.holdEnds) {
+      var over = Math.round(((date(today) || localToday()) - date(c.holdEnds)) / DAY);
+      L.push("");
+      L.push(over > 0
+        ? "The hold period stated in the email ended on " + c.holdEnds + ", " + days(over) + " ago, and the funds have not been released."
+        : "The hold period stated in the email ends on " + c.holdEnds + ".");
+    }
+    var rec = [];
+    if (c.orders !== null) rec.push("- Orders: " + group(c.orders));
+    if (c.chargebacks !== null) rec.push("- Chargebacks: " + group(c.chargebacks) + (c.rate ? " (" + c.rate + " percent of orders)" : "") + (c.won !== null ? ", of which we won " + c.won : ""));
+    if (c.trackedCount !== null) rec.push("- Orders shipped with tracking: " + group(c.trackedCount) + (c.tracked ? " (" + c.tracked + " percent)" : ""));
+    if (reasons.length) rec.push("- Main dispute reasons: " + reasons.map(function (r) { return REASON[r]; }).join("; "));
+    if (rec.length) { L.push(""); L.push("Our record for the last 90 days:"); L = L.concat(rec); }
+    var cause = CAUSE[f.cause] ? "The chargebacks came from " + CAUSE[f.cause] + "." : "";
+    var note = str(f.causeNote);
+    if (cause || note) { L.push(""); L.push((cause + " " + note).trim()); }
+    var fix = str(f.fix);
+    if (fix) { L.push(""); L.push("What we changed: " + fix); }
+    L.push("");
+    var att = ["our orders for the period" + (c.trackedCount ? " with tracking numbers" : "")];
+    if (c.trackedCount || reasons.indexOf("not_received") !== -1) att.push("delivery confirmations");
+    if (c.chargebacks) att.push("the list of disputes with their outcomes");
+    att.push("our refund policy as shown at checkout");
+    L.push("Attached: " + att.slice(0, -1).join(", ") + (att.length > 1 ? " and " : "") + att[att.length - 1] + ".");
+    L.push("");
+    L.push("We are asking for:");
+    L.push(c.daysSinceMet !== null && cond
+      ? "1. Release of the held funds, since the stated condition has been met."
+      : "1. A review of the " + k[1] + " against the record above, and release of the funds for orders already delivered.");
+    L.push("2. If a full release is not possible, a written schedule for a partial or staged release.");
+    L.push("3. The exact conditions, in writing, under which the remaining funds will be released.");
+    L.push("");
+    L.push("Thank you,");
+    L.push(store || "[your name]");
+    return L.join("\n");
+  }
+
+  function plan(f, today) {
+    var c = compute(f, today), now = date(today) || localToday();
+    var reasons = (f.reasons || []).filter(function (r) { return ATTACH[r]; });
+    var summary = [];
+    if (c.amount) summary.push("Held now: " + c.amount);
+    if (c.daysHeld !== null) summary.push("Days held so far: " + c.daysHeld);
+    if (c.daysSinceMet !== null && str(f.condition)) summary.push("Days since you met the release condition: " + c.daysSinceMet);
+    if (c.holdEnds) summary.push("Hold period in the email ends: " + c.holdEnds);
+    if (c.rate) summary.push("Chargebacks as a share of orders, last 90 days: " + c.rate + " percent");
+    if (c.tracked) summary.push("Orders shipped with tracking: " + c.tracked + " percent");
+    var attach = [
+      "Orders for the period with tracking numbers (export from Shopify admin)",
+      "The list of disputes with reason and outcome",
+      "Your refund policy, and a screenshot of where checkout shows it",
+      "Supplier invoices or proof of the stock you sold"
+    ].concat(reasons.map(function (r) { return ATTACH[r]; }));
+    var follow = [
+      ["Today", (f.kind === "hold" || f.kind === "disabled"
+        ? "Send the letter and the files as a reply to the email Shopify sent you about this, or to Shopify Support from your admin."
+        : "Reply to the email that set out the reserve terms, with the letter and the files.")],
+      ["After 5 days", "Reply in the same thread: ask them to confirm the case is with the team that can release funds."],
+      ["After 10 days", "Reply again: ask, in one line, whether the release condition is met and on what date the funds will be released."]
+    ].map(function (x, i) { return [i === 0 ? iso(now) : iso(now + (i === 1 ? 5 : 10) * DAY), x[1]]; });
+    return { summary: summary, attach: attach, follow: follow };
+  }
+
+  window.actasealReserve = { compute: compute, letter: letter, plan: plan };
+
+  var form = document.getElementById("rr-form");
+  var out = document.getElementById("rr-result");
+  if (!form || !form.querySelectorAll) return;
+  function el(tag, text) { var e = document.createElement(tag); if (text !== undefined) e.textContent = text; return e; }
+  function list(items, fn) { var ul = el("ul"); items.forEach(function (x) { ul.appendChild(el("li", fn ? fn(x) : x)); }); return ul; }
+  form.addEventListener("submit", function (e) { e.preventDefault(); });
+  var build = document.getElementById("rr-build");
+  if (!build) return;
+  build.addEventListener("click", function () {
+    var f = {};
+    Array.prototype.forEach.call(form.elements, function (i) {
+      if (!i.name || i.name === "reasons") return;
+      f[i.name] = i.value;
+    });
+    f.reasons = Array.prototype.map.call(form.querySelectorAll("input[name=reasons]:checked"), function (i) { return i.value; });
+    var p = plan(f), text = letter(f);
+    out.textContent = "";
+    out.appendChild(el("h2", "Your appeal letter"));
+    out.appendChild(el("p", "Read it and change anything that is not exactly true before you send it."));
+    var ta = el("textarea"); ta.readOnly = true; ta.value = text; ta.setAttribute("aria-label", "Appeal letter");
+    out.appendChild(ta);
+    var btn = el("button", "Copy the letter"); btn.type = "button";
+    btn.addEventListener("click", function () {
+      ta.select();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { btn.textContent = "Copied"; }, function () { btn.textContent = "Select the text and copy it"; });
+      } else { btn.textContent = "Select the text and copy it"; }
+    });
+    out.appendChild(el("p")).appendChild(btn);
+    if (p.summary.length) { out.appendChild(el("h2", "Your one-page record")); out.appendChild(list(p.summary)); }
+    out.appendChild(el("h2", "Files to attach")); out.appendChild(list(p.attach));
+    out.appendChild(el("h2", "When to follow up")); out.appendChild(list(p.follow, function (x) { return x[0] + ": " + x[1]; }));
+    out.scrollIntoView({ block: "nearest" });
+  });
+})();
+</script>
+</body>
+</html>
