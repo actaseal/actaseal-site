@@ -20,6 +20,9 @@
 - Which tools check or record refunds issued by AI agents? (https://actaseal.com/notes/tools-for-ai-agent-refunds.html)
 - A customer disputes an order their AI agent placed with us. Which records could we show? (https://actaseal.com/agent-orders/)
 - Shopify Payments put a reserve or hold on our payouts. How do we appeal it? (https://actaseal.com/reserve-rescue/)
+- Shopify Payments is holding our money for 120 days. What does that mean and when does it come back? (https://actaseal.com/notes/shopify-payments-reserve-120-days.html)
+- Shopify says our payouts are on hold while it reviews our account. What do we do? (https://actaseal.com/notes/shopify-payouts-on-hold-while-we-review-your-account.html)
+- Our Shopify reserve expired but the money has not arrived. What do we check? (https://actaseal.com/notes/shopify-reserve-expired-funds-not-received.html)
 
 ## Start here
 

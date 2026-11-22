@@ -31,6 +31,10 @@ ALLOWED_EXTERNAL_PREFIXES = (
     "https://www.storyboard18.com/how-it-works/consumer-affairs-dept-facilitates-rs-45-cr-refunds-",
     "https://taxinformation.cbic.gov.in/content/html/tax_repository/gst/acts/2017_CGST_act/",
     "https://community.getswipe.in/t/why-are-b2c-credit-notes-not-displaying-on-cdnur-in-gstr1-report/",
+    # Shopify's own help pages, cited by the three Shopify reserve/payout-hold notes
+    "https://help.shopify.com/en/manual/payments/shopify-payments/reserves",
+    "https://help.shopify.com/en/manual/payments/shopify-payments/account-holds",
+    "https://help.shopify.com/en/manual/finance/shopify-balance/payouts/payout-accounts",
     "https://orcid.org/0009-0006-0583-6968",
     "https://github.com/actaseal",
     "https://www.linkedin.com/company/actaseal/",
